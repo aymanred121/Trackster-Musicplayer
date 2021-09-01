@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <color name="side_text">#707070</color>
+    <color name="main_text">#000000</color>
+
+    <color name="playlists_layer_1">#2C159E</color>
+    <color name="playlists_layer_2">#4025B5</color>
+    <color name="playlist_playing">#170C24</color>
+    <color name="playlist_notPlayed">#251B31</color>
+
+
+    <color name="favourites_layer_1">#9E152C</color>
+    <color name="favourites_layer_2">#B54025</color>
+    <color name="favourites_playing">#24170C</color>
+    <color name="favourites_notPlayed">#31251B</color>
+
+
+    <color name="home_notPlayed">#3A3A3A</color>
+
+
+
+
+</resources>

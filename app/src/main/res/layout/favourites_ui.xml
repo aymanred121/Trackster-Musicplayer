@@ -1,0 +1,427 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/Favourites"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/favourites_layer_1"
+    app:layoutDescription="@xml/favourites_ui_scene"
+    tools:context=".Favourites_ui">
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/Favourites_back_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="27dp"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        app:backgroundTint="@color/favourites_layer_2"
+        app:cornerRadius="64dp"
+        app:icon="@drawable/ic_back"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="16dp"
+        app:layout_constraintBottom_toTopOf="@+id/Favourites_LightBg"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/Favourites_textview"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
+        android:text="Favourites"
+        android:textColor="@android:color/white"
+        android:textSize="32dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/Favourites_LightBg"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/Favourites_LightBg"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="24dp"
+        android:background="@drawable/background_layer_2"
+        android:backgroundTint="@color/favourites_layer_2"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Favourites_textview">
+
+    </View>
+
+    <View
+        android:id="@+id/Favourites_WhiteBg"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginTop="64dp"
+        android:background="@drawable/background_layer_3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Favourites_textview">
+
+
+    </View>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/Favourites_recyclerview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="75dp"
+        android:layout_marginTop="32dp"
+        android:overScrollMode="never"
+        app:layout_constraintBottom_toTopOf="@id/Favourites_playing_now_bar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@id/Favourites_WhiteBg" />
+
+    <View
+        android:id="@+id/Favourites_playing_now_bar"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"
+        android:layout_marginStart="75dp"
+        android:background="@drawable/playing_now_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/Favourites_song_cover"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_marginStart="40dp"
+        android:layout_marginTop="32dp"
+        android:src="@drawable/music_note"
+        app:layout_constraintStart_toStartOf="@id/Favourites_playing_now_bar"
+        app:layout_constraintTop_toTopOf="@id/Favourites_playing_now_bar" />
+
+    <TextView
+        android:id="@+id/Favourites_song_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_toEndOf="@id/Favourites_song_cover"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="MonthsMonthsMonthsMonths"
+        android:textColor="@android:color/white"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/Favourites_song_time"
+        app:layout_constraintStart_toEndOf="@+id/Favourites_song_cover"
+        app:layout_constraintTop_toTopOf="@id/Favourites_playing_now_bar" />
+
+    <TextView
+        android:id="@+id/Favourites_artist_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/Favourites_song_name"
+        android:layout_marginStart="16dp"
+        android:layout_toEndOf="@id/Favourites_song_cover"
+        android:ellipsize="marquee"
+        android:marqueeRepeatLimit="marquee_forever"
+        android:scrollHorizontally="true"
+        android:singleLine="true"
+        android:text="Calven Harres"
+        android:textColor="@android:color/white"
+        android:textSize="16dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/Favourites_song_time"
+        app:layout_constraintStart_toEndOf="@+id/Favourites_song_cover"
+        app:layout_constraintTop_toBottomOf="@+id/Favourites_song_name" />
+
+    <ProgressBar
+        android:id="@+id/Favourites_song_time"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
+        android:indeterminateOnly="false"
+        android:progressDrawable="@drawable/circle"
+        app:layout_constraintEnd_toEndOf="@id/Favourites_playing_now_bar"
+        app:layout_constraintTop_toTopOf="@id/Favourites_playing_now_bar"
+        tools:progress="50" />
+
+    <ToggleButton
+        android:id="@+id/Favourites_play_pause_btn"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:background="@drawable/audio_toggle"
+        android:checked="true"
+        android:textOff=""
+        android:textOn=""
+        app:layout_constraintBottom_toBottomOf="@+id/Favourites_song_time"
+        app:layout_constraintEnd_toEndOf="@+id/Favourites_song_time"
+        app:layout_constraintStart_toStartOf="@+id/Favourites_song_time"
+        app:layout_constraintTop_toTopOf="@+id/Favourites_song_time" />
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/Favourites_playing_back_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="-50dp"
+        android:layout_marginTop="32dp"
+        android:alpha="0"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        app:backgroundTint="#333"
+        app:cornerRadius="64dp"
+        app:icon="@drawable/ic_back"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/Favourites_playing"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:background="@drawable/bg"
+        android:elevation="2dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/Favourites_playing_now_bar"
+        tools:backgroundTint="@android:color/white">
+
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/Favourites_playing_to_cover"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/nav_button_bg"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:cornerRadius="64dp"
+            app:layout_constraintBottom_toTopOf="@id/Favourites_playing_scroll"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/Favourites_playing_to_lyrics"
+            android:layout_width="10dp"
+            android:layout_height="10dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginBottom="8dp"
+            android:backgroundTint="@color/nav_button_bg"
+            android:enabled="false"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:cornerRadius="64dp"
+            app:layout_constraintBottom_toTopOf="@id/Favourites_playing_scroll"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <HorizontalScrollView
+            android:id="@+id/Favourites_playing_scroll"
+            android:layout_width="320dp"
+            android:layout_height="wrap_content"
+            android:overScrollMode="never"
+            android:scrollbars="none"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.20">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/Favourites_playing_show_cover"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <hiennguyen.me.circleseekbar.CircleSeekBar
+                        android:id="@+id/Favourites_playing_song_time"
+                        android:layout_width="300dp"
+                        android:layout_height="300dp"
+                        android:padding="32dp"
+                        app:csb_arcColor="@android:color/darker_gray"
+                        app:csb_arcWidth="6dp"
+                        app:csb_max="100"
+                        app:csb_min="0"
+                        app:csb_progress="0"
+                        app:csb_progressColor="@android:color/black"
+                        app:csb_progressWidth="10dp"
+                        app:csb_step="1"
+                        app:csb_textSize="36sp"
+                        app:csb_thumbSize="25dp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="@id/Favourites_playing_show_cover"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintVertical_bias="0.2" />
+
+                    <de.hdodenhof.circleimageview.CircleImageView
+                        android:id="@+id/Favourites_playing_song_cover"
+                        android:layout_width="200dp"
+                        android:layout_height="200dp"
+                        android:layout_marginStart="64dp"
+                        android:layout_marginTop="64dp"
+                        android:layout_marginEnd="64dp"
+                        android:layout_marginBottom="64dp"
+                        android:src="@drawable/music_note"
+                        app:layout_constraintBottom_toBottomOf="@id/Favourites_playing_song_time"
+                        app:layout_constraintEnd_toEndOf="@id/Favourites_playing_song_time"
+                        app:layout_constraintStart_toStartOf="@id/Favourites_playing_song_time"
+                        app:layout_constraintTop_toTopOf="@id/Favourites_playing_song_time" />
+
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+                <TextView
+                    android:id="@+id/Favourites_playing_lyrics"
+                    android:layout_width="300dp"
+                    android:layout_height="match_parent"
+                    android:text="dasdaksldnaslkdnaslkdslkdbaslkdasldkasnldknalsdknasldnasndalksdnaslkdnalsdnlaskdnaslkdnaslkdnasldnasldnaslldasndlkasndlandlsandlasndla"
+                    android:textColor="@android:color/black" />
+
+            </LinearLayout>
+        </HorizontalScrollView>
+
+        <TextView
+            android:id="@+id/Favourites_playing_song_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="40dp"
+            android:layout_marginEnd="40dp"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="test fot the sake of testing"
+            android:textColor="@android:color/black"
+            android:textSize="32dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/Favourites_playing_scroll" />
+
+        <TextView
+            android:id="@+id/Favourites_playing_artist_name"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="64dp"
+            android:layout_marginEnd="64dp"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:scrollHorizontally="true"
+            android:singleLine="true"
+            android:text="Calvin Hams"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/Favourites_playing_song_name" />
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/Favourites_playing_play_pause_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="32dp"
+            android:insetLeft="0dp"
+            android:insetTop="0dp"
+            android:insetRight="0dp"
+            android:insetBottom="0dp"
+            app:backgroundTint="@android:color/black"
+            app:cornerRadius="64dp"
+            app:icon="@drawable/playing"
+            app:iconGravity="textStart"
+            app:iconPadding="0dp"
+            app:iconSize="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/Favourites_playing_artist_name" />
+
+        <ImageView
+            android:id="@+id/Favourites_playing_backward_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="32dp"
+            android:layout_marginEnd="24dp"
+            android:padding="12dp"
+            android:rotation="180"
+            android:src="@drawable/fast_forward"
+            app:layout_constraintEnd_toStartOf="@id/Favourites_playing_play_pause_btn"
+            app:layout_constraintTop_toBottomOf="@id/Favourites_playing_artist_name" />
+
+        <ImageView
+            android:id="@+id/Favourites_playing_forward_btn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginStart="24dp"
+            android:layout_marginTop="32dp"
+            android:padding="12dp"
+            android:src="@drawable/fast_forward"
+            app:layout_constraintStart_toEndOf="@id/Favourites_playing_play_pause_btn"
+            app:layout_constraintTop_toBottomOf="@id/Favourites_playing_artist_name" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:gravity="center"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.5"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/Favourites_playing_play_pause_btn">
+
+
+            <ImageView
+                android:id="@+id/Favourites_playing_play_state"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="16dp"
+                android:src="@drawable/ic_repeat" />
+
+            <ToggleButton
+                android:id="@+id/Favourites_playing_add_to_favourite"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/favourite_toggle"
+                android:textOff=""
+                android:textOn="" />
+
+            <ImageView
+                android:id="@+id/Favourites_playing_add_to_playlist"
+                android:layout_width="32dp"
+                android:layout_height="32dp"
+                android:src="@drawable/add_to_playlist" />
+        </LinearLayout>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+</androidx.constraintlayout.motion.widget.MotionLayout>

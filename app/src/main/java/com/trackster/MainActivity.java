@@ -4,10 +4,12 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
+import android.content.Intent;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -25,28 +27,36 @@ import static com.trackster.PlayingState.Shuffle;
 public class MainActivity extends AppCompatActivity {
 
     // Views
-    private MotionLayout vMain;
-    private View vPlayingNowBar;
-    private MaterialButton vBackButton;
-    private MaterialButton vPlayButton;
-    private MaterialButton vToCover;
-    private MaterialButton vToLyrics;
-    private ToggleButton vPlayToggle;
-    private ToggleButton vFavouritesToggle;
-    private CircleSeekBar vSongSeekBar;
-    private ProgressBar vSongProgressBar;
-    private ImageView vPlayingState;
-    private ImageView vAddToPlaylist;
-    private ImageView vForwardButton;
-    private ImageView vBackwardButton;
-    private HorizontalScrollView vSong;
+
+    // for HomePage
+    private MaterialButton vOpenFavouritesButton;
+    private MaterialButton vOpenPlaylistsButton;
+    private EditText vSearchSongEdit;
+
+
+    // for playing bar
+    protected MotionLayout vMain;
+    protected View vPlayingNowBar;
+    protected MaterialButton vPlayingNowBackButton;
+    protected MaterialButton vPlayButton;
+    protected MaterialButton vToCover;
+    protected MaterialButton vToLyrics;
+    protected ToggleButton vPlayToggle;
+    protected ToggleButton vFavouritesToggle;
+    protected CircleSeekBar vSongSeekBar;
+    protected ProgressBar vSongProgressBar;
+    protected ImageView vPlayingState;
+    protected ImageView vAddToPlaylist;
+    protected ImageView vForwardButton;
+    protected ImageView vBackwardButton;
+    protected HorizontalScrollView vSong;
 
 
     // variables
-    private boolean isBarOpened = false;
-    private AnimatedVectorDrawableCompat avdc;
-    private AnimatedVectorDrawable avd;
-    private PlayingState playingState = Repeat;
+    protected boolean isBarOpened = false;
+    protected AnimatedVectorDrawableCompat avdc;
+    protected AnimatedVectorDrawable avd;
+    protected PlayingState playingState = Repeat;
 
     // overrides
     @Override
@@ -55,7 +65,8 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         InitializingViews();
 
-        vBackButton.setOnClickListener(lBackButton);
+
+        vPlayingNowBackButton.setOnClickListener(lPlayingNowBackButton);
         vPlayingNowBar.setOnClickListener(lPlayingNowBar);
         vPlayButton.setOnClickListener(lPlayButton);
         vPlayToggle.setOnClickListener(lPlayToggle);
@@ -66,6 +77,9 @@ public class MainActivity extends AppCompatActivity {
         vForwardButton.setOnClickListener(lForwardButton);
         vBackwardButton.setOnClickListener(lBackwardButton);
         vSong.setOnScrollChangeListener(lSong);
+
+        vOpenPlaylistsButton.setOnClickListener(lOpenPlaylists);
+        vOpenFavouritesButton.setOnClickListener(lOpenFavourites);
 
 
     }
@@ -78,10 +92,18 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
     }
     // functions
+
+    // for HomPage
     private void InitializingViews() {
+        // for HomePage
+        vOpenFavouritesButton = findViewById(R.id.HomePage_toFavourites);
+        vOpenPlaylistsButton = findViewById(R.id.HomePage_toPlaylists);
+        vSearchSongEdit = findViewById(R.id.HomePage_search_song);
+
+        // for playing bar
         vMain = findViewById(R.id.HomePage);
         vPlayingNowBar = findViewById(R.id.HomePage_playing_now_bar);
-        vBackButton = findViewById(R.id.HomePage_playing_back_btn);
+        vPlayingNowBackButton = findViewById(R.id.HomePage_playing_back_btn);
         vPlayButton = findViewById(R.id.HomePage_playing_play_pause_btn);
         vPlayToggle = findViewById(R.id.HomePage_play_pause_btn);
         vSongSeekBar = findViewById(R.id.HomePage_playing_song_time);
@@ -96,12 +118,20 @@ public class MainActivity extends AppCompatActivity {
         vSong = findViewById(R.id.HomePage_playing_scroll);
 
     }
-    private void goBack() {
+
+    private void openFavourites() {
+        Intent intent = new Intent(this, Favourites_ui.class);
+        startActivity(intent);
+    }
+
+    // for Playing bar
+    protected void goBack() {
         vMain.setTransition(R.id.back_transition);
         vMain.transitionToEnd();
         isBarOpened = false;
     }
-    private void PlayNPause() {
+
+    protected void PlayNPause() {
         // animation
         if (vPlayToggle.isChecked()) {
             vPlayButton.setIcon(getResources().getDrawable(R.drawable.playing));
@@ -115,8 +145,7 @@ public class MainActivity extends AppCompatActivity {
             }
 
             // pause music code
-        }
-        else {
+        } else {
             vPlayButton.setIcon(getResources().getDrawable(R.drawable.paused));
             Drawable drawable = vPlayButton.getIcon();
             if (drawable instanceof AnimatedVectorDrawableCompat) {
@@ -132,7 +161,8 @@ public class MainActivity extends AppCompatActivity {
         vPlayToggle.setChecked(!vPlayToggle.isChecked());
 
     }
-    private void ChangeState() {
+
+    protected void ChangeState() {
         // repeat song
         if (playingState == Repeat) {
             vPlayingState.setImageResource(R.drawable.ic_repeat_one);
@@ -155,32 +185,48 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // listeners
-    private View.OnClickListener lBackButton =  new View.OnClickListener() {
+
+    // for HomePage
+    private View.OnClickListener lOpenFavourites = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            openFavourites();
+        }
+    };
+    private View.OnClickListener lOpenPlaylists = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+
+        }
+    };
+
+    // for Playing bar
+    protected View.OnClickListener lPlayingNowBackButton = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             goBack();
         }
     };
-    private View.OnClickListener lPlayingNowBar = new View.OnClickListener() {
+    protected View.OnClickListener lPlayingNowBar = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(!isBarOpened) {
+            if (!isBarOpened) {
                 vMain.setTransition(R.id.open_song_transition);
                 vMain.transitionToEnd();
                 isBarOpened = true;
             }
         }
     };
-    private View.OnClickListener lPlayButton = new View.OnClickListener() {
+    protected View.OnClickListener lPlayButton = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             PlayNPause();
         }
     };
-    private View.OnClickListener lPlayToggle = new View.OnClickListener() {
+    protected View.OnClickListener lPlayToggle = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(vPlayToggle.isChecked())
+            if (vPlayToggle.isChecked())
                 vPlayButton.setIcon(getResources().getDrawable(R.drawable.playing));
             else
                 vPlayButton.setIcon(getResources().getDrawable(R.drawable.paused));
@@ -188,37 +234,37 @@ public class MainActivity extends AppCompatActivity {
 
         }
     };
-    private View.OnClickListener lFavouritesToggle = new View.OnClickListener() {
+    protected View.OnClickListener lFavouritesToggle = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
         }
     };
-    private View.OnClickListener lAddToPlaylist = new View.OnClickListener() {
+    protected View.OnClickListener lAddToPlaylist = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
         }
     };
-    private View.OnClickListener lPlayingState = new View.OnClickListener() {
+    protected View.OnClickListener lPlayingState = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             ChangeState();
         }
     };
-    private View.OnClickListener lForwardButton = new View.OnClickListener() {
+    protected View.OnClickListener lForwardButton = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
         }
     };
-    private View.OnClickListener lBackwardButton = new View.OnClickListener() {
+    protected View.OnClickListener lBackwardButton = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
 
         }
     };
-    private  View.OnScrollChangeListener lSong = new View.OnScrollChangeListener() {
+    protected View.OnScrollChangeListener lSong = new View.OnScrollChangeListener() {
         @Override
         public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
             if (scrollX > oldScrollX) {
@@ -230,7 +276,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-    private CircleSeekBar.OnSeekBarChangedListener lSongSeekBar = new CircleSeekBar.OnSeekBarChangedListener() {
+    protected CircleSeekBar.OnSeekBarChangedListener lSongSeekBar = new CircleSeekBar.OnSeekBarChangedListener() {
         @Override
         public void onPointsChanged(CircleSeekBar circleSeekBar, int points, boolean fromUser) {
             vSongProgressBar.setProgress(points);

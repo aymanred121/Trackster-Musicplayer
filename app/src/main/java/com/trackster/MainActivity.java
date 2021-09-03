@@ -123,6 +123,10 @@ public class MainActivity extends AppCompatActivity {
         Intent intent = new Intent(this, Favourites_ui.class);
         startActivity(intent);
     }
+    private void openPlaylists() {
+        Intent intent = new Intent(this, Playlists_ui.class);
+        startActivity(intent);
+    }
 
     // for Playing bar
     protected void goBack() {
@@ -196,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
     private View.OnClickListener lOpenPlaylists = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            openPlaylists();
         }
     };
 

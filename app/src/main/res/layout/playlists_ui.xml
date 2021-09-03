@@ -2,110 +2,92 @@
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/HomePage"
+    android:id="@+id/Playlists"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:layoutDescription="@xml/activity_main_scene"
-    tools:context=".MainActivity">
+    android:background="@color/playlists_layer_1"
+    app:layoutDescription="@xml/playlists_ui_scene"
+    tools:context=".Playlists_ui">
 
-    <EditText
-        android:id="@+id/HomePage_search_song"
-        android:layout_width="0dp"
-        android:layout_height="100dp"
-        android:background="@drawable/searchbar"
-        android:drawableStart="@drawable/ic_search"
-        android:drawablePadding="8dp"
-        android:padding="8dp"
-        android:paddingStart="16dp"
-        android:paddingEnd="16dp"
+
+    <TextView
+        android:id="@+id/Playlists_TextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="32dp"
+        android:text="Playlists"
         android:textColor="@android:color/white"
-        android:textCursorDrawable="@android:color/white"
-        android:textSize="24dp"
+        android:textSize="32dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/HomePage_container"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="8dp"
-        android:gravity="center"
-        android:orientation="horizontal"
-        android:padding="16dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/HomePage_search_song">
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/Playlists_add_playlist"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="32dp"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        app:backgroundTint="@color/playlists_layer_2"
+        app:cornerRadius="64dp"
+        app:icon="@drawable/ic_add"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="16dp"
+        app:layout_constraintStart_toEndOf="@+id/Playlists_TextView"
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/HomePage_toPlaylists"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="8dp"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
-            android:padding="24dp"
-            android:text="Playlists"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="20dp"
-            app:cornerRadius="10dp"
-            app:icon="@drawable/playlist"
-            app:iconGravity="textStart"
-            app:iconPadding="8dp"
-            app:iconSize="16dp" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/HomePage_toFavourites"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:backgroundTint="@color/favourites_layer_1"
-            android:insetLeft="0dp"
-            android:insetTop="0dp"
-            android:insetRight="0dp"
-            android:insetBottom="0dp"
-            android:padding="24dp"
-            android:text="Favourites"
-            android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="20dp"
-            app:cornerRadius="10dp"
-            app:icon="@drawable/ic_baseline_favorite_24"
-            app:iconGravity="textStart"
-            app:iconPadding="8dp"
-            app:iconSize="16dp" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/HomePage_textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/Playlists_back_btn"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_marginStart="16dp"
-        android:inputType="text"
-        android:text="Songs"
-        android:textColor="@android:color/black"
-        android:textSize="32dp"
-        android:textStyle="bold"
+        android:layout_marginTop="32dp"
+        android:insetLeft="0dp"
+        android:insetTop="0dp"
+        android:insetRight="0dp"
+        android:insetBottom="0dp"
+        app:backgroundTint="@color/playlists_layer_2"
+        app:cornerRadius="64dp"
+        app:icon="@drawable/ic_back"
+        app:iconGravity="textStart"
+        app:iconPadding="0dp"
+        app:iconSize="16dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/HomePage_container" />
+        app:layout_constraintTop_toTopOf="parent" />
 
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/HomePage_recyclerView"
+    <View
+        android:id="@+id/container"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:background="@drawable/bg"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/Playlists_TextView" />
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/Playlists_recyclerview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="32dp"
         android:overScrollMode="never"
-        app:layout_constraintBottom_toTopOf="@+id/HomePage_playing_now_bar"
+        app:layout_constraintBottom_toTopOf="@+id/Playlists_playing_now_bar"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/HomePage_textView" />
+        app:layout_constraintTop_toTopOf="@id/container" />
 
 
     <View
-        android:id="@+id/HomePage_playing_now_bar"
+        android:id="@+id/Playlists_playing_now_bar"
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_marginStart="75dp"
@@ -115,22 +97,22 @@
         app:layout_constraintStart_toStartOf="parent" />
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/HomePage_song_cover"
+        android:id="@+id/Playlists_song_cover"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="32dp"
         android:src="@drawable/music_note"
-        app:layout_constraintStart_toStartOf="@id/HomePage_playing_now_bar"
-        app:layout_constraintTop_toTopOf="@id/HomePage_playing_now_bar" />
+        app:layout_constraintStart_toStartOf="@id/Playlists_playing_now_bar"
+        app:layout_constraintTop_toTopOf="@id/Playlists_playing_now_bar" />
 
     <TextView
-        android:id="@+id/HomePage_song_name"
+        android:id="@+id/Playlists_song_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="32dp"
-        android:layout_toEndOf="@id/HomePage_song_cover"
+        android:layout_toEndOf="@id/Playlists_song_cover"
         android:ellipsize="marquee"
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
@@ -139,17 +121,17 @@
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/HomePage_song_time"
-        app:layout_constraintStart_toEndOf="@+id/HomePage_song_cover"
-        app:layout_constraintTop_toTopOf="@id/HomePage_playing_now_bar" />
+        app:layout_constraintEnd_toStartOf="@+id/Playlists_song_time"
+        app:layout_constraintStart_toEndOf="@+id/Playlists_song_cover"
+        app:layout_constraintTop_toTopOf="@id/Playlists_playing_now_bar" />
 
     <TextView
-        android:id="@+id/HomePage_artist_name"
+        android:id="@+id/Playlists_artist_name"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_below="@id/HomePage_song_name"
+        android:layout_below="@id/Playlists_song_name"
         android:layout_marginStart="16dp"
-        android:layout_toEndOf="@id/HomePage_song_cover"
+        android:layout_toEndOf="@id/Playlists_song_cover"
         android:ellipsize="marquee"
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
@@ -158,12 +140,12 @@
         android:textColor="@android:color/white"
         android:textSize="16dp"
         android:textStyle="bold"
-        app:layout_constraintEnd_toStartOf="@+id/HomePage_song_time"
-        app:layout_constraintStart_toEndOf="@+id/HomePage_song_cover"
-        app:layout_constraintTop_toBottomOf="@+id/HomePage_song_name" />
+        app:layout_constraintEnd_toStartOf="@+id/Playlists_song_time"
+        app:layout_constraintStart_toEndOf="@+id/Playlists_song_cover"
+        app:layout_constraintTop_toBottomOf="@+id/Playlists_song_name" />
 
     <ProgressBar
-        android:id="@+id/HomePage_song_time"
+        android:id="@+id/Playlists_song_time"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_alignParentEnd="true"
@@ -171,25 +153,25 @@
         android:layout_marginEnd="16dp"
         android:indeterminateOnly="false"
         android:progressDrawable="@drawable/circle"
-        app:layout_constraintEnd_toEndOf="@id/HomePage_playing_now_bar"
-        app:layout_constraintTop_toTopOf="@id/HomePage_playing_now_bar"
+        app:layout_constraintEnd_toEndOf="@id/Playlists_playing_now_bar"
+        app:layout_constraintTop_toTopOf="@id/Playlists_playing_now_bar"
         tools:progress="50" />
 
     <ToggleButton
-        android:id="@+id/HomePage_play_pause_btn"
+        android:id="@+id/Playlists_play_pause_btn"
         android:layout_width="24dp"
         android:layout_height="24dp"
         android:background="@drawable/audio_toggle"
         android:checked="true"
         android:textOff=""
         android:textOn=""
-        app:layout_constraintBottom_toBottomOf="@+id/HomePage_song_time"
-        app:layout_constraintEnd_toEndOf="@+id/HomePage_song_time"
-        app:layout_constraintStart_toStartOf="@+id/HomePage_song_time"
-        app:layout_constraintTop_toTopOf="@+id/HomePage_song_time" />
+        app:layout_constraintBottom_toBottomOf="@+id/Playlists_song_time"
+        app:layout_constraintEnd_toEndOf="@+id/Playlists_song_time"
+        app:layout_constraintStart_toStartOf="@+id/Playlists_song_time"
+        app:layout_constraintTop_toTopOf="@+id/Playlists_song_time" />
 
     <com.google.android.material.button.MaterialButton
-        android:id="@+id/HomePage_playing_back_btn"
+        android:id="@+id/Playlists_playing_back_btn"
         android:layout_width="40dp"
         android:layout_height="40dp"
         android:layout_marginStart="-50dp"
@@ -210,7 +192,7 @@
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/HomePage_playing"
+        android:id="@+id/Playlists_playing"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/bg"
@@ -218,12 +200,12 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/HomePage_playing_now_bar"
+        app:layout_constraintTop_toBottomOf="@id/Playlists_playing_now_bar"
         tools:backgroundTint="@android:color/white">
 
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/HomePage_playing_to_cover"
+            android:id="@+id/Playlists_playing_to_cover"
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_marginEnd="8dp"
@@ -234,13 +216,13 @@
             android:insetRight="0dp"
             android:insetBottom="0dp"
             app:cornerRadius="64dp"
-            app:layout_constraintBottom_toTopOf="@id/HomePage_playing_scroll"
+            app:layout_constraintBottom_toTopOf="@id/Playlists_playing_scroll"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/HomePage_playing_to_lyrics"
+            android:id="@+id/Playlists_playing_to_lyrics"
             android:layout_width="10dp"
             android:layout_height="10dp"
             android:layout_marginStart="24dp"
@@ -252,13 +234,13 @@
             android:insetRight="0dp"
             android:insetBottom="0dp"
             app:cornerRadius="64dp"
-            app:layout_constraintBottom_toTopOf="@id/HomePage_playing_scroll"
+            app:layout_constraintBottom_toTopOf="@id/Playlists_playing_scroll"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent" />
 
         <HorizontalScrollView
-            android:id="@+id/HomePage_playing_scroll"
+            android:id="@+id/Playlists_playing_scroll"
             android:layout_width="320dp"
             android:layout_height="wrap_content"
             android:overScrollMode="never"
@@ -275,12 +257,12 @@
                 android:orientation="horizontal">
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:id="@+id/HomePage_playing_show_cover"
+                    android:id="@+id/Playlists_playing_show_cover"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
                     <hiennguyen.me.circleseekbar.CircleSeekBar
-                        android:id="@+id/HomePage_playing_song_time"
+                        android:id="@+id/Playlists_playing_song_time"
                         android:layout_width="300dp"
                         android:layout_height="300dp"
                         android:padding="32dp"
@@ -295,13 +277,13 @@
                         app:csb_textSize="36sp"
                         app:csb_thumbSize="25dp"
                         app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="@id/HomePage_playing_show_cover"
+                        app:layout_constraintEnd_toEndOf="@id/Playlists_playing_show_cover"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent"
                         app:layout_constraintVertical_bias="0.2" />
 
                     <de.hdodenhof.circleimageview.CircleImageView
-                        android:id="@+id/HomePage_playing_song_cover"
+                        android:id="@+id/Playlists_playing_song_cover"
                         android:layout_width="200dp"
                         android:layout_height="200dp"
                         android:layout_marginStart="64dp"
@@ -309,16 +291,16 @@
                         android:layout_marginEnd="64dp"
                         android:layout_marginBottom="64dp"
                         android:src="@drawable/music_note"
-                        app:layout_constraintBottom_toBottomOf="@id/HomePage_playing_song_time"
-                        app:layout_constraintEnd_toEndOf="@id/HomePage_playing_song_time"
-                        app:layout_constraintStart_toStartOf="@id/HomePage_playing_song_time"
-                        app:layout_constraintTop_toTopOf="@id/HomePage_playing_song_time" />
+                        app:layout_constraintBottom_toBottomOf="@id/Playlists_playing_song_time"
+                        app:layout_constraintEnd_toEndOf="@id/Playlists_playing_song_time"
+                        app:layout_constraintStart_toStartOf="@id/Playlists_playing_song_time"
+                        app:layout_constraintTop_toTopOf="@id/Playlists_playing_song_time" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
 
                 <TextView
-                    android:id="@+id/HomePage_playing_lyrics"
+                    android:id="@+id/Playlists_playing_lyrics"
                     android:layout_width="300dp"
                     android:layout_height="match_parent"
                     android:text="dasdaksldnaslkdnaslkdslkdbaslkdasldkasnldknalsdknasldnasndalksdnaslkdnalsdnlaskdnaslkdnaslkdnasldnasldnaslldasndlkasndlandlsandlasndla"
@@ -328,7 +310,7 @@
         </HorizontalScrollView>
 
         <TextView
-            android:id="@+id/HomePage_playing_song_name"
+            android:id="@+id/Playlists_playing_song_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="40dp"
@@ -344,10 +326,10 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/HomePage_playing_scroll" />
+            app:layout_constraintTop_toBottomOf="@id/Playlists_playing_scroll" />
 
         <TextView
-            android:id="@+id/HomePage_playing_artist_name"
+            android:id="@+id/Playlists_playing_artist_name"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="64dp"
@@ -362,10 +344,10 @@
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/HomePage_playing_song_name" />
+            app:layout_constraintTop_toBottomOf="@id/Playlists_playing_song_name" />
 
         <com.google.android.material.button.MaterialButton
-            android:id="@+id/HomePage_playing_play_pause_btn"
+            android:id="@+id/Playlists_playing_play_pause_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="32dp"
@@ -381,10 +363,10 @@
             app:iconSize="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/HomePage_playing_artist_name" />
+            app:layout_constraintTop_toBottomOf="@id/Playlists_playing_artist_name" />
 
         <ImageView
-            android:id="@+id/HomePage_playing_backward_btn"
+            android:id="@+id/Playlists_playing_backward_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginTop="32dp"
@@ -392,19 +374,19 @@
             android:padding="12dp"
             android:rotation="180"
             android:src="@drawable/fast_forward"
-            app:layout_constraintEnd_toStartOf="@id/HomePage_playing_play_pause_btn"
-            app:layout_constraintTop_toBottomOf="@id/HomePage_playing_artist_name" />
+            app:layout_constraintEnd_toStartOf="@id/Playlists_playing_play_pause_btn"
+            app:layout_constraintTop_toBottomOf="@id/Playlists_playing_artist_name" />
 
         <ImageView
-            android:id="@+id/HomePage_playing_forward_btn"
+            android:id="@+id/Playlists_playing_forward_btn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginStart="24dp"
             android:layout_marginTop="32dp"
             android:padding="12dp"
             android:src="@drawable/fast_forward"
-            app:layout_constraintStart_toEndOf="@id/HomePage_playing_play_pause_btn"
-            app:layout_constraintTop_toBottomOf="@id/HomePage_playing_artist_name" />
+            app:layout_constraintStart_toEndOf="@id/Playlists_playing_play_pause_btn"
+            app:layout_constraintTop_toBottomOf="@id/Playlists_playing_artist_name" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -415,18 +397,18 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.5"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/HomePage_playing_play_pause_btn">
+            app:layout_constraintTop_toBottomOf="@id/Playlists_playing_play_pause_btn">
 
 
             <ImageView
-                android:id="@+id/HomePage_playing_play_state"
+                android:id="@+id/Playlists_playing_play_state"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
                 android:src="@drawable/ic_repeat" />
 
             <ToggleButton
-                android:id="@+id/HomePage_playing_add_to_favourite"
+                android:id="@+id/Playlists_playing_add_to_favourite"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
@@ -435,7 +417,7 @@
                 android:textOn="" />
 
             <ImageView
-                android:id="@+id/HomePage_playing_add_to_playlist"
+                android:id="@+id/Playlists_playing_add_to_playlist"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:src="@drawable/add_to_playlist" />

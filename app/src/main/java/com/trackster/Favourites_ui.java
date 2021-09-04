@@ -3,20 +3,39 @@ package com.trackster;
 import android.os.Bundle;
 import android.view.View;
 
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.motion.widget.MotionLayout;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.Adapters.SongAdapter;
 import com.google.android.material.button.MaterialButton;
+import com.roomdb.Track;
+import com.roomdb.roomViewModel;
+
+import java.util.List;
 
 public class Favourites_ui extends UI {
 
     //Views
     private MaterialButton vBackButton;
+    private RecyclerView vSongsRecyclerView;
+
+
+    //Variable
+    private RecyclerView.LayoutManager mSongsLayoutManager;
+    private SongAdapter mSongAdapter;
+    private roomViewModel mViewModel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.favourites_ui);
         InitializingViews();
+        setupRecyclerView();
 
 
         vBackButton.setOnClickListener(lBackButton);
@@ -48,6 +67,7 @@ public class Favourites_ui extends UI {
     private void InitializingViews() {
 
         vBackButton = findViewById(R.id.Favourites_back_btn);
+        vSongsRecyclerView=findViewById(R.id.Favourites_recyclerview);
 
 
         vMain = findViewById(R.id.Favourites);
@@ -66,9 +86,26 @@ public class Favourites_ui extends UI {
         vToLyrics = findViewById(R.id.Favourites_playing_to_lyrics);
         vSong = findViewById(R.id.Favourites_playing_scroll);
 
+
         sync();
 
     }
+    private void setupRecyclerView(){
+        vSongsRecyclerView.setHasFixedSize(true);
+        mSongsLayoutManager=new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
+        mSongAdapter= new SongAdapter(R.layout.home_song_item);
+        vSongsRecyclerView.setLayoutManager(mSongsLayoutManager);
+        vSongsRecyclerView.setAdapter(mSongAdapter);
+        vSongsRecyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        mViewModel = new ViewModelProvider(this).get(roomViewModel.class);
+        mViewModel.getAlltracksfromplaylist("favourites").observe(this, new Observer<List<Track>>() {
+            @Override
+            public void onChanged(@Nullable List<Track> tracks) {
+                mSongAdapter.setSongsList(tracks);
+            }
+        });
+    }
+
     private void close() {
         vMain.setTransition(R.id.close_transition);
         vMain.transitionToEnd();
@@ -103,5 +140,6 @@ public class Favourites_ui extends UI {
 
         }
     };
+
 
 }

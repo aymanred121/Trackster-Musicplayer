@@ -248,7 +248,7 @@
     <Transition
         motion:constraintSetStart="@id/loading"
         motion:constraintSetEnd="@+id/opened"
-        motion:duration="500"
+        motion:duration="@integer/animationSpeed"
         motion:autoTransition="animateToEnd"/>
     <Transition
         motion:constraintSetStart="@+id/opened"
@@ -258,25 +258,25 @@
         motion:constraintSetStart="@+id/opened"
         motion:constraintSetEnd="@+id/song_up"
         android:id="@+id/open_song_transition"
-        motion:duration="250" />
+        motion:duration="@integer/animationSpeed" />
     <Transition
         motion:constraintSetStart="@+id/song_up"
         motion:constraintSetEnd="@+id/button_move"
         motion:autoTransition="animateToEnd"
-        motion:duration="250"/>
+        motion:duration="@integer/animationSpeed"/>
     <Transition
         motion:constraintSetStart="@+id/button_move"
         motion:constraintSetEnd="@+id/button_move_2"
         android:id="@+id/back_transition"
-        motion:duration="250" />
+        motion:duration="@integer/animationSpeed" />
     <Transition
         motion:constraintSetStart="@+id/button_move_2"
         motion:constraintSetEnd="@+id/opened"
         motion:autoTransition="animateToEnd"
-        motion:duration="250" />
+        motion:duration="@integer/animationSpeed" />
     <Transition
         motion:constraintSetStart="@+id/opened"
         motion:constraintSetEnd="@+id/closing"
         android:id="@+id/close_transition"
-        motion:duration="500"/>
+        motion:duration="@integer/animationSpeed"/>
 </MotionScene>

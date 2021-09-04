@@ -1,17 +1,35 @@
 package com.trackster;
 
-import androidx.appcompat.app.AppCompatActivity;
+import androidx.annotation.Nullable;
 import androidx.constraintlayout.motion.widget.MotionLayout;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
 import android.view.View;
 
+import com.Adapters.PlaylistAdapter;
 import com.google.android.material.button.MaterialButton;
+import com.roomdb.Playlist;
+import com.roomdb.Track;
+import com.roomdb.roomViewModel;
+
+import java.util.List;
 
 public class Playlists_ui extends UI {
 
     //Views
     private MaterialButton vBackButton;
+    private RecyclerView vPlaylistsRecyclerView;
+    
+    //Variables
+    private RecyclerView.LayoutManager mPlaylistsLayoutManager;
+    private PlaylistAdapter mPlaylistAdapter;
+    private roomViewModel mViewModel;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +37,7 @@ public class Playlists_ui extends UI {
         setContentView(R.layout.playlists_ui);
 
         InitializingViews();
+        setupRecyclerView();
 
 
         vBackButton.setOnClickListener(lBackButton);
@@ -48,6 +67,8 @@ public class Playlists_ui extends UI {
     private void InitializingViews() {
 
         vBackButton = findViewById(R.id.Playlists_back_btn);
+        vPlaylistsRecyclerView =findViewById(R.id.Playlists_recyclerview);
+        
 
 
         vMain = findViewById(R.id.Playlists);
@@ -70,6 +91,22 @@ public class Playlists_ui extends UI {
 
 
     }
+    private void setupRecyclerView(){
+        vPlaylistsRecyclerView.setHasFixedSize(true);
+        mPlaylistsLayoutManager=new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
+        mPlaylistAdapter= new PlaylistAdapter();
+        vPlaylistsRecyclerView.setLayoutManager(mPlaylistsLayoutManager);
+        vPlaylistsRecyclerView.setAdapter(mPlaylistAdapter);
+        vPlaylistsRecyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        mViewModel = new ViewModelProvider(this).get(roomViewModel.class);
+        mViewModel.getAllPlaylists().observe(this, new Observer<List<Playlist>>() {
+            @Override
+            public void onChanged(@Nullable List<Playlist> playlists) {
+                mPlaylistAdapter.setPlaylistsList(playlists);
+            }
+        });
+    }
+
     private void close() {
         vMain.setTransition(R.id.close_transition);
         vMain.transitionToEnd();

@@ -1,7 +1,13 @@
 package com.trackster;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.motion.widget.MotionLayout;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 import android.content.Intent;
@@ -16,7 +22,12 @@ import android.widget.ProgressBar;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.Adapters.SongAdapter;
 import com.google.android.material.button.MaterialButton;
+import com.roomdb.Track;
+import com.roomdb.roomViewModel;
+
+import java.util.List;
 
 import hiennguyen.me.circleseekbar.CircleSeekBar;
 
@@ -30,14 +41,23 @@ public class MainActivity extends UI {
     private MaterialButton vOpenFavouritesButton;
     private MaterialButton vOpenPlaylistsButton;
     private EditText vSearchSongEdit;
+    private RecyclerView vSongsRecyclerView;
+
+
+    // Variables
+    private RecyclerView.LayoutManager mSongsLayoutManager;
+    private SongAdapter mSongAdapter;
+    private roomViewModel mViewModel;
+    private List<Track> mTrackList;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        InitializingViews();
 
+        InitializingViews();
+        setupRecyclerView();
 
         vPlayingNowBackButton.setOnClickListener(lPlayingNowBackButton);
         vPlayingNowBar.setOnClickListener(lPlayingNowBar);
@@ -76,6 +96,7 @@ public class MainActivity extends UI {
         vOpenFavouritesButton = findViewById(R.id.HomePage_toFavourites);
         vOpenPlaylistsButton = findViewById(R.id.HomePage_toPlaylists);
         vSearchSongEdit = findViewById(R.id.HomePage_search_song);
+        vSongsRecyclerView=findViewById(R.id.HomePage_recyclerView);
 
         // for playing bar
         vMain = findViewById(R.id.HomePage);
@@ -94,6 +115,7 @@ public class MainActivity extends UI {
         vToLyrics = findViewById(R.id.HomePage_playing_to_lyrics);
         vSong = findViewById(R.id.HomePage_playing_scroll);
 
+
     }
     private void openFavourites() {
         Intent intent = new Intent(this, Favourites_ui.class);
@@ -103,6 +125,23 @@ public class MainActivity extends UI {
         Intent intent = new Intent(this, Playlists_ui.class);
         startActivity(intent);
     }
+    private void setupRecyclerView(){
+        vSongsRecyclerView.setHasFixedSize(true);
+        mSongsLayoutManager=new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
+        mSongAdapter= new SongAdapter(R.layout.home_song_item);
+        vSongsRecyclerView.setLayoutManager(mSongsLayoutManager);
+        vSongsRecyclerView.setAdapter(mSongAdapter);
+        vSongsRecyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        mViewModel = new ViewModelProvider(this).get(roomViewModel.class);
+        mViewModel.getAlltracks().observe(this, new Observer<List<Track>>() {
+            @Override
+            public void onChanged(@Nullable List<Track> tracks) {
+                mSongAdapter.setSongsList(tracks);
+                mTrackList = tracks;
+            }
+        });
+    }
+
 
 
 

@@ -24,41 +24,14 @@ import static com.trackster.PlayingState.Repeat;
 import static com.trackster.PlayingState.RepeatOnce;
 import static com.trackster.PlayingState.Shuffle;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends UI {
 
     // Views
-
-    // for HomePage
     private MaterialButton vOpenFavouritesButton;
     private MaterialButton vOpenPlaylistsButton;
     private EditText vSearchSongEdit;
 
 
-    // for playing bar
-    protected MotionLayout vMain;
-    protected View vPlayingNowBar;
-    protected MaterialButton vPlayingNowBackButton;
-    protected MaterialButton vPlayButton;
-    protected MaterialButton vToCover;
-    protected MaterialButton vToLyrics;
-    protected ToggleButton vPlayToggle;
-    protected ToggleButton vFavouritesToggle;
-    protected CircleSeekBar vSongSeekBar;
-    protected ProgressBar vSongProgressBar;
-    protected ImageView vPlayingState;
-    protected ImageView vAddToPlaylist;
-    protected ImageView vForwardButton;
-    protected ImageView vBackwardButton;
-    protected HorizontalScrollView vSong;
-
-
-    // variables
-    protected boolean isBarOpened = false;
-    protected AnimatedVectorDrawableCompat avdc;
-    protected AnimatedVectorDrawable avd;
-    protected PlayingState playingState = Repeat;
-
-    // overrides
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -85,6 +58,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onResume() {
+        super.onResume();
+        sync();
+    }
+
+    @Override
     public void onBackPressed() {
         if (isBarOpened) {
             goBack();
@@ -92,8 +71,6 @@ public class MainActivity extends AppCompatActivity {
             super.onBackPressed();
     }
     // functions
-
-    // for HomPage
     private void InitializingViews() {
         // for HomePage
         vOpenFavouritesButton = findViewById(R.id.HomePage_toFavourites);
@@ -118,7 +95,6 @@ public class MainActivity extends AppCompatActivity {
         vSong = findViewById(R.id.HomePage_playing_scroll);
 
     }
-
     private void openFavourites() {
         Intent intent = new Intent(this, Favourites_ui.class);
         startActivity(intent);
@@ -128,69 +104,10 @@ public class MainActivity extends AppCompatActivity {
         startActivity(intent);
     }
 
-    // for Playing bar
-    protected void goBack() {
-        vMain.setTransition(R.id.back_transition);
-        vMain.transitionToEnd();
-        isBarOpened = false;
-    }
 
-    protected void PlayNPause() {
-        // animation
-        if (vPlayToggle.isChecked()) {
-            vPlayButton.setIcon(getResources().getDrawable(R.drawable.playing));
-            Drawable drawable = vPlayButton.getIcon();
-            if (drawable instanceof AnimatedVectorDrawableCompat) {
-                avdc = (AnimatedVectorDrawableCompat) drawable;
-                avdc.start();
-            } else if (drawable instanceof AnimatedVectorDrawable) {
-                avd = (AnimatedVectorDrawable) drawable;
-                avd.start();
-            }
 
-            // pause music code
-        } else {
-            vPlayButton.setIcon(getResources().getDrawable(R.drawable.paused));
-            Drawable drawable = vPlayButton.getIcon();
-            if (drawable instanceof AnimatedVectorDrawableCompat) {
-                avdc = (AnimatedVectorDrawableCompat) drawable;
-                avdc.start();
-            } else if (drawable instanceof AnimatedVectorDrawable) {
-                avd = (AnimatedVectorDrawable) drawable;
-                avd.start();
-            }
-
-            //play music code
-        }
-        vPlayToggle.setChecked(!vPlayToggle.isChecked());
-
-    }
-
-    protected void ChangeState() {
-        // repeat song
-        if (playingState == Repeat) {
-            vPlayingState.setImageResource(R.drawable.ic_repeat_one);
-            Toast.makeText(this, "Current song is looped", Toast.LENGTH_SHORT).show();
-            playingState = RepeatOnce;
-
-        }
-        // shuffle
-        else if (playingState == RepeatOnce) {
-            vPlayingState.setImageResource(R.drawable.ic_shuffle);
-            Toast.makeText(this, "Playback is shuffled", Toast.LENGTH_SHORT).show();
-            playingState = Shuffle;
-        }
-        // repeat playlist
-        else {
-            vPlayingState.setImageResource(R.drawable.ic_repeat);
-            Toast.makeText(this, "Current playlist is looped", Toast.LENGTH_SHORT).show();
-            playingState = Repeat;
-        }
-    }
 
     // listeners
-
-    // for HomePage
     private View.OnClickListener lOpenFavourites = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -204,97 +121,5 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    // for Playing bar
-    protected View.OnClickListener lPlayingNowBackButton = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            goBack();
-        }
-    };
-    protected View.OnClickListener lPlayingNowBar = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (!isBarOpened) {
-                vMain.setTransition(R.id.open_song_transition);
-                vMain.transitionToEnd();
-                isBarOpened = true;
-            }
-        }
-    };
-    protected View.OnClickListener lPlayButton = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            PlayNPause();
-        }
-    };
-    protected View.OnClickListener lPlayToggle = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            if (vPlayToggle.isChecked())
-                vPlayButton.setIcon(getResources().getDrawable(R.drawable.playing));
-            else
-                vPlayButton.setIcon(getResources().getDrawable(R.drawable.paused));
-
-
-        }
-    };
-    protected View.OnClickListener lFavouritesToggle = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-        }
-    };
-    protected View.OnClickListener lAddToPlaylist = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-        }
-    };
-    protected View.OnClickListener lPlayingState = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            ChangeState();
-        }
-    };
-    protected View.OnClickListener lForwardButton = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-        }
-    };
-    protected View.OnClickListener lBackwardButton = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-
-        }
-    };
-    protected View.OnScrollChangeListener lSong = new View.OnScrollChangeListener() {
-        @Override
-        public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
-            if (scrollX > oldScrollX) {
-                vToCover.setEnabled(false);
-                vToLyrics.setEnabled(true);
-            } else if (oldScrollX > scrollX) {
-                vToCover.setEnabled(true);
-                vToLyrics.setEnabled(false);
-            }
-        }
-    };
-    protected CircleSeekBar.OnSeekBarChangedListener lSongSeekBar = new CircleSeekBar.OnSeekBarChangedListener() {
-        @Override
-        public void onPointsChanged(CircleSeekBar circleSeekBar, int points, boolean fromUser) {
-            vSongProgressBar.setProgress(points);
-        }
-
-        @Override
-        public void onStartTrackingTouch(CircleSeekBar circleSeekBar) {
-
-        }
-
-        @Override
-        public void onStopTrackingTouch(CircleSeekBar circleSeekBar) {
-
-        }
-    };
 
 }

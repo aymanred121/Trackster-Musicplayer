@@ -7,7 +7,7 @@ import androidx.constraintlayout.motion.widget.MotionLayout;
 
 import com.google.android.material.button.MaterialButton;
 
-public class Favourites_ui extends MainActivity {
+public class Favourites_ui extends UI {
 
     //Views
     private MaterialButton vBackButton;
@@ -65,6 +65,8 @@ public class Favourites_ui extends MainActivity {
         vToCover = findViewById(R.id.Favourites_playing_to_cover);
         vToLyrics = findViewById(R.id.Favourites_playing_to_lyrics);
         vSong = findViewById(R.id.Favourites_playing_scroll);
+
+        sync();
 
     }
     private void close() {

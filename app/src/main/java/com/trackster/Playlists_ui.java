@@ -8,7 +8,7 @@ import android.view.View;
 
 import com.google.android.material.button.MaterialButton;
 
-public class Playlists_ui extends MainActivity {
+public class Playlists_ui extends UI {
 
     //Views
     private MaterialButton vBackButton;
@@ -65,6 +65,8 @@ public class Playlists_ui extends MainActivity {
         vToCover = findViewById(R.id.Playlists_playing_to_cover);
         vToLyrics = findViewById(R.id.Playlists_playing_to_lyrics);
         vSong = findViewById(R.id.Playlists_playing_scroll);
+
+        sync();
 
 
     }

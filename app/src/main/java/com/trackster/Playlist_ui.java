@@ -9,7 +9,7 @@ import com.google.android.material.button.MaterialButton;
 
 import hiennguyen.me.circleseekbar.CircleSeekBar;
 
-public class Playlist_ui extends MainActivity {
+public class Playlist_ui extends UI {
 
     //Views
     private MaterialButton vBackButton;
@@ -67,6 +67,8 @@ public class Playlist_ui extends MainActivity {
         vToCover = findViewById(R.id.Playlist_playing_to_cover);
         vToLyrics = findViewById(R.id.Playlist_playing_to_lyrics);
         vSong = findViewById(R.id.Playlist_playing_scroll);
+
+        sync();
 
 
     }

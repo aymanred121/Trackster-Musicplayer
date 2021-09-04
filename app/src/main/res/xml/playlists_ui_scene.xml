@@ -3,14 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:motion="http://schemas.android.com/apk/res-auto">
 
-    <Transition
-        motion:constraintSetEnd="@+id/opened"
-        motion:constraintSetStart="@id/loading"
-        motion:duration="1000"
-        motion:autoTransition="animateToEnd">
-       <KeyFrameSet>
-       </KeyFrameSet>
-    </Transition>
+
 
     <ConstraintSet android:id="@+id/loading">
         <Constraint
@@ -206,9 +199,6 @@
             android:layout_marginTop="32dp"
             android:translationY="-100dp" />
     </ConstraintSet>
-    <Transition
-        motion:constraintSetStart="@+id/opened"
-        motion:constraintSetEnd="@+id/bat_up" />
     <ConstraintSet
         android:id="@+id/song_up"
         motion:deriveConstraintsFrom="@+id/bat_up" >
@@ -223,11 +213,6 @@
             motion:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="32dp" />
     </ConstraintSet>
-    <Transition
-        motion:constraintSetStart="@+id/opened"
-        motion:constraintSetEnd="@+id/song_up"
-        android:id="@+id/open_song_transition"
-        motion:duration="1000" />
     <ConstraintSet
         android:id="@+id/button_move"
         motion:deriveConstraintsFrom="@+id/song_up" >
@@ -254,23 +239,44 @@
             motion:layout_constraintStart_toStartOf="parent"
             android:layout_marginTop="32dp" />
     </ConstraintSet>
-    <Transition
-        motion:constraintSetStart="@+id/song_up"
-        motion:constraintSetEnd="@+id/button_move"
-        motion:autoTransition="animateToEnd" />
-    <Transition
-        motion:constraintSetStart="@+id/button_move"
-        motion:constraintSetEnd="@+id/button_move_2"
-        android:id="@+id/back_transition" />
+
     <ConstraintSet
         android:id="@+id/closing"
         motion:deriveConstraintsFrom="@+id/loading" />
+
+
+    <Transition
+        motion:constraintSetStart="@id/loading"
+        motion:constraintSetEnd="@+id/opened"
+        motion:duration="500"
+        motion:autoTransition="animateToEnd"/>
     <Transition
         motion:constraintSetStart="@+id/opened"
-        motion:constraintSetEnd="@+id/closing"
-        android:id="@+id/close_transition" />
+        motion:constraintSetEnd="@+id/bar_up"
+        motion:duration="1000" />
+    <Transition
+        motion:constraintSetStart="@+id/opened"
+        motion:constraintSetEnd="@+id/song_up"
+        android:id="@+id/open_song_transition"
+        motion:duration="250" />
+    <Transition
+        motion:constraintSetStart="@+id/song_up"
+        motion:constraintSetEnd="@+id/button_move"
+        motion:autoTransition="animateToEnd"
+        motion:duration="250"/>
+    <Transition
+        motion:constraintSetStart="@+id/button_move"
+        motion:constraintSetEnd="@+id/button_move_2"
+        android:id="@+id/back_transition"
+        motion:duration="250" />
     <Transition
         motion:constraintSetStart="@+id/button_move_2"
         motion:constraintSetEnd="@+id/opened"
-        motion:autoTransition="animateToEnd" />
+        motion:autoTransition="animateToEnd"
+        motion:duration="250" />
+    <Transition
+        motion:constraintSetStart="@+id/opened"
+        motion:constraintSetEnd="@+id/closing"
+        android:id="@+id/close_transition"
+        motion:duration="500"/>
 </MotionScene>

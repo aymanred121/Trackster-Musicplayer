@@ -86,6 +86,13 @@ public class Playlists_ui extends UI {
         vToCover = findViewById(R.id.Playlists_playing_to_cover);
         vToLyrics = findViewById(R.id.Playlists_playing_to_lyrics);
         vSong = findViewById(R.id.Playlists_playing_scroll);
+        vBarSongName=findViewById(R.id.Playlists_song_name);
+        vBarArtistName=findViewById(R.id.Playlists_artist_name);
+        vBarSongCover=findViewById(R.id.Playlists_song_cover);
+        vSongName=findViewById(R.id.Playlists_playing_song_name);
+        vArtistName=findViewById(R.id.Playlists_playing_artist_name);
+        vSongCover=findViewById(R.id.Playlists_playing_song_cover);
+        
 
         sync();
 

@@ -1,39 +1,32 @@
 package com.trackster;
 
+import android.Manifest;
+import android.app.Activity;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.EditText;
+
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.motion.widget.MotionLayout;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
-
-import android.content.Intent;
-import android.graphics.drawable.AnimatedVectorDrawable;
-import android.graphics.drawable.Drawable;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.EditText;
-import android.widget.HorizontalScrollView;
-import android.widget.ImageView;
-import android.widget.ProgressBar;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.Adapters.SongAdapter;
 import com.google.android.material.button.MaterialButton;
 import com.roomdb.Track;
+import com.roomdb.TracksterRoomDb;
 import com.roomdb.roomViewModel;
 
 import java.util.List;
 
-import hiennguyen.me.circleseekbar.CircleSeekBar;
-
-import static com.trackster.PlayingState.Repeat;
-import static com.trackster.PlayingState.RepeatOnce;
-import static com.trackster.PlayingState.Shuffle;
 
 public class MainActivity extends UI {
 
@@ -49,6 +42,7 @@ public class MainActivity extends UI {
     private SongAdapter mSongAdapter;
     private roomViewModel mViewModel;
     private List<Track> mTrackList;
+    private Boolean isExist = false;
 
 
     @Override
@@ -56,6 +50,7 @@ public class MainActivity extends UI {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        setPermissionAndDB();
         InitializingViews();
         setupRecyclerView();
 
@@ -73,6 +68,7 @@ public class MainActivity extends UI {
 
         vOpenPlaylistsButton.setOnClickListener(lOpenPlaylists);
         vOpenFavouritesButton.setOnClickListener(lOpenFavourites);
+        mSongAdapter.setOnItemClickListener(lSongAdapter);
 
 
     }
@@ -80,7 +76,14 @@ public class MainActivity extends UI {
     @Override
     protected void onResume() {
         super.onResume();
+        //TODO
+        /*
+        temp
+        **/
+        retrieveLastPlayedSong();
+        if(mPlayingNow!=null && mAudio!=null)
         sync();
+
     }
 
     @Override
@@ -97,6 +100,7 @@ public class MainActivity extends UI {
         vOpenPlaylistsButton = findViewById(R.id.HomePage_toPlaylists);
         vSearchSongEdit = findViewById(R.id.HomePage_search_song);
         vSongsRecyclerView=findViewById(R.id.HomePage_recyclerView);
+        mContext=this;
 
         // for playing bar
         vMain = findViewById(R.id.HomePage);
@@ -114,6 +118,12 @@ public class MainActivity extends UI {
         vToCover = findViewById(R.id.HomePage_playing_to_cover);
         vToLyrics = findViewById(R.id.HomePage_playing_to_lyrics);
         vSong = findViewById(R.id.HomePage_playing_scroll);
+        vBarSongName=findViewById(R.id.HomePage_song_name);
+        vBarArtistName=findViewById(R.id.HomePage_artist_name);
+        vBarSongCover=findViewById(R.id.HomePage_song_cover);
+        vSongName=findViewById(R.id.HomePage_playing_song_name);
+        vArtistName=findViewById(R.id.HomePage_playing_artist_name);
+        vSongCover=findViewById(R.id.HomePage_playing_song_cover);
 
 
     }
@@ -138,8 +148,29 @@ public class MainActivity extends UI {
             public void onChanged(@Nullable List<Track> tracks) {
                 mSongAdapter.setSongsList(tracks);
                 mTrackList = tracks;
+                mCurrentList = tracks;
             }
         });
+    }
+    private void retrieveLastPlayedSong(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHAREDPREF, MODE_PRIVATE);
+        isExist = TracksterRoomDb.getInstance(this).trackDao().isTrackExist(sharedPreferences.getInt(ID, -1));
+        if (isExist) {
+            mPlayingNow = TracksterRoomDb.getInstance(this).trackDao().getTrackByID(sharedPreferences.getInt(ID, -1));
+           setupSong();
+
+//            trackPosition=sharedPreferences.getInt(QUEUEPOS,-1);
+//            queueState= sharedPreferences.getInt(ORIGIN,-1);
+        }
+    }
+    private void setPermissionAndDB() {
+//        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
+//        StrictMode.setThreadPolicy(policy);
+        while (ContextCompat.checkSelfPermission(this,
+                Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions((Activity) this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 101);
+        }
+
     }
 
 

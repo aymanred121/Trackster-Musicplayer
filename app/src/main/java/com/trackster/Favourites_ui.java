@@ -39,6 +39,8 @@ public class Favourites_ui extends UI {
 
 
         vBackButton.setOnClickListener(lBackButton);
+        mSongAdapter.setOnItemClickListener(lSongAdapter);
+
 
 
         vPlayingNowBackButton.setOnClickListener(lPlayingNowBackButton);
@@ -68,6 +70,7 @@ public class Favourites_ui extends UI {
 
         vBackButton = findViewById(R.id.Favourites_back_btn);
         vSongsRecyclerView=findViewById(R.id.Favourites_recyclerview);
+        mContext=this;
 
 
         vMain = findViewById(R.id.Favourites);
@@ -85,6 +88,12 @@ public class Favourites_ui extends UI {
         vToCover = findViewById(R.id.Favourites_playing_to_cover);
         vToLyrics = findViewById(R.id.Favourites_playing_to_lyrics);
         vSong = findViewById(R.id.Favourites_playing_scroll);
+        vBarSongName=findViewById(R.id.Favourites_song_name);
+        vBarArtistName=findViewById(R.id.Favourites_artist_name);
+        vBarSongCover=findViewById(R.id.Favourites_song_cover);
+        vSongName=findViewById(R.id.Favourites_playing_song_name);
+        vArtistName=findViewById(R.id.Favourites_playing_artist_name);
+        vSongCover=findViewById(R.id.Favourites_playing_song_cover);
 
 
         sync();
@@ -102,6 +111,7 @@ public class Favourites_ui extends UI {
             @Override
             public void onChanged(@Nullable List<Track> tracks) {
                 mSongAdapter.setSongsList(tracks);
+                mCurrentList=tracks;
             }
         });
     }

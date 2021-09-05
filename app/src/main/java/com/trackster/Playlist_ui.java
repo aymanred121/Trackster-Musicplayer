@@ -41,6 +41,7 @@ public class Playlist_ui extends UI {
 
 
         vBackButton.setOnClickListener(lBackButton);
+        mSongAdapter.setOnItemClickListener(lSongAdapter);
 
 
         vPlayingNowBackButton.setOnClickListener(lPlayingNowBackButton);
@@ -70,6 +71,7 @@ public class Playlist_ui extends UI {
 
         vBackButton = findViewById(R.id.Playlist_back_btn);
         vSongsRecyclerView=findViewById(R.id.Playlist_recyclerview);
+         mContext=this;
 
 
         vMain = findViewById(R.id.Playlist);
@@ -87,6 +89,12 @@ public class Playlist_ui extends UI {
         vToCover = findViewById(R.id.Playlist_playing_to_cover);
         vToLyrics = findViewById(R.id.Playlist_playing_to_lyrics);
         vSong = findViewById(R.id.Playlist_playing_scroll);
+        vBarSongName=findViewById(R.id.Playlist_song_name);
+        vBarArtistName=findViewById(R.id.Playlist_artist_name);
+        vBarSongCover=findViewById(R.id.Playlist_song_cover);
+        vSongName=findViewById(R.id.Playlist_playing_song_name);
+        vArtistName=findViewById(R.id.Playlist_playing_artist_name);
+        vSongCover=findViewById(R.id.Playlist_playing_song_cover);
 
         sync();
 
@@ -104,6 +112,7 @@ public class Playlist_ui extends UI {
             @Override
             public void onChanged(@Nullable List<Track> tracks) {
                 mSongAdapter.setSongsList(tracks);
+                mCurrentList=tracks;
             }
         });
 

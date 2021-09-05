@@ -1,11 +1,17 @@
 package com.trackster;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.view.View;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
@@ -13,7 +19,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
+import com.Adapters.SongAdapter;
 import com.google.android.material.button.MaterialButton;
+import com.roomdb.Track;
+
+import java.util.List;
 
 import hiennguyen.me.circleseekbar.CircleSeekBar;
 
@@ -39,11 +49,28 @@ public class UI extends AppCompatActivity {
     protected ImageView vForwardButton;
     protected ImageView vBackwardButton;
     protected HorizontalScrollView vSong;
+    protected TextView vSongName;
+    protected TextView vArtistName;
+    protected ImageView vSongCover;
+    protected TextView vBarSongName;
+    protected TextView vBarArtistName;
+    protected ImageView vBarSongCover;
+
+
 
 
     // globals
+    protected static MediaPlayer mAudio;
+    protected static Track mPlayingNow;
+    protected static List<Track> mQueue;
+    protected static List<Track> mCurrentList;
     protected static int progress = 0;
     protected static boolean playing = false;
+    protected static Context mContext;
+    public static final String SHAREDPREF = "SHAREDPERF";
+    public static final String ID = "ID";
+    public static final String QUEUEPOS = "QUEUEPOS";
+    public static final String ORIGIN = "ORIGIN";
 
     // variables
     protected boolean isBarOpened = false;
@@ -53,10 +80,14 @@ public class UI extends AppCompatActivity {
 
     // functions
     private void setPlayButton() {
-        if (vPlayToggle.isChecked())
+        if (vPlayToggle.isChecked()) {
             vPlayButton.setIcon(getResources().getDrawable(R.drawable.playing));
-        else
+            mAudio.start();
+        }
+        else {
             vPlayButton.setIcon(getResources().getDrawable(R.drawable.paused));
+            mAudio.pause();
+        }
     }
 
     protected void goBack() {
@@ -79,6 +110,7 @@ public class UI extends AppCompatActivity {
             }
 
             // pause music code
+            mAudio.pause();
         } else {
             vPlayButton.setIcon(getResources().getDrawable(R.drawable.paused));
             Drawable drawable = vPlayButton.getIcon();
@@ -91,6 +123,7 @@ public class UI extends AppCompatActivity {
             }
 
             //play music code
+            mAudio.start();
         }
         vPlayToggle.setChecked(!vPlayToggle.isChecked());
         playing = vPlayToggle.isChecked();
@@ -124,7 +157,44 @@ public class UI extends AppCompatActivity {
         vSongSeekBar.setProgressDisplayAndInvalidate(progress);
         vPlayToggle.setChecked(playing);
         setPlayButton();
+        setupSong();
 
+
+
+    }
+
+    private void openBar() {
+        if (!isBarOpened) {
+            vMain.setTransition(R.id.open_song_transition);
+            vMain.transitionToEnd();
+            isBarOpened = true;
+        }
+
+    }
+
+    protected void setupSong() {
+        vSongName.setText(mPlayingNow.getName());
+        vBarSongName.setText(mPlayingNow.getName());
+        vArtistName.setText(mPlayingNow.getArtistName());
+        vBarArtistName.setText(mPlayingNow.getArtistName());
+        if(mPlayingNow.getName().length() > 20)
+            vSongName.setSelected(true);
+        if(mPlayingNow.getArtistName().length() > 20)
+            vArtistName.setSelected(true);
+        if(mPlayingNow.getCover()!=null)
+        {
+            vSongCover.setImageBitmap(BitmapFactory.decodeByteArray(mPlayingNow.getCover(), 0, mPlayingNow.getCover().length));
+            vBarSongCover.setImageBitmap(BitmapFactory.decodeByteArray(mPlayingNow.getCover(), 0, mPlayingNow.getCover().length));
+        }
+    }
+
+    private void updateLastPlayedSong(){
+        SharedPreferences sharedPreferences = getSharedPreferences(SHAREDPREF, MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putInt(ID, mPlayingNow.getID());
+//        editor.putInt(QUEUEPOS,trackPosition);
+//        editor.putInt(ORIGIN,queueState);
+        editor.apply();
     }
 
     // listeners
@@ -137,13 +207,12 @@ public class UI extends AppCompatActivity {
     protected View.OnClickListener lPlayingNowBar = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if (!isBarOpened) {
-                vMain.setTransition(R.id.open_song_transition);
-                vMain.transitionToEnd();
-                isBarOpened = true;
-            }
+            openBar();
         }
     };
+
+
+
     protected View.OnClickListener lPlayButton = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -216,6 +285,21 @@ public class UI extends AppCompatActivity {
 
         }
     };
+    protected SongAdapter.OnItemClickListener lSongAdapter = new SongAdapter.OnItemClickListener() {
+        @Override
+        public void onSongClick(int position) {
+            mQueue=mCurrentList;
+            mPlayingNow = mCurrentList.get(position);
+            mAudio=MediaPlayer.create(mContext, Uri.parse(mPlayingNow.getLocation()));
+            mAudio.start();
+            playing=true;
+            vPlayToggle.setChecked(true);
+            setPlayButton();
+            openBar();
+            setupSong();
+            updateLastPlayedSong();
 
+        }
+    };
 
 }

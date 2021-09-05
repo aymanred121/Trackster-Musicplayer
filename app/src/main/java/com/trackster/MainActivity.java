@@ -10,7 +10,6 @@ import android.view.View;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
@@ -42,7 +41,6 @@ public class MainActivity extends UI {
     private SongAdapter mSongAdapter;
     private roomViewModel mViewModel;
     private List<Track> mTrackList;
-    private Boolean isExist = false;
 
 
     @Override
@@ -76,13 +74,9 @@ public class MainActivity extends UI {
     @Override
     protected void onResume() {
         super.onResume();
-        //TODO
-        /*
-        temp
-        **/
         retrieveLastPlayedSong();
-        if(mPlayingNow!=null && mAudio!=null)
-        sync();
+        if (mPlayingNow != null && mAudio != null)
+            sync();
 
     }
 
@@ -93,14 +87,15 @@ public class MainActivity extends UI {
         } else
             super.onBackPressed();
     }
+
     // functions
     private void InitializingViews() {
         // for HomePage
         vOpenFavouritesButton = findViewById(R.id.HomePage_toFavourites);
         vOpenPlaylistsButton = findViewById(R.id.HomePage_toPlaylists);
         vSearchSongEdit = findViewById(R.id.HomePage_search_song);
-        vSongsRecyclerView=findViewById(R.id.HomePage_recyclerView);
-        mContext=this;
+        vSongsRecyclerView = findViewById(R.id.HomePage_recyclerView);
+        mContext = this;
 
         // for playing bar
         vMain = findViewById(R.id.HomePage);
@@ -118,30 +113,33 @@ public class MainActivity extends UI {
         vToCover = findViewById(R.id.HomePage_playing_to_cover);
         vToLyrics = findViewById(R.id.HomePage_playing_to_lyrics);
         vSong = findViewById(R.id.HomePage_playing_scroll);
-        vBarSongName=findViewById(R.id.HomePage_song_name);
-        vBarArtistName=findViewById(R.id.HomePage_artist_name);
-        vBarSongCover=findViewById(R.id.HomePage_song_cover);
-        vSongName=findViewById(R.id.HomePage_playing_song_name);
-        vArtistName=findViewById(R.id.HomePage_playing_artist_name);
-        vSongCover=findViewById(R.id.HomePage_playing_song_cover);
+        vBarSongName = findViewById(R.id.HomePage_song_name);
+        vBarArtistName = findViewById(R.id.HomePage_artist_name);
+        vBarSongCover = findViewById(R.id.HomePage_song_cover);
+        vSongName = findViewById(R.id.HomePage_playing_song_name);
+        vArtistName = findViewById(R.id.HomePage_playing_artist_name);
+        vSongCover = findViewById(R.id.HomePage_playing_song_cover);
 
 
     }
+
     private void openFavourites() {
         Intent intent = new Intent(this, Favourites_ui.class);
         startActivity(intent);
     }
+
     private void openPlaylists() {
         Intent intent = new Intent(this, Playlists_ui.class);
         startActivity(intent);
     }
-    private void setupRecyclerView(){
+
+    private void setupRecyclerView() {
         vSongsRecyclerView.setHasFixedSize(true);
-        mSongsLayoutManager=new LinearLayoutManager(this,RecyclerView.VERTICAL,false);
-        mSongAdapter= new SongAdapter(R.layout.home_song_item);
+        mSongsLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        mSongAdapter = new SongAdapter(R.layout.home_song_item);
         vSongsRecyclerView.setLayoutManager(mSongsLayoutManager);
         vSongsRecyclerView.setAdapter(mSongAdapter);
-        vSongsRecyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        vSongsRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mViewModel = new ViewModelProvider(this).get(roomViewModel.class);
         mViewModel.getAlltracks().observe(this, new Observer<List<Track>>() {
             @Override
@@ -152,17 +150,23 @@ public class MainActivity extends UI {
             }
         });
     }
-    private void retrieveLastPlayedSong(){
+
+    private void retrieveLastPlayedSong() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHAREDPREF, MODE_PRIVATE);
         isExist = TracksterRoomDb.getInstance(this).trackDao().isTrackExist(sharedPreferences.getInt(ID, -1));
+        vMain.setTransition(R.id.showSong_transition);
         if (isExist) {
             mPlayingNow = TracksterRoomDb.getInstance(this).trackDao().getTrackByID(sharedPreferences.getInt(ID, -1));
-           setupSong();
-
+            setupSong();
+            vMain.transitionToEnd();
 //            trackPosition=sharedPreferences.getInt(QUEUEPOS,-1);
 //            queueState= sharedPreferences.getInt(ORIGIN,-1);
-        }
+        } else
+            vMain.transitionToStart();
+
+
     }
+
     private void setPermissionAndDB() {
 //        StrictMode.ThreadPolicy policy = new StrictMode.ThreadPolicy.Builder().permitAll().build();
 //        StrictMode.setThreadPolicy(policy);
@@ -172,9 +176,6 @@ public class MainActivity extends UI {
         }
 
     }
-
-
-
 
 
     // listeners

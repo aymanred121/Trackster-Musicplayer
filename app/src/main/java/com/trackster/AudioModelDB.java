@@ -36,12 +36,11 @@ public class AudioModelDB {
                 MediaStore.Audio.Media.ALBUM_ID,
                 MediaStore.Audio.Media.DURATION
         };
-        final String sortOrder = MediaStore.Audio.AudioColumns.TITLE + " COLLATE LOCALIZED ASC";
 
         Cursor cursor = null;
         try {
             Uri uri = MediaStore.Audio.Media.EXTERNAL_CONTENT_URI;
-            cursor = context.getApplicationContext().getContentResolver().query(uri, projection, selection, null, sortOrder);
+            cursor = context.getApplicationContext().getContentResolver().query(uri, projection, selection, null, null);
             if( cursor != null){
                 cursor.moveToFirst();
 

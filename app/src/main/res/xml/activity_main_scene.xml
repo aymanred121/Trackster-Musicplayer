@@ -6,62 +6,8 @@
 
     <ConstraintSet android:id="@+id/start"></ConstraintSet>
 
-    <ConstraintSet android:id="@+id/bar_up">
-        <Constraint
-            android:id="@+id/HomePage_playing_now_bar"
-            android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:layout_marginStart="-100dp"
-            motion:layout_constraintEnd_toEndOf="parent"
-            motion:layout_constraintStart_toStartOf="parent"
-            motion:layout_constraintTop_toTopOf="parent"
-            motion:layout_editor_absoluteY="611dp" />
-        <Constraint
-            android:id="@+id/HomePage_song_cover"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginStart="40dp"
-            android:layout_marginTop="32dp"
-            android:alpha="0"
-            motion:layout_constraintStart_toStartOf="@id/HomePage_playing_now_bar"
-            motion:layout_constraintTop_toTopOf="@id/HomePage_playing_now_bar" />
-        <Constraint
-            android:id="@+id/HomePage_song_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="32dp"
-            android:alpha="0"
-            motion:layout_constraintEnd_toStartOf="@+id/HomePage_song_time"
-            motion:layout_constraintStart_toEndOf="@+id/HomePage_song_cover"
-            motion:layout_constraintTop_toTopOf="@id/HomePage_playing_now_bar" />
-        <Constraint
-            android:id="@+id/HomePage_artist_name"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="16dp"
-            android:alpha="0"
-            motion:layout_constraintEnd_toStartOf="@+id/HomePage_song_time"
-            motion:layout_constraintStart_toEndOf="@+id/HomePage_song_cover"
-            motion:layout_constraintTop_toBottomOf="@+id/HomePage_song_name" />
-        <Constraint
-            android:id="@+id/HomePage_song_time"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginTop="32dp"
-            android:layout_marginEnd="16dp"
-            android:alpha="0"
-            motion:layout_constraintEnd_toEndOf="@id/HomePage_playing_now_bar"
-            motion:layout_constraintTop_toTopOf="@id/HomePage_playing_now_bar" />
-        <Constraint
-            android:id="@+id/HomePage_play_pause_btn"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:alpha="0"
-            motion:layout_constraintBottom_toBottomOf="@+id/HomePage_song_time"
-            motion:layout_constraintEnd_toEndOf="@+id/HomePage_song_time"
-            motion:layout_constraintStart_toStartOf="@+id/HomePage_song_time"
-            motion:layout_constraintTop_toTopOf="@+id/HomePage_song_time" />
+    <ConstraintSet android:id="@+id/bar_up"
+        motion:deriveConstraintsFrom="@+id/songShown">
         <Constraint
             android:id="@+id/HomePage_recyclerView"
             motion:layout_constraintEnd_toEndOf="parent"
@@ -71,6 +17,66 @@
             android:layout_marginStart="16dp"
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintBottom_toBottomOf="parent" />
+        <Constraint
+            android:id="@+id/HomePage_playing_now_bar"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:translationY="0dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintTop_toTopOf="parent"
+            android:layout_marginStart="-100dp" />
+        <Constraint
+            android:id="@+id/HomePage_song_cover"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="40dp"
+            android:translationY="0dp"
+            motion:layout_constraintTop_toTopOf="@id/HomePage_playing_now_bar"
+            motion:layout_constraintStart_toStartOf="@id/HomePage_playing_now_bar"
+            android:layout_marginTop="32dp"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/HomePage_song_name"
+            motion:layout_constraintEnd_toStartOf="@+id/HomePage_song_time"
+            motion:layout_constraintStart_toEndOf="@+id/HomePage_song_cover"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            motion:layout_constraintTop_toTopOf="@id/HomePage_playing_now_bar"
+            android:translationY="0dp"
+            android:layout_marginTop="32dp"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/HomePage_artist_name"
+            motion:layout_constraintEnd_toStartOf="@+id/HomePage_song_time"
+            motion:layout_constraintStart_toEndOf="@+id/HomePage_song_cover"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@+id/HomePage_song_name"
+            android:layout_marginStart="16dp"
+            android:translationY="0dp"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/HomePage_song_time"
+            motion:layout_constraintEnd_toEndOf="@id/HomePage_playing_now_bar"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="16dp"
+            android:translationY="0dp"
+            motion:layout_constraintTop_toTopOf="@id/HomePage_playing_now_bar"
+            android:layout_marginTop="32dp"
+            android:alpha="0" />
+        <Constraint
+            android:id="@+id/HomePage_play_pause_btn"
+            motion:layout_constraintEnd_toEndOf="@+id/HomePage_song_time"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            motion:layout_constraintBottom_toBottomOf="@+id/HomePage_song_time"
+            android:translationY="0dp"
+            motion:layout_constraintTop_toTopOf="@+id/HomePage_song_time"
+            motion:layout_constraintStart_toStartOf="@+id/HomePage_song_time"
+            android:alpha="0" />
     </ConstraintSet>
     <ConstraintSet
         android:id="@+id/song_up"
@@ -111,21 +117,88 @@
             motion:layout_constraintStart_toStartOf="parent"
             motion:layout_constraintTop_toTopOf="parent" />
     </ConstraintSet>
+    <ConstraintSet android:id="@+id/songShown" >
+        <Constraint
+            android:id="@+id/HomePage_play_pause_btn"
+            motion:layout_constraintEnd_toEndOf="@+id/HomePage_song_time"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            motion:layout_constraintBottom_toBottomOf="@+id/HomePage_song_time"
+            android:translationY="0dp"
+            motion:layout_constraintTop_toTopOf="@+id/HomePage_song_time"
+            motion:layout_constraintStart_toStartOf="@+id/HomePage_song_time" />
+        <Constraint
+            android:id="@+id/HomePage_song_time"
+            motion:layout_constraintEnd_toEndOf="@id/HomePage_playing_now_bar"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="16dp"
+            android:translationY="0dp"
+            motion:layout_constraintTop_toTopOf="@id/HomePage_playing_now_bar"
+            android:layout_marginTop="32dp" />
+        <Constraint
+            android:id="@+id/HomePage_song_name"
+            motion:layout_constraintEnd_toStartOf="@+id/HomePage_song_time"
+            motion:layout_constraintStart_toEndOf="@+id/HomePage_song_cover"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            motion:layout_constraintTop_toTopOf="@id/HomePage_playing_now_bar"
+            android:translationY="0dp"
+            android:layout_marginTop="32dp" />
+        <Constraint
+            android:id="@+id/HomePage_song_cover"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginStart="40dp"
+            android:translationY="0dp"
+            motion:layout_constraintTop_toTopOf="@id/HomePage_playing_now_bar"
+            motion:layout_constraintStart_toStartOf="@id/HomePage_playing_now_bar"
+            android:layout_marginTop="32dp" />
+        <Constraint
+            android:layout_height="0dp"
+            motion:layout_constraintStart_toStartOf="parent"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="0dp"
+            android:layout_marginStart="16dp"
+            motion:layout_constraintTop_toBottomOf="@+id/HomePage_textView"
+            android:id="@+id/HomePage_recyclerView"
+            motion:layout_constraintBottom_toTopOf="@+id/HomePage_playing_now_bar" />
+        <Constraint
+            android:id="@+id/HomePage_playing_now_bar"
+            motion:layout_constraintEnd_toEndOf="parent"
+            android:layout_width="match_parent"
+            android:layout_height="120dp"
+            motion:layout_constraintBottom_toBottomOf="parent"
+            android:layout_marginStart="75dp"
+            android:translationY="0dp"
+            motion:layout_constraintStart_toStartOf="parent" />
+        <Constraint
+            android:id="@+id/HomePage_artist_name"
+            motion:layout_constraintEnd_toStartOf="@+id/HomePage_song_time"
+            motion:layout_constraintStart_toEndOf="@+id/HomePage_song_cover"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            motion:layout_constraintTop_toBottomOf="@+id/HomePage_song_name"
+            android:layout_marginStart="16dp"
+            android:translationY="0dp" />
+    </ConstraintSet>
 
     <Transition
-        motion:constraintSetStart="@id/start"
+        motion:constraintSetStart="@id/songShown"
         motion:constraintSetEnd="@+id/bar_up"
         motion:duration="1000"/>
     <Transition
         android:id="@+id/open_song_transition"
-        motion:constraintSetStart="@+id/start"
+        motion:constraintSetStart="@+id/songShown"
         motion:constraintSetEnd="@+id/song_up"
         motion:duration="@integer/animationSpeed"/>
     <Transition
         motion:autoTransition="animateToEnd"
         motion:constraintSetStart="@+id/song_up"
         motion:constraintSetEnd="@+id/button_move"
-        motion:duration="@integer/animationSpeed" />
+        motion:duration="@integer/animationSpeed"
+        motion:motionInterpolator="linear" />
     <Transition
         android:id="@+id/back_transition"
         motion:constraintSetStart="@+id/button_move"
@@ -134,8 +207,19 @@
     <Transition
         motion:autoTransition="animateToEnd"
         motion:constraintSetStart="@+id/button_move_2"
-        motion:constraintSetEnd="@+id/start"
+        motion:constraintSetEnd="@+id/songShown"
         motion:duration="@integer/animationSpeed" />
+    <Transition
+        motion:constraintSetStart="@+id/start"
+        motion:constraintSetEnd="@+id/songShown"
+        android:id="@+id/showSong_transition" />
+    <Transition
+        motion:constraintSetStart="@+id/start"
+        motion:constraintSetEnd="@+id/bar_up" />
+    <Transition
+        motion:constraintSetStart="@+id/start"
+        motion:constraintSetEnd="@+id/song_up"
+        android:id="@+id/nobar_transition" />
 
 
 </MotionScene>

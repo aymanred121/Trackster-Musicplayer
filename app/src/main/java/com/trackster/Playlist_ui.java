@@ -58,6 +58,7 @@ public class Playlist_ui extends UI {
 
 
     }
+
     @Override
     public void onBackPressed() {
         if (isBarOpened) {
@@ -70,8 +71,8 @@ public class Playlist_ui extends UI {
     private void InitializingViews() {
 
         vBackButton = findViewById(R.id.Playlist_back_btn);
-        vSongsRecyclerView=findViewById(R.id.Playlist_recyclerview);
-         mContext=this;
+        vSongsRecyclerView = findViewById(R.id.Playlist_recyclerview);
+        mContext = this;
 
 
         vMain = findViewById(R.id.Playlist);
@@ -89,30 +90,32 @@ public class Playlist_ui extends UI {
         vToCover = findViewById(R.id.Playlist_playing_to_cover);
         vToLyrics = findViewById(R.id.Playlist_playing_to_lyrics);
         vSong = findViewById(R.id.Playlist_playing_scroll);
-        vBarSongName=findViewById(R.id.Playlist_song_name);
-        vBarArtistName=findViewById(R.id.Playlist_artist_name);
-        vBarSongCover=findViewById(R.id.Playlist_song_cover);
-        vSongName=findViewById(R.id.Playlist_playing_song_name);
-        vArtistName=findViewById(R.id.Playlist_playing_artist_name);
-        vSongCover=findViewById(R.id.Playlist_playing_song_cover);
+        vBarSongName = findViewById(R.id.Playlist_song_name);
+        vBarArtistName = findViewById(R.id.Playlist_artist_name);
+        vBarSongCover = findViewById(R.id.Playlist_song_cover);
+        vSongName = findViewById(R.id.Playlist_playing_song_name);
+        vArtistName = findViewById(R.id.Playlist_playing_artist_name);
+        vSongCover = findViewById(R.id.Playlist_playing_song_cover);
 
-        sync();
+        if (isExist)
+            sync();
 
 
     }
-    private void setupRecyclerView(){
+
+    private void setupRecyclerView() {
         vSongsRecyclerView.setHasFixedSize(true);
-        mSongsLayoutManager=new LinearLayoutManager(this, RecyclerView.VERTICAL,false);
-        mSongAdapter= new SongAdapter(R.layout.home_song_item);
+        mSongsLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
+        mSongAdapter = new SongAdapter(R.layout.home_song_item);
         vSongsRecyclerView.setLayoutManager(mSongsLayoutManager);
         vSongsRecyclerView.setAdapter(mSongAdapter);
-        vSongsRecyclerView.addItemDecoration(new DividerItemDecoration(this,DividerItemDecoration.VERTICAL));
+        vSongsRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mViewModel = new ViewModelProvider(this).get(roomViewModel.class);
         mViewModel.getAlltracksfromplaylist("favourites").observe(this, new Observer<List<Track>>() {
             @Override
             public void onChanged(@Nullable List<Track> tracks) {
                 mSongAdapter.setSongsList(tracks);
-                mCurrentList=tracks;
+                mCurrentList = tracks;
             }
         });
 

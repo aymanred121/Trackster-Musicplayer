@@ -57,8 +57,6 @@ public class UI extends AppCompatActivity {
     protected ImageView vBarSongCover;
 
 
-
-
     // globals
     protected static MediaPlayer mAudio;
     protected static Track mPlayingNow;
@@ -67,6 +65,7 @@ public class UI extends AppCompatActivity {
     protected static int progress = 0;
     protected static boolean playing = false;
     protected static Context mContext;
+    protected static boolean isExist = false;
     public static final String SHAREDPREF = "SHAREDPERF";
     public static final String ID = "ID";
     public static final String QUEUEPOS = "QUEUEPOS";
@@ -82,13 +81,18 @@ public class UI extends AppCompatActivity {
     private void setPlayButton() {
         if (vPlayToggle.isChecked()) {
             vPlayButton.setIcon(getResources().getDrawable(R.drawable.playing));
-            mAudio.start();
-        }
-        else {
+        } else {
             vPlayButton.setIcon(getResources().getDrawable(R.drawable.paused));
-            mAudio.pause();
         }
     }
+
+    private void playSong(){
+        if(playing)
+            mAudio.start();
+        else
+            mAudio.pause();
+    }
+
 
     protected void goBack() {
         vMain.setTransition(R.id.back_transition);
@@ -104,29 +108,27 @@ public class UI extends AppCompatActivity {
             if (drawable instanceof AnimatedVectorDrawableCompat) {
                 avdc = (AnimatedVectorDrawableCompat) drawable;
                 avdc.start();
-            } else if (drawable instanceof AnimatedVectorDrawable) {
+            }
+            else if (drawable instanceof AnimatedVectorDrawable) {
                 avd = (AnimatedVectorDrawable) drawable;
                 avd.start();
             }
-
-            // pause music code
-            mAudio.pause();
-        } else {
+        }
+        else {
             vPlayButton.setIcon(getResources().getDrawable(R.drawable.paused));
             Drawable drawable = vPlayButton.getIcon();
             if (drawable instanceof AnimatedVectorDrawableCompat) {
                 avdc = (AnimatedVectorDrawableCompat) drawable;
                 avdc.start();
-            } else if (drawable instanceof AnimatedVectorDrawable) {
+            }
+            else if (drawable instanceof AnimatedVectorDrawable) {
                 avd = (AnimatedVectorDrawable) drawable;
                 avd.start();
             }
-
-            //play music code
-            mAudio.start();
         }
         vPlayToggle.setChecked(!vPlayToggle.isChecked());
         playing = vPlayToggle.isChecked();
+        playSong();
 
     }
 
@@ -158,14 +160,17 @@ public class UI extends AppCompatActivity {
         vPlayToggle.setChecked(playing);
         setPlayButton();
         setupSong();
-
-
+        // TODO: sync progress, side Note: PlayButton seems Active only in their layouts once you leave the layout they are useless
 
     }
 
     private void openBar() {
         if (!isBarOpened) {
-            vMain.setTransition(R.id.open_song_transition);
+            if (isExist)
+                vMain.setTransition(R.id.open_song_transition);
+            else
+                vMain.setTransition(R.id.nobar_transition);
+
             vMain.transitionToEnd();
             isBarOpened = true;
         }
@@ -173,22 +178,22 @@ public class UI extends AppCompatActivity {
     }
 
     protected void setupSong() {
+        mAudio = MediaPlayer.create(mContext, Uri.parse(mPlayingNow.getLocation()));
         vSongName.setText(mPlayingNow.getName());
         vBarSongName.setText(mPlayingNow.getName());
         vArtistName.setText(mPlayingNow.getArtistName());
         vBarArtistName.setText(mPlayingNow.getArtistName());
-        if(mPlayingNow.getName().length() > 20)
+        if (mPlayingNow.getName().length() > 20)
             vSongName.setSelected(true);
-        if(mPlayingNow.getArtistName().length() > 20)
+        if (mPlayingNow.getArtistName().length() > 20)
             vArtistName.setSelected(true);
-        if(mPlayingNow.getCover()!=null)
-        {
+        if (mPlayingNow.getCover() != null) {
             vSongCover.setImageBitmap(BitmapFactory.decodeByteArray(mPlayingNow.getCover(), 0, mPlayingNow.getCover().length));
             vBarSongCover.setImageBitmap(BitmapFactory.decodeByteArray(mPlayingNow.getCover(), 0, mPlayingNow.getCover().length));
         }
     }
 
-    private void updateLastPlayedSong(){
+    private void updateLastPlayedSong() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHAREDPREF, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(ID, mPlayingNow.getID());
@@ -212,7 +217,6 @@ public class UI extends AppCompatActivity {
     };
 
 
-
     protected View.OnClickListener lPlayButton = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -224,6 +228,7 @@ public class UI extends AppCompatActivity {
         public void onClick(View v) {
             playing = vPlayToggle.isChecked();
             setPlayButton();
+            playSong();
         }
     };
     protected View.OnClickListener lFavouritesToggle = new View.OnClickListener() {
@@ -288,16 +293,17 @@ public class UI extends AppCompatActivity {
     protected SongAdapter.OnItemClickListener lSongAdapter = new SongAdapter.OnItemClickListener() {
         @Override
         public void onSongClick(int position) {
-            mQueue=mCurrentList;
+            mQueue = mCurrentList;
             mPlayingNow = mCurrentList.get(position);
-            mAudio=MediaPlayer.create(mContext, Uri.parse(mPlayingNow.getLocation()));
-            mAudio.start();
-            playing=true;
+            playing = true;
             vPlayToggle.setChecked(true);
             setPlayButton();
             openBar();
+            mAudio.release();
+            isExist = true;
             setupSong();
             updateLastPlayedSong();
+            mAudio.start();
 
         }
     };

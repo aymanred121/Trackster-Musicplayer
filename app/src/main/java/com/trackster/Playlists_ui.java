@@ -93,8 +93,13 @@ public class Playlists_ui extends UI {
         vArtistName = findViewById(R.id.Playlists_playing_artist_name);
         vSongCover = findViewById(R.id.Playlists_playing_song_cover);
 
-        if (isExist)
+        if (isExist) {
             sync();
+            vMain.setTransition(R.id.open_withbar_transition);
+        } else
+            vMain.setTransition(R.id.open_withoutbar_transition);
+
+        vMain.transitionToStart();
 
 
     }
@@ -115,38 +120,11 @@ public class Playlists_ui extends UI {
         });
     }
 
-    private void close() {
-        vMain.setTransition(R.id.close_transition);
-        vMain.transitionToEnd();
-        vMain.setTransitionListener(lMain);
-    }
-
     // Listeners
     private View.OnClickListener lBackButton = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             close();
-        }
-    };
-    private MotionLayout.TransitionListener lMain = new MotionLayout.TransitionListener() {
-        @Override
-        public void onTransitionStarted(MotionLayout motionLayout, int startId, int endId) {
-
-        }
-
-        @Override
-        public void onTransitionChange(MotionLayout motionLayout, int startId, int endId, float progress) {
-
-        }
-
-        @Override
-        public void onTransitionCompleted(MotionLayout motionLayout, int currentId) {
-            Playlists_ui.super.onBackPressed();
-        }
-
-        @Override
-        public void onTransitionTrigger(MotionLayout motionLayout, int triggerId, boolean positive, float progress) {
-
         }
     };
 }

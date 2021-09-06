@@ -93,7 +93,14 @@ public class UI extends AppCompatActivity {
             mAudio.pause();
     }
 
-
+    protected void close() {
+        if (isExist)
+            vMain.setTransition(R.id.withbar_close_transition);
+        else
+            vMain.setTransition(R.id.withoutbar_close_transition);
+        vMain.transitionToEnd();
+        vMain.setTransitionListener(lMain);
+    }
     protected void goBack() {
         vMain.setTransition(R.id.back_transition);
         vMain.transitionToEnd();
@@ -299,11 +306,33 @@ public class UI extends AppCompatActivity {
             vPlayToggle.setChecked(true);
             setPlayButton();
             openBar();
+            if(mAudio != null)
             mAudio.release();
             isExist = true;
             setupSong();
             updateLastPlayedSong();
             mAudio.start();
+
+        }
+    };
+    private MotionLayout.TransitionListener lMain = new MotionLayout.TransitionListener() {
+        @Override
+        public void onTransitionStarted(MotionLayout motionLayout, int startId, int endId) {
+
+        }
+
+        @Override
+        public void onTransitionChange(MotionLayout motionLayout, int startId, int endId, float progress) {
+
+        }
+
+        @Override
+        public void onTransitionCompleted(MotionLayout motionLayout, int currentId) {
+            UI.super.onBackPressed();
+        }
+
+        @Override
+        public void onTransitionTrigger(MotionLayout motionLayout, int triggerId, boolean positive, float progress) {
 
         }
     };

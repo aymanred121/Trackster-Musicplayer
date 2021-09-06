@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!--TODO update scene -->
 <androidx.constraintlayout.motion.widget.MotionLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -80,7 +79,7 @@
         android:layout_marginStart="75dp"
         android:layout_marginTop="32dp"
         android:overScrollMode="never"
-        app:layout_constraintBottom_toTopOf="@id/Playlist_playing_now_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/Playlist_WhiteBg" />
@@ -91,6 +90,7 @@
         android:layout_height="120dp"
         android:layout_marginStart="75dp"
         android:background="@drawable/playing_now_bar"
+        android:translationY="120dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -102,6 +102,7 @@
         android:layout_marginStart="40dp"
         android:layout_marginTop="32dp"
         android:src="@drawable/music_note"
+        android:translationY="120dp"
         app:layout_constraintStart_toStartOf="@id/Playlist_playing_now_bar"
         app:layout_constraintTop_toTopOf="@id/Playlist_playing_now_bar" />
 
@@ -120,6 +121,7 @@
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="bold"
+        android:translationY="120dp"
         app:layout_constraintEnd_toStartOf="@+id/Playlist_song_time"
         app:layout_constraintStart_toEndOf="@+id/Playlist_song_cover"
         app:layout_constraintTop_toTopOf="@id/Playlist_playing_now_bar" />
@@ -139,6 +141,7 @@
         android:textColor="@android:color/white"
         android:textSize="16dp"
         android:textStyle="bold"
+        android:translationY="120dp"
         app:layout_constraintEnd_toStartOf="@+id/Playlist_song_time"
         app:layout_constraintStart_toEndOf="@+id/Playlist_song_cover"
         app:layout_constraintTop_toBottomOf="@+id/Playlist_song_name" />
@@ -152,6 +155,7 @@
         android:layout_marginEnd="16dp"
         android:indeterminateOnly="false"
         android:progressDrawable="@drawable/circle"
+        android:translationY="120dp"
         app:layout_constraintEnd_toEndOf="@id/Playlist_playing_now_bar"
         app:layout_constraintTop_toTopOf="@id/Playlist_playing_now_bar"
         tools:progress="50" />
@@ -164,6 +168,7 @@
         android:checked="true"
         android:textOff=""
         android:textOn=""
+        android:translationY="120dp"
         app:layout_constraintBottom_toBottomOf="@+id/Playlist_song_time"
         app:layout_constraintEnd_toEndOf="@+id/Playlist_song_time"
         app:layout_constraintStart_toStartOf="@+id/Playlist_song_time"

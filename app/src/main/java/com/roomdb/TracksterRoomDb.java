@@ -10,6 +10,7 @@ import androidx.room.RoomDatabase;
 import androidx.sqlite.db.SupportSQLiteDatabase;
 
 import com.trackster.AudioModelDB;
+import com.trackster.Trackinfo;
 
 import java.util.Set;
 
@@ -42,6 +43,7 @@ public abstract class TracksterRoomDb extends RoomDatabase {
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
             new fillDataAsyncTask(instence).execute();
+            new fillDataAsyncTask(instence).execute();
         }
 
         @Override
@@ -68,7 +70,7 @@ public abstract class TracksterRoomDb extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
-            //TODO find a way to excute the image loader after scanning the files
+            //TODO find a way to execute the image loader after scanning the files
             audioModelDB.scanDeviceForMp3Files();
             Set tracks=audioModelDB.getTracks();
             mplaylistDao.insert(new Playlist("favourites"));

@@ -125,6 +125,8 @@ public class MainActivity extends UI {
         vSongName = findViewById(R.id.HomePage_playing_song_name);
         vArtistName = findViewById(R.id.HomePage_playing_artist_name);
         vSongCover = findViewById(R.id.HomePage_playing_song_cover);
+        vSongLyrics = findViewById(R.id.HomePage_playing_lyrics);
+
 
 
     }

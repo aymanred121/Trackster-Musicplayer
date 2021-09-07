@@ -95,6 +95,7 @@ public class Favourites_ui extends UI {
         vSongName = findViewById(R.id.Favourites_playing_song_name);
         vArtistName = findViewById(R.id.Favourites_playing_artist_name);
         vSongCover = findViewById(R.id.Favourites_playing_song_cover);
+        vSongLyrics = findViewById(R.id.Favourites_playing_lyrics);
 
 
         if (isExist) {

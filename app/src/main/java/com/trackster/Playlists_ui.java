@@ -92,6 +92,8 @@ public class Playlists_ui extends UI {
         vSongName = findViewById(R.id.Playlists_playing_song_name);
         vArtistName = findViewById(R.id.Playlists_playing_artist_name);
         vSongCover = findViewById(R.id.Playlists_playing_song_cover);
+        vSongLyrics = findViewById(R.id.Playlists_playing_lyrics);
+
 
         if (isExist) {
             sync();

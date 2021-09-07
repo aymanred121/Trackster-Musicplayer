@@ -8,6 +8,9 @@ import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.view.View;
+import android.view.animation.Animation;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.RotateAnimation;
 import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -22,7 +25,9 @@ import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 import com.Adapters.SongAdapter;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
+import com.roomdb.Contains;
 import com.roomdb.Track;
+import com.roomdb.TracksterRoomDb;
 
 import java.util.List;
 import java.util.logging.Handler;
@@ -57,6 +62,7 @@ public class UI extends AppCompatActivity {
     protected TextView vBarSongName;
     protected TextView vBarArtistName;
     protected ImageView vBarSongCover;
+    protected TextView vSongLyrics;
 
 
     // globals
@@ -77,6 +83,9 @@ public class UI extends AppCompatActivity {
     protected AnimatedVectorDrawableCompat avdc;
     protected AnimatedVectorDrawable avd;
     protected PlayingState playingState = Repeat;
+    private static final RotateAnimation rotateAnimation = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+    private static final RotateAnimation BarrotateAnimation = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+
 
     // functions
     protected void setPlayButton() {
@@ -89,9 +98,19 @@ public class UI extends AppCompatActivity {
 
     protected void playSong() {
         if (playing)
+        {
             mAudio.start();
+            coverAnimation();
+            vBarSongCover.startAnimation(rotateAnimation);
+            vSongCover.startAnimation(BarrotateAnimation);
+
+        }
         else
+        {
             mAudio.pause();
+            rotateAnimation.cancel();
+            BarrotateAnimation.cancel();
+        }
         runOnUiThread(rSongTimer);
     }
 
@@ -193,6 +212,13 @@ public class UI extends AppCompatActivity {
             vSongName.setSelected(true);
         if (mPlayingNow.getArtistName().length() > 20)
             vArtistName.setSelected(true);
+        if(mPlayingNow.getLyrics().trim().isEmpty())
+        new Trackinfo(this,mPlayingNow);
+        vSongLyrics.setText(mPlayingNow.getLyrics());
+        if(TracksterRoomDb.getInstance(getApplicationContext()).containsDao().isExist(mPlayingNow.getID(),"favourites")){
+            vFavouritesToggle.setChecked(true);
+        }else
+            vFavouritesToggle.setChecked(false);
 
         Glide.with(vSongCover.getContext())
                 .load(mPlayingNow.getCover())
@@ -233,6 +259,16 @@ public class UI extends AppCompatActivity {
         playSong();
     }
 
+    private void coverAnimation(){
+        rotateAnimation.setInterpolator(new LinearInterpolator());
+        rotateAnimation.setRepeatCount(Animation.INFINITE);
+        rotateAnimation.setDuration(30000);
+        BarrotateAnimation.setInterpolator(new LinearInterpolator());
+        BarrotateAnimation.setRepeatCount(Animation.INFINITE);
+        BarrotateAnimation.setDuration(30000);
+
+    }
+
     // listeners
     protected View.OnClickListener lPlayingNowBackButton = new View.OnClickListener() {
         @Override
@@ -265,7 +301,10 @@ public class UI extends AppCompatActivity {
     protected View.OnClickListener lFavouritesToggle = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            if(!vFavouritesToggle.isChecked()){
+                TracksterRoomDb.getInstance(getApplicationContext()).containsDao().delete(new Contains("favourites",mPlayingNow.getID()));
+            }else
+                TracksterRoomDb.getInstance(getApplicationContext()).containsDao().insert(new Contains("favourites",mPlayingNow.getID()));
         }
     };
     protected View.OnClickListener lAddToPlaylist = new View.OnClickListener() {

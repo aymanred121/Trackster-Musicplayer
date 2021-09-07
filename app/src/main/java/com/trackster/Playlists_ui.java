@@ -95,6 +95,7 @@ public class Playlists_ui extends UI {
 
         if (isExist) {
             sync();
+            rSongTimer.run();
             vMain.setTransition(R.id.open_withbar_transition);
         } else
             vMain.setTransition(R.id.open_withoutbar_transition);

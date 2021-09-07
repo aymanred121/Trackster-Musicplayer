@@ -24,6 +24,7 @@ import com.google.android.material.button.MaterialButton;
 import com.roomdb.Track;
 
 import java.util.List;
+import java.util.logging.Handler;
 
 import hiennguyen.me.circleseekbar.CircleSeekBar;
 
@@ -64,7 +65,6 @@ public class UI extends AppCompatActivity {
     protected static List<Track> mCurrentList;
     protected static int progress = 0;
     protected static boolean playing = false;
-    protected static Context mContext;
     protected static boolean isExist = false;
     public static final String SHAREDPREF = "SHAREDPERF";
     public static final String ID = "ID";
@@ -78,7 +78,7 @@ public class UI extends AppCompatActivity {
     protected PlayingState playingState = Repeat;
 
     // functions
-    private void setPlayButton() {
+    protected void setPlayButton() {
         if (vPlayToggle.isChecked()) {
             vPlayButton.setIcon(getResources().getDrawable(R.drawable.playing));
         } else {
@@ -86,11 +86,12 @@ public class UI extends AppCompatActivity {
         }
     }
 
-    private void playSong(){
-        if(playing)
+    protected void playSong() {
+        if (playing)
             mAudio.start();
         else
             mAudio.pause();
+        runOnUiThread(rSongTimer);
     }
 
     protected void close() {
@@ -101,6 +102,7 @@ public class UI extends AppCompatActivity {
         vMain.transitionToEnd();
         vMain.setTransitionListener(lMain);
     }
+
     protected void goBack() {
         vMain.setTransition(R.id.back_transition);
         vMain.transitionToEnd();
@@ -115,8 +117,7 @@ public class UI extends AppCompatActivity {
             if (drawable instanceof AnimatedVectorDrawableCompat) {
                 avdc = (AnimatedVectorDrawableCompat) drawable;
                 avdc.start();
-            }
-            else if (drawable instanceof AnimatedVectorDrawable) {
+            } else if (drawable instanceof AnimatedVectorDrawable) {
                 avd = (AnimatedVectorDrawable) drawable;
                 avd.start();
             }
@@ -127,8 +128,7 @@ public class UI extends AppCompatActivity {
             if (drawable instanceof AnimatedVectorDrawableCompat) {
                 avdc = (AnimatedVectorDrawableCompat) drawable;
                 avdc.start();
-            }
-            else if (drawable instanceof AnimatedVectorDrawable) {
+            } else if (drawable instanceof AnimatedVectorDrawable) {
                 avd = (AnimatedVectorDrawable) drawable;
                 avd.start();
             }
@@ -167,11 +167,10 @@ public class UI extends AppCompatActivity {
         vPlayToggle.setChecked(playing);
         setPlayButton();
         setupSong();
-        // TODO: sync progress, side Note: PlayButton seems Active only in their layouts once you leave the layout they are useless
 
     }
 
-    private void openBar() {
+    protected void openBar() {
         if (!isBarOpened) {
             if (isExist)
                 vMain.setTransition(R.id.open_song_transition);
@@ -185,7 +184,6 @@ public class UI extends AppCompatActivity {
     }
 
     protected void setupSong() {
-        mAudio = MediaPlayer.create(mContext, Uri.parse(mPlayingNow.getLocation()));
         vSongName.setText(mPlayingNow.getName());
         vBarSongName.setText(mPlayingNow.getName());
         vArtistName.setText(mPlayingNow.getArtistName());
@@ -200,13 +198,27 @@ public class UI extends AppCompatActivity {
         }
     }
 
-    private void updateLastPlayedSong() {
+    protected void updateLastPlayedSong() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHAREDPREF, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(ID, mPlayingNow.getID());
 //        editor.putInt(QUEUEPOS,trackPosition);
 //        editor.putInt(ORIGIN,queueState);
         editor.apply();
+    }
+
+    protected void openSong(){
+        playing = true;
+        vPlayToggle.setChecked(true);
+        setPlayButton();
+        openBar();
+        if (mAudio != null)
+            mAudio.release();
+        isExist = true;
+        setupSong();
+        updateLastPlayedSong();
+        mAudio = MediaPlayer.create(MainActivity.mContext, Uri.parse(mPlayingNow.getLocation()));
+        playSong();
     }
 
     // listeners
@@ -283,38 +295,25 @@ public class UI extends AppCompatActivity {
     protected CircleSeekBar.OnSeekBarChangedListener lSongSeekBar = new CircleSeekBar.OnSeekBarChangedListener() {
         @Override
         public void onPointsChanged(CircleSeekBar circleSeekBar, int points, boolean fromUser) {
-            vSongProgressBar.setProgress(points);
+            if (fromUser) {
+                progress = (int) (points * (float) mAudio.getDuration() / 100);
+                mAudio.seekTo(progress);
+            }
             progress = points;
+            vSongProgressBar.setProgress(progress);
         }
 
         @Override
         public void onStartTrackingTouch(CircleSeekBar circleSeekBar) {
-
+            mAudio.pause();
         }
 
         @Override
         public void onStopTrackingTouch(CircleSeekBar circleSeekBar) {
-
-        }
-    };
-    protected SongAdapter.OnItemClickListener lSongAdapter = new SongAdapter.OnItemClickListener() {
-        @Override
-        public void onSongClick(int position) {
-            mQueue = mCurrentList;
-            mPlayingNow = mCurrentList.get(position);
-            playing = true;
-            vPlayToggle.setChecked(true);
-            setPlayButton();
-            openBar();
-            if(mAudio != null)
-            mAudio.release();
-            isExist = true;
-            setupSong();
-            updateLastPlayedSong();
             mAudio.start();
-
         }
     };
+
     private MotionLayout.TransitionListener lMain = new MotionLayout.TransitionListener() {
         @Override
         public void onTransitionStarted(MotionLayout motionLayout, int startId, int endId) {
@@ -336,5 +335,15 @@ public class UI extends AppCompatActivity {
 
         }
     };
-
+    protected Runnable rSongTimer = new Runnable() {
+        @Override
+        public void run() {
+            if (mAudio != null) {
+                // TODO getduration equals 0 if the audio hasn't been played
+                progress = mAudio.getCurrentPosition() * 100 / mAudio.getDuration();
+                vSongSeekBar.setProgressDisplayAndInvalidate(progress);
+            }
+            MainActivity.mHandler.postDelayed(this, 300);
+        }
+    };
 }

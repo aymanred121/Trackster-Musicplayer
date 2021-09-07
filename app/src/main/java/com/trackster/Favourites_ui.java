@@ -1,5 +1,7 @@
 package com.trackster;
 
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
@@ -29,6 +31,7 @@ public class Favourites_ui extends UI {
     private RecyclerView.LayoutManager mSongsLayoutManager;
     private SongAdapter mSongAdapter;
     private roomViewModel mViewModel;
+    private List<Track> mTrackList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +72,6 @@ public class Favourites_ui extends UI {
 
         vBackButton = findViewById(R.id.Favourites_back_btn);
         vSongsRecyclerView = findViewById(R.id.Favourites_recyclerview);
-        mContext = this;
 
 
         vMain = findViewById(R.id.Favourites);
@@ -97,6 +99,7 @@ public class Favourites_ui extends UI {
 
         if (isExist) {
             sync();
+            rSongTimer.run();
             vMain.setTransition(R.id.open_withbar_transition);
         } else
             vMain.setTransition(R.id.open_withoutbar_transition);
@@ -126,6 +129,14 @@ public class Favourites_ui extends UI {
         @Override
         public void onClick(View v) {
             close();
+        }
+    };
+    private SongAdapter.OnItemClickListener lSongAdapter = new SongAdapter.OnItemClickListener() {
+        @Override
+        public void onSongClick(int position) {
+            mQueue = mTrackList;
+            mPlayingNow = mTrackList.get(position);
+            openSong();
         }
     };
 

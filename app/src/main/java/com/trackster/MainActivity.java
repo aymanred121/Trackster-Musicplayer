@@ -2,10 +2,14 @@ package com.trackster;
 
 import android.Manifest;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.widget.EditText;
 
@@ -41,13 +45,13 @@ public class MainActivity extends UI {
     private SongAdapter mSongAdapter;
     private roomViewModel mViewModel;
     private List<Track> mTrackList;
-
+    public static Context mContext;
+    public static Handler mHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
         setPermissionAndDB();
         InitializingViews();
         setupRecyclerView();
@@ -74,7 +78,8 @@ public class MainActivity extends UI {
     @Override
     protected void onResume() {
         super.onResume();
-        retrieveLastPlayedSong();
+        if (mPlayingNow == null)
+            retrieveLastPlayedSong();
         if (mPlayingNow != null && mAudio != null)
             sync();
 
@@ -146,7 +151,6 @@ public class MainActivity extends UI {
             public void onChanged(@Nullable List<Track> tracks) {
                 mSongAdapter.setSongsList(tracks);
                 mTrackList = tracks;
-                mCurrentList = tracks;
             }
         });
     }
@@ -157,6 +161,7 @@ public class MainActivity extends UI {
         vMain.setTransition(R.id.showSong_transition);
         if (isExist) {
             mPlayingNow = TracksterRoomDb.getInstance(this).trackDao().getTrackByID(sharedPreferences.getInt(ID, -1));
+            mAudio = MediaPlayer.create(this, Uri.parse(mPlayingNow.getLocation()));
             setupSong();
             vMain.transitionToEnd();
 //            trackPosition=sharedPreferences.getInt(QUEUEPOS,-1);
@@ -189,6 +194,14 @@ public class MainActivity extends UI {
         @Override
         public void onClick(View v) {
             openPlaylists();
+        }
+    };
+    private SongAdapter.OnItemClickListener lSongAdapter = new SongAdapter.OnItemClickListener() {
+        @Override
+        public void onSongClick(int position) {
+            mQueue = mTrackList;
+            mPlayingNow = mTrackList.get(position);
+            openSong();
         }
     };
 

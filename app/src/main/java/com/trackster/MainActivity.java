@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Adapters.SongAdapter;
+import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.roomdb.Track;
 import com.roomdb.TracksterRoomDb;
@@ -176,6 +177,9 @@ public class MainActivity extends UI {
         }
 
     }
+
+
+
 
 
     // listeners

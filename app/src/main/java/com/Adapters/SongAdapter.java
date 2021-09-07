@@ -12,7 +12,9 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 
+import com.bumptech.glide.Glide;
 import com.roomdb.Track;
+import com.trackster.AudioModelDB;
 import com.trackster.R;
 
 import java.util.ArrayList;
@@ -109,8 +111,13 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ExampleViewHol
             holder.mSongName.setSelected(true);
         if(currentSong.getArtistName().length() > 20)
             holder.mArtistName.setSelected(true);
-        if(currentSong.getCover()!=null)
-        holder.mSongImage.setImageBitmap(BitmapFactory.decodeByteArray(currentSong.getCover(), 0, currentSong.getCover().length));
+
+        Glide.with(holder.mSongImage.getContext())
+                .load(currentSong.getCover())
+                .placeholder(R.drawable.music_note)
+                .error(R.drawable.music_note)
+                .dontAnimate()
+                .into(holder.mSongImage);
 
         if (mItemLayout == R.layout.song_item) {
             holder.mSongTime.setText(getTime(currentSong.getDuration()/1000));

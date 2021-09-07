@@ -2,32 +2,30 @@ package com.roomdb;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Index;
 import androidx.room.PrimaryKey;
 
 @Entity
 public  class Track  {
-    @PrimaryKey(autoGenerate = true)
+    @PrimaryKey(autoGenerate = false)
     private int ID;
     private String location;
     private String name;
-
     private String lyrics;
     private String ArtistName;
     private String AlbumName;
-    private int duration;
+    private String Cover;
+    private int Duration;
 
-
-    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
-    private byte[] Cover;
-
-    public Track( String location, String name, String lyrics, String ArtistName, String AlbumName,byte[] Cover,int duration) {
+    public Track( String location, String name, String lyrics, String ArtistName, String AlbumName, int ID, int Duration, String Cover) {
         this.location = location;
         this.name = name;
         this.lyrics = lyrics;
         this.ArtistName = ArtistName;
         this.AlbumName = AlbumName;
         this.Cover=Cover;
-        this.duration=duration;
+        this.ID=ID;
+        this.Duration=Duration;
     }
 
 
@@ -55,7 +53,7 @@ public  class Track  {
         return ArtistName;
     }
 
-    public byte[] getCover() {
+    public String getCover() {
         return Cover;
     }
 
@@ -64,7 +62,7 @@ public  class Track  {
     }
 
     public int getDuration() {
-        return duration;
+        return Duration;
     }
 }
 

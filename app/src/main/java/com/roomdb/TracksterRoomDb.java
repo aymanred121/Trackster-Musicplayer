@@ -47,6 +47,7 @@ public abstract class TracksterRoomDb extends RoomDatabase {
         @Override
         public void onOpen(@NonNull SupportSQLiteDatabase db) {
             super.onOpen(db);
+            new fillDataAsyncTask(instence).execute();
         }
     };
 
@@ -67,6 +68,7 @@ public abstract class TracksterRoomDb extends RoomDatabase {
 
         @Override
         protected Void doInBackground(Void... voids) {
+            //TODO find a way to excute the image loader after scanning the files
             audioModelDB.scanDeviceForMp3Files();
             Set tracks=audioModelDB.getTracks();
             mplaylistDao.insert(new Playlist("favourites"));
@@ -75,9 +77,11 @@ public abstract class TracksterRoomDb extends RoomDatabase {
                         ((String[])track)[1],
                         (((String[])track)[2]),
                         (((String[])track)[3]),
-                        ((String[])track)[4],audioModelDB.getAlbumImage(((String[])track)[0]),
-                        Integer.parseInt(((String[])track)[5])
-                ));
+                        ((String[])track)[4],
+                        Integer.parseInt(((String[])track)[5]),
+                        Integer.parseInt(((String[])track)[6]),
+                      ((String[])track)[7]
+                      ));
             }
             return null;
         }

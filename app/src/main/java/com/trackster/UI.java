@@ -20,6 +20,7 @@ import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
 import com.Adapters.SongAdapter;
+import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.roomdb.Track;
 
@@ -194,10 +195,21 @@ public class UI extends AppCompatActivity {
             vSongName.setSelected(true);
         if (mPlayingNow.getArtistName().length() > 20)
             vArtistName.setSelected(true);
-        if (mPlayingNow.getCover() != null) {
-            vSongCover.setImageBitmap(BitmapFactory.decodeByteArray(mPlayingNow.getCover(), 0, mPlayingNow.getCover().length));
-            vBarSongCover.setImageBitmap(BitmapFactory.decodeByteArray(mPlayingNow.getCover(), 0, mPlayingNow.getCover().length));
-        }
+
+        Glide.with(vSongCover.getContext())
+                .load(mPlayingNow.getCover())
+                .placeholder(R.drawable.music_note)
+                .error(R.drawable.music_note)
+                .dontAnimate()
+                .into(vSongCover);
+
+        Glide.with(vBarSongCover.getContext())
+                .load(mPlayingNow.getCover())
+                .placeholder(R.drawable.music_note)
+                .error(R.drawable.music_note)
+                .dontAnimate()
+                .into(vBarSongCover);
+
     }
 
     private void updateLastPlayedSong() {

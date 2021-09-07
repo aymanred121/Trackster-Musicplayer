@@ -29,7 +29,9 @@ import com.roomdb.Contains;
 import com.roomdb.Track;
 import com.roomdb.TracksterRoomDb;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 import java.util.logging.Handler;
 
 import hiennguyen.me.circleseekbar.CircleSeekBar;
@@ -65,6 +67,7 @@ public class UI extends AppCompatActivity {
     protected TextView vSongLyrics;
 
 
+
     // globals
     protected static MediaPlayer mAudio;
     protected static Track mPlayingNow;
@@ -77,14 +80,23 @@ public class UI extends AppCompatActivity {
     public static final String ID = "ID";
     public static final String QUEUEPOS = "QUEUEPOS";
     public static final String ORIGIN = "ORIGIN";
+    public static final String PLAYLISTNAME = "PLAYLISTNAME";
+    protected static int trackPosition;
+    protected  enum  queueState{
+        main,favourites,playlist
+    };
+    protected static queueState state;
+    protected static String mPlaylistName;
+
 
     // variables
     protected boolean isBarOpened = false;
     protected AnimatedVectorDrawableCompat avdc;
+    private MainActivity activity;
     protected AnimatedVectorDrawable avd;
     protected PlayingState playingState = Repeat;
-    private static final RotateAnimation rotateAnimation = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-    private static final RotateAnimation BarrotateAnimation = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+    private  final RotateAnimation rotateAnimation = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+    private  final RotateAnimation BarrotateAnimation = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
 
     // functions
@@ -212,9 +224,7 @@ public class UI extends AppCompatActivity {
             vSongName.setSelected(true);
         if (mPlayingNow.getArtistName().length() > 20)
             vArtistName.setSelected(true);
-        if(mPlayingNow.getLyrics().trim().isEmpty())
-        new Trackinfo(this,mPlayingNow);
-        vSongLyrics.setText(mPlayingNow.getLyrics());
+        updateLyrics();
         if(TracksterRoomDb.getInstance(getApplicationContext()).containsDao().isExist(mPlayingNow.getID(),"favourites")){
             vFavouritesToggle.setChecked(true);
         }else
@@ -236,27 +246,100 @@ public class UI extends AppCompatActivity {
 
     }
 
+    protected void updateLyrics() {
+        if(mPlayingNow.getLyrics().trim().isEmpty())
+            new Trackinfo(this,mPlayingNow);
+        vSongLyrics.setText(mPlayingNow.getLyrics());
+    }
+
     protected void updateLastPlayedSong() {
         SharedPreferences sharedPreferences = getSharedPreferences(SHAREDPREF, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(ID, mPlayingNow.getID());
-//        editor.putInt(QUEUEPOS,trackPosition);
-//        editor.putInt(ORIGIN,queueState);
+        editor.putInt(QUEUEPOS,trackPosition);
+        editor.putInt(ORIGIN,state.ordinal());
+        if(state==queueState.main)
+        editor.putString(PLAYLISTNAME,"MAIN");
+        else if(state == queueState.favourites)
+            editor.putString(PLAYLISTNAME,"favourites");
+        else
+            editor.putString(PLAYLISTNAME,mPlaylistName);
         editor.apply();
     }
 
-    protected void openSong(){
+    protected   void openSong(){
         playing = true;
         vPlayToggle.setChecked(true);
         setPlayButton();
         openBar();
-        if (mAudio != null)
-            mAudio.release();
+        mediaPlayerRelease();
         isExist = true;
         setupSong();
         updateLastPlayedSong();
-        mAudio = MediaPlayer.create(MainActivity.mContext, Uri.parse(mPlayingNow.getLocation()));
+        mAudio = MediaPlayer.create(this, Uri.parse(mPlayingNow.getLocation()));
         playSong();
+    }
+    protected   void setSong() {
+        mediaPlayerRelease();
+        mAudio=MediaPlayer.create(this, Uri.parse(mPlayingNow.getLocation()));
+        mAudio.start();
+        vPlayButton.setIcon(getResources().getDrawable(R.drawable.playing));
+        vFavouritesToggle.setChecked(TracksterRoomDb.getInstance(this).containsDao().isExist(mPlayingNow.getID(),"favourites"));
+        vPlayToggle.setChecked(true);
+
+        Glide.with(vSongCover.getContext())
+                .load(mPlayingNow.getCover())
+                .placeholder(R.drawable.music_note)
+                .error(R.drawable.music_note)
+                .dontAnimate()
+                .into(vSongCover);
+
+        Glide.with(vBarSongCover.getContext())
+                .load(mPlayingNow.getCover())
+                .placeholder(R.drawable.music_note)
+                .error(R.drawable.music_note)
+                .dontAnimate()
+                .into(vBarSongCover);
+
+        vArtistName.setText(mPlayingNow.getArtistName());
+        vSongName.setText(mPlayingNow.getName());
+        vBarArtistName.setText(mPlayingNow.getArtistName());
+        vBarSongName.setText(mPlayingNow.getName());
+
+        updateLyrics();
+
+    }
+    protected   void backwardSong() {
+        if (playingState == Shuffle)
+            shuffle();
+        else {
+            trackPosition--;
+            if (trackPosition == -1)
+                trackPosition = mQueue.size() - 1;
+            mPlayingNow = mQueue.get(trackPosition);
+            updateLastPlayedSong();
+            setSong();
+        }
+    }
+    protected void forwardSong() {
+        if (playingState == Shuffle) {
+            shuffle();
+        } else {
+            trackPosition++;
+            trackPosition %= mQueue.size();
+            mPlayingNow = mQueue.get(trackPosition);
+            updateLastPlayedSong();
+            setSong();
+        }
+
+    }
+    protected void shuffle() {
+        Random rand = new Random();
+        trackPosition = rand.nextInt(mQueue.size());
+        mPlayingNow = mQueue.get(trackPosition);
+        updateLastPlayedSong();
+        setSong();
+
     }
 
     private void coverAnimation(){
@@ -267,6 +350,10 @@ public class UI extends AppCompatActivity {
         BarrotateAnimation.setRepeatCount(Animation.INFINITE);
         BarrotateAnimation.setDuration(30000);
 
+    }
+    protected void mediaPlayerRelease(){
+        if (mAudio != null)
+            mAudio.release();
     }
 
     // listeners
@@ -319,18 +406,8 @@ public class UI extends AppCompatActivity {
             ChangeState();
         }
     };
-    protected View.OnClickListener lForwardButton = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
 
-        }
-    };
-    protected View.OnClickListener lBackwardButton = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
 
-        }
-    };
     protected View.OnScrollChangeListener lSong = new View.OnScrollChangeListener() {
         @Override
         public void onScrollChange(View v, int scrollX, int scrollY, int oldScrollX, int oldScrollY) {
@@ -347,7 +424,7 @@ public class UI extends AppCompatActivity {
         @Override
         public void onPointsChanged(CircleSeekBar circleSeekBar, int points, boolean fromUser) {
             if (fromUser) {
-                progress = (int) (points * (float) mAudio.getDuration() / 100);
+                progress = (int) (points * (float) mPlayingNow.getDuration() / 100);
                 mAudio.seekTo(progress);
             }
             progress = points;
@@ -356,14 +433,41 @@ public class UI extends AppCompatActivity {
 
         @Override
         public void onStartTrackingTouch(CircleSeekBar circleSeekBar) {
-            mAudio.pause();
         }
 
         @Override
         public void onStopTrackingTouch(CircleSeekBar circleSeekBar) {
-            mAudio.start();
         }
     };
+    protected View.OnClickListener lForwardButton = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            forwardSong();
+        }
+    };
+    protected View.OnClickListener lBackwardButton = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            backwardSong();
+        }
+    };
+    protected MediaPlayer.OnCompletionListener onCompletionListener = new MediaPlayer.OnCompletionListener() {
+        @Override
+        public void onCompletion(MediaPlayer mp) {
+            switch (playingState) {
+                case Repeat:
+                    forwardSong();
+                    break;
+                case RepeatOnce:
+                    mAudio.start();
+                    break;
+                case Shuffle:
+                    shuffle();
+            }
+
+        }
+    };
+//TODO Button OnlongclickListner
 
     private MotionLayout.TransitionListener lMain = new MotionLayout.TransitionListener() {
         @Override
@@ -390,11 +494,12 @@ public class UI extends AppCompatActivity {
         @Override
         public void run() {
             if (mAudio != null) {
-                // TODO getduration equals 0 if the audio hasn't been played
-                progress = mAudio.getCurrentPosition() * 100 / mAudio.getDuration();
+                if(mAudio.isPlaying())
+                progress = mAudio.getCurrentPosition() * 100 / mPlayingNow.getDuration();
                 vSongSeekBar.setProgressDisplayAndInvalidate(progress);
             }
             MainActivity.mHandler.postDelayed(this, 300);
         }
     };
+
 }

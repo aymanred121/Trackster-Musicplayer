@@ -43,7 +43,6 @@ public abstract class TracksterRoomDb extends RoomDatabase {
         public void onCreate(@NonNull SupportSQLiteDatabase db) {
             super.onCreate(db);
             new fillDataAsyncTask(instence).execute();
-            new fillDataAsyncTask(instence).execute();
         }
 
         @Override

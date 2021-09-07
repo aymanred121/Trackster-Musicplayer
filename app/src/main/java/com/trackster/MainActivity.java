@@ -29,7 +29,11 @@ import com.roomdb.Track;
 import com.roomdb.TracksterRoomDb;
 import com.roomdb.roomViewModel;
 
+import java.io.IOException;
 import java.util.List;
+import java.util.Random;
+
+import static com.trackster.PlayingState.Shuffle;
 
 
 public class MainActivity extends UI {
@@ -46,7 +50,6 @@ public class MainActivity extends UI {
     private SongAdapter mSongAdapter;
     private roomViewModel mViewModel;
     private List<Track> mTrackList;
-    public static Context mContext;
     public static Handler mHandler = new Handler();
 
     @Override
@@ -101,8 +104,6 @@ public class MainActivity extends UI {
         vOpenPlaylistsButton = findViewById(R.id.HomePage_toPlaylists);
         vSearchSongEdit = findViewById(R.id.HomePage_search_song);
         vSongsRecyclerView = findViewById(R.id.HomePage_recyclerView);
-        mContext = this;
-
         // for playing bar
         vMain = findViewById(R.id.HomePage);
         vPlayingNowBar = findViewById(R.id.HomePage_playing_now_bar);
@@ -167,8 +168,12 @@ public class MainActivity extends UI {
             mAudio = MediaPlayer.create(this, Uri.parse(mPlayingNow.getLocation()));
             setupSong();
             vMain.transitionToEnd();
-//            trackPosition=sharedPreferences.getInt(QUEUEPOS,-1);
-//            queueState= sharedPreferences.getInt(ORIGIN,-1);
+            trackPosition=sharedPreferences.getInt(QUEUEPOS,-1);
+            state=queueState.values()[sharedPreferences.getInt(ORIGIN,1)];
+            if(state!=queueState.main)
+            mQueue=TracksterRoomDb.getInstance(this).containsDao().getListPlaylistTracks(sharedPreferences.getString(PLAYLISTNAME,""));
+
+
         } else
             vMain.transitionToStart();
 
@@ -184,6 +189,9 @@ public class MainActivity extends UI {
         }
 
     }
+
+
+
 
 
 
@@ -205,9 +213,14 @@ public class MainActivity extends UI {
     private SongAdapter.OnItemClickListener lSongAdapter = new SongAdapter.OnItemClickListener() {
         @Override
         public void onSongClick(int position) {
-            mQueue = mTrackList;
-            mPlayingNow = mTrackList.get(position);
-            openSong();
+            if(!isBarOpened)
+            {
+                state=queueState.main;
+                mQueue = mTrackList;
+                trackPosition=position;
+                mPlayingNow = mTrackList.get(position);
+                openSong();
+            }
         }
     };
 

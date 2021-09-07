@@ -19,6 +19,8 @@ public interface ContainsDao{
     void delete(Contains contains);
     @Query("select * from Track where Track.ID in (select Track_ID from contains where contains.Playlist_Name = :playlistName)")
     LiveData<List<Track>> getPlaylistTracks(String playlistName);
+    @Query("select * from Track where Track.ID in (select Track_ID from contains where contains.Playlist_Name = :playlistName)")
+    List<Track> getListPlaylistTracks(String playlistName);
     @Query("select Exists(select Track_ID from contains where Track_ID =:trackId and Playlist_Name=:playlistName)")
     Boolean isExist(int trackId,String playlistName);
     @Query("select count( Track_ID )from contains where contains.Playlist_Name = :playlistName")

@@ -8,8 +8,10 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import com.Adapters.PlaylistAdapter;
 import com.google.android.material.button.MaterialButton;
@@ -29,6 +31,7 @@ public class Playlists_ui extends UI {
     private RecyclerView.LayoutManager mPlaylistsLayoutManager;
     private PlaylistAdapter mPlaylistAdapter;
     private roomViewModel mViewModel;
+    private List<Playlist> mPlaylistsList;
 
 
     @Override
@@ -119,6 +122,7 @@ public class Playlists_ui extends UI {
             @Override
             public void onChanged(@Nullable List<Playlist> playlists) {
                 mPlaylistAdapter.setPlaylistsList(playlists);
+                mPlaylistsList = playlists;
             }
         });
     }
@@ -130,4 +134,11 @@ public class Playlists_ui extends UI {
             close();
         }
     };
+    private PlaylistAdapter.OnItemClickListener lPlaylists = new PlaylistAdapter.OnItemClickListener() {
+        @Override
+        public void onPlaylistClick(int position) {
+            mPlaylistName = mPlaylistsList.get(position).getName();
+        }
+    };
+
 }

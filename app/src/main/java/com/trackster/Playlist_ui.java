@@ -143,11 +143,17 @@ public class Playlist_ui extends UI {
     private SongAdapter.OnItemClickListener lSongAdapter = new SongAdapter.OnItemClickListener() {
         @Override
         public void onSongClick(int position) {
-            mQueue = mTrackList;
-            mPlayingNow = mTrackList.get(position);
-            openSong();
+            if(!isBarOpened)
+            {
+                mQueue = mTrackList;
+                state=queueState.playlist;
+                trackPosition=position;
+                mPlayingNow = mTrackList.get(position);
+                openSong();
+            }
         }
     };
+
 
 
 }

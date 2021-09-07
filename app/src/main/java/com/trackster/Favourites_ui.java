@@ -121,6 +121,7 @@ public class Favourites_ui extends UI {
             public void onChanged(@Nullable List<Track> tracks) {
                 mSongAdapter.setSongsList(tracks);
                 mCurrentList = tracks;
+                mTrackList=tracks;
             }
         });
     }
@@ -135,11 +136,17 @@ public class Favourites_ui extends UI {
     private SongAdapter.OnItemClickListener lSongAdapter = new SongAdapter.OnItemClickListener() {
         @Override
         public void onSongClick(int position) {
-            mQueue = mTrackList;
-            mPlayingNow = mTrackList.get(position);
-            openSong();
+            if(!isBarOpened)
+            {
+                mQueue = mTrackList;
+                state=queueState.favourites;
+                trackPosition=position;
+                mPlayingNow = mTrackList.get(position);
+                openSong();
+            }
         }
     };
+
 
 
 }

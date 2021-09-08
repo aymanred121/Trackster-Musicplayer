@@ -29,6 +29,7 @@ import com.roomdb.Contains;
 import com.roomdb.Track;
 import com.roomdb.TracksterRoomDb;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.Random;
@@ -81,6 +82,7 @@ public class UI extends AppCompatActivity {
     public static final String QUEUEPOS = "QUEUEPOS";
     public static final String ORIGIN = "ORIGIN";
     public static final String PLAYLISTNAME = "PLAYLISTNAME";
+    public static final String ALBUMART= "/data/user/0/com.trackster/app_imageDir/";
     protected static int trackPosition;
     protected  enum  queueState{
         main,favourites,playlist
@@ -230,19 +232,21 @@ public class UI extends AppCompatActivity {
         }else
             vFavouritesToggle.setChecked(false);
 
-        Glide.with(vSongCover.getContext())
-                .load(mPlayingNow.getCover())
-                .placeholder(R.drawable.music_note)
-                .error(R.drawable.music_note)
-                .dontAnimate()
-                .into(vSongCover);
+            Glide.with(vSongCover.getContext())
+                    .load(ALBUMART+mPlayingNow.getID()+".jpg")
+                    .placeholder(R.drawable.music_note)
+                    .error(R.drawable.music_note)
+                    .dontAnimate()
+                    .into(vSongCover);
 
-        Glide.with(vBarSongCover.getContext())
-                .load(mPlayingNow.getCover())
-                .placeholder(R.drawable.music_note)
-                .error(R.drawable.music_note)
-                .dontAnimate()
-                .into(vBarSongCover);
+            Glide.with(vBarSongCover.getContext())
+                    .load(ALBUMART+mPlayingNow.getID()+".jpg")
+                    .placeholder(R.drawable.music_note)
+                    .error(R.drawable.music_note)
+                    .dontAnimate()
+                    .into(vBarSongCover);
+
+
 
     }
 
@@ -288,14 +292,14 @@ public class UI extends AppCompatActivity {
         vPlayToggle.setChecked(true);
 
         Glide.with(vSongCover.getContext())
-                .load(mPlayingNow.getCover())
+                .load(ALBUMART+mPlayingNow.getID()+".jpg")
                 .placeholder(R.drawable.music_note)
                 .error(R.drawable.music_note)
                 .dontAnimate()
                 .into(vSongCover);
 
         Glide.with(vBarSongCover.getContext())
-                .load(mPlayingNow.getCover())
+                .load(ALBUMART+mPlayingNow.getID()+".jpg")
                 .placeholder(R.drawable.music_note)
                 .error(R.drawable.music_note)
                 .dontAnimate()

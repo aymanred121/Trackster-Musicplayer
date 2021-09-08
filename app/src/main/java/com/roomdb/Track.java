@@ -14,16 +14,14 @@ public  class Track  {
     private String lyrics;
     private String ArtistName;
     private String AlbumName;
-    private String Cover;
     private int Duration;
 
-    public Track( String location, String name, String lyrics, String ArtistName, String AlbumName, int ID, int Duration, String Cover) {
+    public Track( String location, String name, String lyrics, String ArtistName, String AlbumName, int ID, int Duration) {
         this.location = location;
         this.name = name;
         this.lyrics = lyrics;
         this.ArtistName = ArtistName;
         this.AlbumName = AlbumName;
-        this.Cover=Cover;
         this.ID=ID;
         this.Duration=Duration;
     }
@@ -53,9 +51,6 @@ public  class Track  {
         return ArtistName;
     }
 
-    public String getCover() {
-        return Cover;
-    }
 
     public String getAlbumName() {
         return AlbumName;

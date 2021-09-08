@@ -51,7 +51,7 @@ public class AudioModelDB {
             if( cursor != null){
                 cursor.moveToFirst();
 
-                while( !cursor.isAfterLast() ){
+                while( !cursor.isAfterLast()){
                     String title = cursor.getString(0);
                     String artist = cursor.getString(1);
                     String path = cursor.getString(3);
@@ -59,9 +59,8 @@ public class AudioModelDB {
                     String albumID = cursor.getString(5);
                     String ID = (cursor.getString(6));
                     String duration = (cursor.getString(7));
-                    String coverLocation;
-                     coverLocation = saveToInternalStorage((path),ID);
-                    String[]trackData={path,title,"",artist,album,ID,duration,coverLocation};
+                   // saveToInternalStorage(path,ID);
+                    String[]trackData={path,title,"",artist,album,ID,duration};
                     Tracks.add(trackData);
                     cursor.moveToNext();
 
@@ -78,15 +77,16 @@ public class AudioModelDB {
         }
 
     }
-    private String saveToInternalStorage(String filePath,String albumID){
-        if(new File("/mnt/sdcard/trackImg/"+albumID+".jpg").exists())
-            return "/mnt/sdcard/trackImg/"+albumID+".jpg";
+    public void saveToInternalStorage(String filePath, String ID){
+        if(new File("/data/user/0/com.trackster/app_imageDir/"+ID+".jpg").exists())
+            return;
         Bitmap bitmapImage=getAlbumImage(filePath);
         if(bitmapImage==null)
-            return "";
-        final File trackImg = new File("/mnt/sdcard/trackImg");
+            return;
+        ContextWrapper cw = new ContextWrapper(context);
+        File trackImg = cw.getDir("imageDir", Context.MODE_PRIVATE);
         trackImg.mkdir();
-        File path = new File(trackImg,albumID+".jpg");
+        File path = new File(trackImg,ID+".jpg");
         FileOutputStream fos = null;
         try {
             fos = new FileOutputStream(path);
@@ -100,7 +100,7 @@ public class AudioModelDB {
                 e.printStackTrace();
             }
         }
-        return path.getAbsolutePath();
+        return ;
     }
 
     public Set<String[]> getTracks() {

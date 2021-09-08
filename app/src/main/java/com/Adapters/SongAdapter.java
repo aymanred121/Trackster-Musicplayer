@@ -21,6 +21,8 @@ import com.trackster.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.trackster.UI.ALBUMART;
+
 public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ExampleViewHolder> {
 
     private List<Track> mSongsList = new ArrayList<>();
@@ -116,7 +118,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ExampleViewHol
             holder.mArtistName.setSelected(true);
 
         Glide.with(holder.mSongImage.getContext())
-                .load(currentSong.getCover())
+                .load(ALBUMART+currentSong.getID()+".jpg")
                 .placeholder(R.drawable.music_note)
                 .error(R.drawable.music_note)
                 .dontAnimate()

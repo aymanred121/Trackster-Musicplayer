@@ -1,5 +1,6 @@
 package com.roomdb;
 
+import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 
@@ -23,6 +24,7 @@ primaryKeys ={"Playlist_Name","Track_ID"}
 public class Contains {
     @NotNull
     private String Playlist_Name;
+    @ColumnInfo(index = true)
     private int Track_ID;
 
     public Contains(String Playlist_Name, int Track_ID) {

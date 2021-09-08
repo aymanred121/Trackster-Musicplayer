@@ -62,6 +62,7 @@ public class MainActivity extends UI {
         InitializingViews();
         setupRecyclerView();
 
+
         vPlayingNowBackButton.setOnClickListener(lPlayingNowBackButton);
         vPlayingNowBar.setOnClickListener(lPlayingNowBar);
         vPlayButton.setOnClickListener(lPlayButton);
@@ -222,14 +223,14 @@ public class MainActivity extends UI {
                 trackPosition=position;
                 mPlayingNow = mTrackList.get(position);
                 openSong();
-                for(int i = 0 ; i<mTrackList.size();i++)
-                    vSongsRecyclerView.getChildAt(i).findViewById(R.id.visualizer).setVisibility(View.GONE);
-                mVisualizer = vSongsRecyclerView.getChildAt(position).findViewById(R.id.visualizer);
-                mVisualizer.setVisibility(View.VISIBLE);
-
-                int audioSessionId = mAudio.getAudioSessionId();
-                if(audioSessionId != -1)
-                    mVisualizer.setAudioSessionId(audioSessionId);
+//                for(int i = 0 ; i<mTrackList.size();i++)
+//                    vSongsRecyclerView.getChildAt(i).findViewById(R.id.visualizer).setVisibility(View.GONE);
+//                mVisualizer = vSongsRecyclerView.getChildAt(position).findViewById(R.id.visualizer);
+//                mVisualizer.setVisibility(View.VISIBLE);
+//
+//                int audioSessionId = mAudio.getAudioSessionId();
+//                if(audioSessionId != -1)
+//                    mVisualizer.setAudioSessionId(audioSessionId);
 
             }
         }

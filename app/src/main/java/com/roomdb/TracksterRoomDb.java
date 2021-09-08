@@ -14,7 +14,7 @@ import com.trackster.Trackinfo;
 
 import java.util.Set;
 
-@Database(entities = {Track.class,Playlist.class,Contains.class}, version = 1)
+@Database(entities = {Track.class,Playlist.class,Contains.class}, version = 1, exportSchema = false)
 public abstract class TracksterRoomDb extends RoomDatabase {
     private static TracksterRoomDb instence;
 

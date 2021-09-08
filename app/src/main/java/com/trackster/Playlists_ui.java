@@ -1,22 +1,20 @@
 package com.trackster;
 
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.media.MediaPlayer;
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 import com.Adapters.PlaylistAdapter;
+import com.Dialogs.AddPlaylistDialog;
 import com.google.android.material.button.MaterialButton;
 import com.roomdb.Playlist;
-import com.roomdb.Track;
 import com.roomdb.roomViewModel;
 
 import java.util.List;
@@ -24,6 +22,7 @@ import java.util.List;
 public class Playlists_ui extends UI {
 
     //Views
+    private MaterialButton vAddPlaylistButton;
     private MaterialButton vBackButton;
     private RecyclerView vPlaylistsRecyclerView;
 
@@ -44,19 +43,10 @@ public class Playlists_ui extends UI {
 
 
         vBackButton.setOnClickListener(lBackButton);
+        vAddPlaylistButton.setOnClickListener(lAddPlaylistButton);
+        mPlaylistAdapter.setOnItemClickListener(lPlaylists);
 
-
-        vPlayingNowBackButton.setOnClickListener(lPlayingNowBackButton);
-        vPlayingNowBar.setOnClickListener(lPlayingNowBar);
-        vPlayButton.setOnClickListener(lPlayButton);
-        vPlayToggle.setOnClickListener(lPlayToggle);
-        vSongSeekBar.setSeekBarChangeListener(lSongSeekBar);
-        vPlayingState.setOnClickListener(lPlayingState);
-        vAddToPlaylist.setOnClickListener(lAddToPlaylist);
-        vFavouritesToggle.setOnClickListener(lFavouritesToggle);
-        vForwardButton.setOnClickListener(lForwardButton);
-        vBackwardButton.setOnClickListener(lBackwardButton);
-        vSong.setOnScrollChangeListener(lSong);
+        setupListeners();
     }
 
     @Override
@@ -72,7 +62,7 @@ public class Playlists_ui extends UI {
 
         vBackButton = findViewById(R.id.Playlists_back_btn);
         vPlaylistsRecyclerView = findViewById(R.id.Playlists_recyclerview);
-
+        vAddPlaylistButton = findViewById(R.id.Playlists_add_playlist);
 
         vMain = findViewById(R.id.Playlists);
         vPlayingNowBar = findViewById(R.id.Playlists_playing_now_bar);
@@ -125,6 +115,17 @@ public class Playlists_ui extends UI {
                 mPlaylistsList = playlists;
             }
         });
+        // ToDO doesn't load playlists when opened
+    }
+
+    private void openPlaylist() {
+        Intent intent = new Intent(this, Playlist_ui.class);
+        startActivity(intent);
+    }
+
+    public void openAddPlaylistDialog() {
+        AddPlaylistDialog dialog = new AddPlaylistDialog();
+        dialog.show(getSupportFragmentManager(), "");
     }
 
     // Listeners
@@ -138,7 +139,14 @@ public class Playlists_ui extends UI {
         @Override
         public void onPlaylistClick(int position) {
             mPlaylistName = mPlaylistsList.get(position).getName();
+            openPlaylist();
+
         }
     };
-
+    private View.OnClickListener lAddPlaylistButton = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            openAddPlaylistDialog();
+        }
+    };
 }

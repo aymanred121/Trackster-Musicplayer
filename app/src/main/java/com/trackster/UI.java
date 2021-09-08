@@ -1,8 +1,6 @@
 package com.trackster;
 
-import android.content.Context;
 import android.content.SharedPreferences;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.Drawable;
 import android.media.MediaPlayer;
@@ -22,18 +20,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.vectordrawable.graphics.drawable.AnimatedVectorDrawableCompat;
 
-import com.Adapters.SongAdapter;
+import com.Dialogs.AddToPlaylistDialog;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 import com.roomdb.Contains;
 import com.roomdb.Track;
 import com.roomdb.TracksterRoomDb;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.List;
 import java.util.Random;
-import java.util.logging.Handler;
 
 import hiennguyen.me.circleseekbar.CircleSeekBar;
 
@@ -71,7 +66,7 @@ public class UI extends AppCompatActivity {
 
     // globals
     protected static MediaPlayer mAudio;
-    protected static Track mPlayingNow;
+    public static Track mPlayingNow;
     protected static List<Track> mQueue;
     protected static List<Track> mCurrentList;
     protected static int progress = 0;
@@ -102,6 +97,22 @@ public class UI extends AppCompatActivity {
 
 
     // functions
+    protected void setupListeners()
+    {
+        vPlayingNowBackButton.setOnClickListener(lPlayingNowBackButton);
+        vPlayingNowBar.setOnClickListener(lPlayingNowBar);
+        vPlayButton.setOnClickListener(lPlayButton);
+        vPlayToggle.setOnClickListener(lPlayToggle);
+        vSongSeekBar.setSeekBarChangeListener(lSongSeekBar);
+        vPlayingState.setOnClickListener(lPlayingState);
+        vAddToPlaylist.setOnClickListener(lAddToPlaylist);
+        vFavouritesToggle.setOnClickListener(lFavouritesToggle);
+        vForwardButton.setOnClickListener(lForwardButton);
+        vBackwardButton.setOnClickListener(lBackwardButton);
+        vForwardButton.setOnLongClickListener(lForward);
+        vBackwardButton.setOnLongClickListener(lBackward);
+        vSong.setOnScrollChangeListener(lSong);
+    }
     protected void setPlayButton() {
         if (vPlayToggle.isChecked()) {
             vPlayButton.setIcon(getResources().getDrawable(R.drawable.playing));
@@ -270,6 +281,10 @@ public class UI extends AppCompatActivity {
             editor.putString(PLAYLISTNAME,mPlaylistName);
         editor.apply();
     }
+    protected void openAddToPlaylistDialog() {
+        AddToPlaylistDialog dialog = new AddToPlaylistDialog(this, R.style.BottomSheetDialog);
+        dialog.show();
+    }
 
     protected   void openSong(){
         playing = true;
@@ -401,7 +416,7 @@ public class UI extends AppCompatActivity {
     protected View.OnClickListener lAddToPlaylist = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-
+            openAddToPlaylistDialog();
         }
     };
     protected View.OnClickListener lPlayingState = new View.OnClickListener() {
@@ -471,8 +486,25 @@ public class UI extends AppCompatActivity {
 
         }
     };
-//TODO Button OnlongclickListner
-
+    protected View.OnLongClickListener lForward = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            if (mAudio.getDuration() - mAudio.getCurrentPosition() >= 1000)
+                mAudio.seekTo(mAudio.getCurrentPosition() + 1000);
+            return false;
+        }
+    };
+    protected View.OnLongClickListener lBackward = new View.OnLongClickListener() {
+        @Override
+        public boolean onLongClick(View v) {
+            if (mAudio.getCurrentPosition() >= 4000)
+                mAudio.seekTo(mAudio.getCurrentPosition() - 4000);
+            else
+                mAudio.seekTo(0);
+            return false;
+        }
+    };
+    // TODO fix bug: crashes when long pressed
     private MotionLayout.TransitionListener lMain = new MotionLayout.TransitionListener() {
         @Override
         public void onTransitionStarted(MotionLayout motionLayout, int startId, int endId) {

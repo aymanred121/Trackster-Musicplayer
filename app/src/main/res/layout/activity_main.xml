@@ -21,6 +21,7 @@
         android:textColor="@android:color/white"
         android:textCursorDrawable="@android:color/white"
         android:textSize="24dp"
+        android:singleLine="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -41,6 +42,7 @@
             android:id="@+id/HomePage_toPlaylists"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:backgroundTint="@color/playlists_layer_2"
             android:layout_marginEnd="8dp"
             android:insetLeft="0dp"
             android:insetTop="0dp"

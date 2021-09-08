@@ -45,17 +45,7 @@ public class Favourites_ui extends UI {
         mSongAdapter.setOnItemClickListener(lSongAdapter);
 
 
-        vPlayingNowBackButton.setOnClickListener(lPlayingNowBackButton);
-        vPlayingNowBar.setOnClickListener(lPlayingNowBar);
-        vPlayButton.setOnClickListener(lPlayButton);
-        vPlayToggle.setOnClickListener(lPlayToggle);
-        vSongSeekBar.setSeekBarChangeListener(lSongSeekBar);
-        vPlayingState.setOnClickListener(lPlayingState);
-        vAddToPlaylist.setOnClickListener(lAddToPlaylist);
-        vFavouritesToggle.setOnClickListener(lFavouritesToggle);
-        vForwardButton.setOnClickListener(lForwardButton);
-        vBackwardButton.setOnClickListener(lBackwardButton);
-        vSong.setOnScrollChangeListener(lSong);
+       setupListeners();
 
     }
 
@@ -111,7 +101,7 @@ public class Favourites_ui extends UI {
     private void setupRecyclerView() {
         vSongsRecyclerView.setHasFixedSize(true);
         mSongsLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        mSongAdapter = new SongAdapter(R.layout.home_song_item);
+        mSongAdapter = new SongAdapter(R.layout.song_item);
         vSongsRecyclerView.setLayoutManager(mSongsLayoutManager);
         vSongsRecyclerView.setAdapter(mSongAdapter);
         vSongsRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));

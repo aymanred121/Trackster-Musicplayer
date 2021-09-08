@@ -4,6 +4,7 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.annotation.Nullable;
 import androidx.constraintlayout.motion.widget.MotionLayout;
@@ -27,6 +28,7 @@ public class Playlist_ui extends UI {
     //Views
     private MaterialButton vBackButton;
     private RecyclerView vSongsRecyclerView;
+    private TextView vPlaylistName;
 
 
     //Variable
@@ -47,18 +49,7 @@ public class Playlist_ui extends UI {
         mSongAdapter.setOnItemClickListener(lSongAdapter);
 
 
-        vPlayingNowBackButton.setOnClickListener(lPlayingNowBackButton);
-        vPlayingNowBar.setOnClickListener(lPlayingNowBar);
-        vPlayButton.setOnClickListener(lPlayButton);
-        vPlayToggle.setOnClickListener(lPlayToggle);
-        vSongSeekBar.setSeekBarChangeListener(lSongSeekBar);
-        vPlayingState.setOnClickListener(lPlayingState);
-        vAddToPlaylist.setOnClickListener(lAddToPlaylist);
-        vFavouritesToggle.setOnClickListener(lFavouritesToggle);
-        vForwardButton.setOnClickListener(lForwardButton);
-        vBackwardButton.setOnClickListener(lBackwardButton);
-        vSong.setOnScrollChangeListener(lSong);
-
+        setupListeners();
 
     }
 
@@ -75,7 +66,7 @@ public class Playlist_ui extends UI {
 
         vBackButton = findViewById(R.id.Playlist_back_btn);
         vSongsRecyclerView = findViewById(R.id.Playlist_recyclerview);
-
+        vPlaylistName = findViewById(R.id.Playlist_name);
 
         vMain = findViewById(R.id.Playlist);
         vPlayingNowBar = findViewById(R.id.Playlist_playing_now_bar);
@@ -101,7 +92,6 @@ public class Playlist_ui extends UI {
         vSongLyrics = findViewById(R.id.Playlist_playing_lyrics);
 
 
-
         if (isExist) {
             sync();
             rSongTimer.run();
@@ -111,13 +101,15 @@ public class Playlist_ui extends UI {
 
         vMain.transitionToStart();
 
+        vPlaylistName.setText(mPlaylistName);
+
 
     }
 
     private void setupRecyclerView() {
         vSongsRecyclerView.setHasFixedSize(true);
         mSongsLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        mSongAdapter = new SongAdapter(R.layout.home_song_item);
+        mSongAdapter = new SongAdapter(R.layout.song_item);
         vSongsRecyclerView.setLayoutManager(mSongsLayoutManager);
         vSongsRecyclerView.setAdapter(mSongAdapter);
         vSongsRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
@@ -143,17 +135,15 @@ public class Playlist_ui extends UI {
     private SongAdapter.OnItemClickListener lSongAdapter = new SongAdapter.OnItemClickListener() {
         @Override
         public void onSongClick(int position) {
-            if(!isBarOpened)
-            {
+            if (!isBarOpened) {
                 mQueue = mTrackList;
-                state=queueState.playlist;
-                trackPosition=position;
+                state = queueState.playlist;
+                trackPosition = position;
                 mPlayingNow = mTrackList.get(position);
                 openSong();
             }
         }
     };
-
 
 
 }

@@ -10,6 +10,8 @@ import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 
@@ -31,6 +33,7 @@ import com.roomdb.TracksterRoomDb;
 import com.roomdb.roomViewModel;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -44,7 +47,6 @@ public class MainActivity extends UI {
     private MaterialButton vOpenPlaylistsButton;
     private EditText vSearchSongEdit;
     private RecyclerView vSongsRecyclerView;
-    private  BarVisualizer mVisualizer;
 
 
     // Variables
@@ -53,6 +55,7 @@ public class MainActivity extends UI {
     private roomViewModel mViewModel;
     private List<Track> mTrackList;
     public static Handler mHandler = new Handler();
+    private static List<Track> searchResult;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,22 +65,11 @@ public class MainActivity extends UI {
         InitializingViews();
         setupRecyclerView();
 
-
-        vPlayingNowBackButton.setOnClickListener(lPlayingNowBackButton);
-        vPlayingNowBar.setOnClickListener(lPlayingNowBar);
-        vPlayButton.setOnClickListener(lPlayButton);
-        vPlayToggle.setOnClickListener(lPlayToggle);
-        vSongSeekBar.setSeekBarChangeListener(lSongSeekBar);
-        vPlayingState.setOnClickListener(lPlayingState);
-        vAddToPlaylist.setOnClickListener(lAddToPlaylist);
-        vFavouritesToggle.setOnClickListener(lFavouritesToggle);
-        vForwardButton.setOnClickListener(lForwardButton);
-        vBackwardButton.setOnClickListener(lBackwardButton);
-        vSong.setOnScrollChangeListener(lSong);
-
+        vSearchSongEdit.addTextChangedListener(lSearchBar);
         vOpenPlaylistsButton.setOnClickListener(lOpenPlaylists);
         vOpenFavouritesButton.setOnClickListener(lOpenFavourites);
         mSongAdapter.setOnItemClickListener(lSongAdapter);
+        setupListeners();
 
 
     }
@@ -193,6 +185,19 @@ public class MainActivity extends UI {
 
     }
 
+    private void filter(String s) {
+        searchResult = new ArrayList<>();
+        for (Track t : mTrackList) {
+            if (t.getName().toLowerCase().startsWith(s.toLowerCase())) {
+                searchResult.add(t);
+            }
+
+        }
+        //trackList=(searchResult);
+        mSongAdapter.filterList(searchResult);
+
+
+    }
 
 
 
@@ -221,25 +226,29 @@ public class MainActivity extends UI {
                 state=queueState.main;
                 mQueue = mTrackList;
                 trackPosition=position;
-                mPlayingNow = mTrackList.get(position);
+                if (vSearchSongEdit.getText().toString().trim().isEmpty())
+                    mPlayingNow = mTrackList.get(position);
+                else
+                    mPlayingNow = searchResult.get(position);
                 openSong();
-//                for(int i = 0 ; i<mTrackList.size();i++)
-//                    vSongsRecyclerView.getChildAt(i).findViewById(R.id.visualizer).setVisibility(View.GONE);
-//                mVisualizer = vSongsRecyclerView.getChildAt(position).findViewById(R.id.visualizer);
-//                mVisualizer.setVisibility(View.VISIBLE);
-//
-//                int audioSessionId = mAudio.getAudioSessionId();
-//                if(audioSessionId != -1)
-//                    mVisualizer.setAudioSessionId(audioSessionId);
 
             }
         }
     };
+    private TextWatcher lSearchBar = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        if(mVisualizer != null)
-            mVisualizer.release();
-    }
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            filter(s.toString());
+        }
+    };
 }

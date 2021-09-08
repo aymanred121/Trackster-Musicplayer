@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.Trackster" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-
+        <item name="colorPrimary">#000</item>
         <!-- Secondary brand color. -->
 
         <!-- Status bar color. -->
@@ -12,5 +12,15 @@
         <!-- Transparent navigation bat -->
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
+    </style>
+
+    <style name="BottomSheetDialog" parent="@style/ThemeOverlay.MaterialComponents.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/BottomSheet</item>
+
+    </style>
+
+
+    <style name="BottomSheet" parent="Widget.Design.BottomSheet.Modal">
+        <item name="background">@drawable/bottom_sheet_dialog</item>
     </style>
 </resources>

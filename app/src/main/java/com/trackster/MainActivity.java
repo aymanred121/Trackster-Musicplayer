@@ -24,6 +24,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Adapters.SongAdapter;
 import com.bumptech.glide.Glide;
+import com.gauravk.audiovisualizer.visualizer.BarVisualizer;
 import com.google.android.material.button.MaterialButton;
 import com.roomdb.Track;
 import com.roomdb.TracksterRoomDb;
@@ -43,6 +44,7 @@ public class MainActivity extends UI {
     private MaterialButton vOpenPlaylistsButton;
     private EditText vSearchSongEdit;
     private RecyclerView vSongsRecyclerView;
+    private  BarVisualizer mVisualizer;
 
 
     // Variables
@@ -220,9 +222,23 @@ public class MainActivity extends UI {
                 trackPosition=position;
                 mPlayingNow = mTrackList.get(position);
                 openSong();
+                for(int i = 0 ; i<mTrackList.size();i++)
+                    vSongsRecyclerView.getChildAt(i).findViewById(R.id.visualizer).setVisibility(View.GONE);
+                mVisualizer = vSongsRecyclerView.getChildAt(position).findViewById(R.id.visualizer);
+                mVisualizer.setVisibility(View.VISIBLE);
+
+                int audioSessionId = mAudio.getAudioSessionId();
+                if(audioSessionId != -1)
+                    mVisualizer.setAudioSessionId(audioSessionId);
+
             }
         }
     };
 
-
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        if(mVisualizer != null)
+            mVisualizer.release();
+    }
 }

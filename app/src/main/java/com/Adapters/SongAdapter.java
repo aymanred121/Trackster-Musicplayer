@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 
 import com.bumptech.glide.Glide;
+import com.gauravk.audiovisualizer.visualizer.BarVisualizer;
 import com.roomdb.Track;
 import com.trackster.AudioModelDB;
 import com.trackster.R;
@@ -45,6 +46,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ExampleViewHol
         public TextView mSongName;
         public TextView mArtistName;
         public TextView mSongTime;
+        public BarVisualizer mVisualizer;
 
         public ExampleViewHolder(@NonNull View itemView, final SongAdapter.OnItemClickListener listener, int itemLayout) {
             super(itemView);
@@ -59,6 +61,7 @@ public class SongAdapter extends RecyclerView.Adapter<SongAdapter.ExampleViewHol
                 mSongImage = itemView.findViewById(R.id.home_song_item_song_cover);
                 mSongName = itemView.findViewById(R.id.home_song_item_song_name);
                 mArtistName = itemView.findViewById(R.id.home_song_item_artist_name);
+                mVisualizer = itemView.findViewById(R.id.visualizer);
             }
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

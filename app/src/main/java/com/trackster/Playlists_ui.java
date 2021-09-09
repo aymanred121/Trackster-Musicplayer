@@ -52,6 +52,7 @@ public class Playlists_ui extends UI {
     @Override
     public void onBackPressed() {
         if (isBarOpened) {
+            updatePlayList();
             goBack();
         } else
             close();
@@ -109,7 +110,6 @@ public class Playlists_ui extends UI {
         vPlaylistsRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mViewModel = new ViewModelProvider(this).get(roomViewModel.class);
         updatePlayList();
-        // TODO doesn't load playlists when opened
     }
 
     private void updatePlayList() {

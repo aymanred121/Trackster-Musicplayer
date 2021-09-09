@@ -80,7 +80,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="32dp"
         android:overScrollMode="never"
-        app:layout_constraintBottom_toTopOf="@+id/Playlists_playing_now_bar"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@id/container" />
@@ -91,6 +91,7 @@
         android:layout_width="match_parent"
         android:layout_height="120dp"
         android:layout_marginStart="75dp"
+        android:translationY="120dp"
         android:background="@drawable/playing_now_bar"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -102,6 +103,7 @@
         android:layout_height="64dp"
         android:layout_marginStart="40dp"
         android:layout_marginTop="32dp"
+        android:translationY="120dp"
         android:src="@drawable/music_note"
         app:layout_constraintStart_toStartOf="@id/Playlists_playing_now_bar"
         app:layout_constraintTop_toTopOf="@id/Playlists_playing_now_bar" />
@@ -121,6 +123,7 @@
         android:textColor="@android:color/white"
         android:textSize="16sp"
         android:textStyle="bold"
+        android:translationY="120dp"
         app:layout_constraintEnd_toStartOf="@+id/Playlists_song_time"
         app:layout_constraintStart_toEndOf="@+id/Playlists_song_cover"
         app:layout_constraintTop_toTopOf="@id/Playlists_playing_now_bar" />
@@ -140,6 +143,7 @@
         android:textColor="@android:color/white"
         android:textSize="16dp"
         android:textStyle="bold"
+        android:translationY="120dp"
         app:layout_constraintEnd_toStartOf="@+id/Playlists_song_time"
         app:layout_constraintStart_toEndOf="@+id/Playlists_song_cover"
         app:layout_constraintTop_toBottomOf="@+id/Playlists_song_name" />
@@ -153,6 +157,7 @@
         android:layout_marginEnd="16dp"
         android:indeterminateOnly="false"
         android:progressDrawable="@drawable/circle"
+        android:translationY="120dp"
         app:layout_constraintEnd_toEndOf="@id/Playlists_playing_now_bar"
         app:layout_constraintTop_toTopOf="@id/Playlists_playing_now_bar"
         tools:progress="50" />
@@ -165,6 +170,7 @@
         android:checked="true"
         android:textOff=""
         android:textOn=""
+        android:translationY="120dp"
         app:layout_constraintBottom_toBottomOf="@+id/Playlists_song_time"
         app:layout_constraintEnd_toEndOf="@+id/Playlists_song_time"
         app:layout_constraintStart_toStartOf="@+id/Playlists_song_time"

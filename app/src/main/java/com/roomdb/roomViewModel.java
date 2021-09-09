@@ -61,7 +61,7 @@ public class roomViewModel extends AndroidViewModel {
     public void update(Contains obj){
         repo.update(obj);
     }
-    public LiveData<List<Track>> getAlltracksfromplaylist(String playlistName) {
+    public LiveData<List<Track>> getAllTracksFromPlaylist(String playlistName) {
         return repo.getAllTracksFromPlaylist(playlistName);
     }
 

@@ -18,7 +18,7 @@ public interface TrackDao{
     void update(Track track);
     @Delete
     void delete(Track track);
-    @Query("select * from Track group by ArtistName")
+    @Query("select * from Track order by track.AlbumName")
     LiveData<List<Track>> getallTracks();
     @Query("select * from Track where name= :arg0")
     Track getTrackByName(String arg0);

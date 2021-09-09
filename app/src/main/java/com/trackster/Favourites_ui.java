@@ -1,12 +1,9 @@
 package com.trackster;
 
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -106,7 +103,7 @@ public class Favourites_ui extends UI {
         vSongsRecyclerView.setAdapter(mSongAdapter);
         vSongsRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mViewModel = new ViewModelProvider(this).get(roomViewModel.class);
-        mViewModel.getAlltracksfromplaylist("favourites").observe(this, new Observer<List<Track>>() {
+        mViewModel.getAllTracksFromPlaylist("favourites").observe(this, new Observer<List<Track>>() {
             @Override
             public void onChanged(@Nullable List<Track> tracks) {
                 mSongAdapter.setSongsList(tracks);

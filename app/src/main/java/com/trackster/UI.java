@@ -92,8 +92,8 @@ public class UI extends AppCompatActivity {
     private MainActivity activity;
     protected AnimatedVectorDrawable avd;
     protected PlayingState playingState = Repeat;
-    private  final RotateAnimation rotateAnimation = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
-    private  final RotateAnimation BarrotateAnimation = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+    private final RotateAnimation rotateAnimation = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+    private final RotateAnimation BarRotateAnimation = new RotateAnimation(0.0f, 360.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
 
 
     // functions
@@ -132,7 +132,7 @@ public class UI extends AppCompatActivity {
         {
             mAudio.pause();
             rotateAnimation.cancel();
-            BarrotateAnimation.cancel();
+            BarRotateAnimation.cancel();
         }
         runOnUiThread(rSongTimer);
     }
@@ -364,11 +364,13 @@ public class UI extends AppCompatActivity {
         rotateAnimation.setInterpolator(new LinearInterpolator());
         rotateAnimation.setRepeatCount(Animation.INFINITE);
         rotateAnimation.setDuration(30000);
-        BarrotateAnimation.setInterpolator(new LinearInterpolator());
-        BarrotateAnimation.setRepeatCount(Animation.INFINITE);
-        BarrotateAnimation.setDuration(30000);
-        vBarSongCover.startAnimation(rotateAnimation);
-        vSongCover.startAnimation(BarrotateAnimation);
+        BarRotateAnimation.setInterpolator(new LinearInterpolator());
+        BarRotateAnimation.setRepeatCount(Animation.INFINITE);
+        BarRotateAnimation.setDuration(30000);
+        if(mAudio.isPlaying()){
+            vBarSongCover.startAnimation(rotateAnimation);
+            vSongCover.startAnimation(BarRotateAnimation);
+        }
 
 
     }

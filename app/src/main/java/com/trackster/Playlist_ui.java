@@ -1,13 +1,10 @@
 package com.trackster;
 
-import android.media.MediaPlayer;
-import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
 
 import androidx.annotation.Nullable;
-import androidx.constraintlayout.motion.widget.MotionLayout;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -20,8 +17,6 @@ import com.roomdb.Track;
 import com.roomdb.roomViewModel;
 
 import java.util.List;
-
-import hiennguyen.me.circleseekbar.CircleSeekBar;
 
 public class Playlist_ui extends UI {
 
@@ -43,7 +38,6 @@ public class Playlist_ui extends UI {
         setContentView(R.layout.playlist_ui);
         InitializingViews();
         setupRecyclerView();
-
 
         vBackButton.setOnClickListener(lBackButton);
         mSongAdapter.setOnItemClickListener(lSongAdapter);
@@ -114,7 +108,7 @@ public class Playlist_ui extends UI {
         vSongsRecyclerView.setAdapter(mSongAdapter);
         vSongsRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mViewModel = new ViewModelProvider(this).get(roomViewModel.class);
-        mViewModel.getAlltracksfromplaylist(mPlaylistName).observe(this, new Observer<List<Track>>() {
+        mViewModel.getAllTracksFromPlaylist(mPlaylistName).observe(this, new Observer<List<Track>>() {
             @Override
             public void onChanged(@Nullable List<Track> tracks) {
                 mSongAdapter.setSongsList(tracks);

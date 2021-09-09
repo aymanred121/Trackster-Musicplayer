@@ -35,14 +35,12 @@ public class roomRepo {
 
     public void insert(Playlist playlist) {
          insertPlaylist(playlistDao,playlist);
-
     }
 
 
     //Delete
     public void delete(Track track) {
          deleteTrack(trackDao,track);
-
     }
 
 
@@ -106,7 +104,7 @@ public class roomRepo {
 //    }
     private void insertPlaylist(PlaylistDao Dao,Playlist obj){
     new Thread(
-            () -> Dao.insert(obj));
+            () -> Dao.insert(obj)).start();
 
 }
 //    private static class insertPlaylist extends AsyncTask<Playlist,Void,Void>{
@@ -124,7 +122,7 @@ public class roomRepo {
 //    }
 private void insertContains(ContainsDao Dao,Contains obj){
     new Thread(
-            () -> Dao.insert(obj));
+            () -> Dao.insert(obj)).start();
 
 }
 //    private static class insertContains extends AsyncTask<Contains,Void,Void>{
@@ -143,7 +141,7 @@ private void insertContains(ContainsDao Dao,Contains obj){
     //Asyncupdate
 private void updateTrack(TrackDao Dao,Track obj){
     new Thread(
-            () -> Dao.update(obj));
+            () -> Dao.update(obj)).start();
 
 }
 //    private static class updateTrack extends AsyncTask<Track,Void,Void>{
@@ -161,7 +159,7 @@ private void updateTrack(TrackDao Dao,Track obj){
 //    }
 private void updatePlaylist(PlaylistDao Dao,Playlist obj){
     new Thread(
-            () -> Dao.update(obj));
+            () -> Dao.update(obj)).start();
 
 }
 //    private static class updatePlaylist extends AsyncTask<Playlist,Void,Void>{
@@ -179,7 +177,7 @@ private void updatePlaylist(PlaylistDao Dao,Playlist obj){
 //    }
 private void updateContains(ContainsDao Dao,Contains obj){
     new Thread(
-            () -> Dao.update(obj));
+            () -> Dao.update(obj)).start();
 
 }
 //    private static class updatecontains extends AsyncTask<Contains,Void,Void>{
@@ -198,7 +196,7 @@ private void updateContains(ContainsDao Dao,Contains obj){
     //deleteAsynctask
 private void deleteTrack(TrackDao Dao,Track obj){
     new Thread(
-            () -> Dao.delete(obj));
+            () -> Dao.delete(obj)).start();
 
 }
 //    private static class deleteTrack extends AsyncTask<Track,Void,Void>{
@@ -216,7 +214,7 @@ private void deleteTrack(TrackDao Dao,Track obj){
 //    }
 private void deletePlaylist(PlaylistDao Dao,Playlist obj){
     new Thread(
-            () -> Dao.delete(obj));
+            () -> Dao.delete(obj)).start();
 
 }
 //    private static class deletePlaylist extends AsyncTask<Playlist,Void,Void>{
@@ -234,7 +232,7 @@ private void deletePlaylist(PlaylistDao Dao,Playlist obj){
 //    }
 private void deletecontains(ContainsDao Dao,Contains obj){
     new Thread(
-            () -> Dao.delete(obj));
+            () -> Dao.delete(obj)).start();
 
 }
 //    private static class deletecontains extends AsyncTask<Contains,Void,Void>{

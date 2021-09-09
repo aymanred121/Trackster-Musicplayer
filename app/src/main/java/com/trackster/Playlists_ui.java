@@ -108,14 +108,18 @@ public class Playlists_ui extends UI {
         vPlaylistsRecyclerView.setAdapter(mPlaylistAdapter);
         vPlaylistsRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mViewModel = new ViewModelProvider(this).get(roomViewModel.class);
+        updatePlayList();
+        // TODO doesn't load playlists when opened
+    }
+
+    private void updatePlayList() {
         mViewModel.getAllPlaylists().observe(this, new Observer<List<Playlist>>() {
             @Override
             public void onChanged(@Nullable List<Playlist> playlists) {
-                mPlaylistAdapter.setPlaylistsList(playlists);
+            mPlaylistAdapter.setPlaylistsList(playlists);
                 mPlaylistsList = playlists;
             }
         });
-        // ToDO doesn't load playlists when opened
     }
 
     private void openPlaylist() {
@@ -126,6 +130,12 @@ public class Playlists_ui extends UI {
     public void openAddPlaylistDialog() {
         AddPlaylistDialog dialog = new AddPlaylistDialog();
         dialog.show(getSupportFragmentManager(), "");
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updatePlayList();
     }
 
     // Listeners

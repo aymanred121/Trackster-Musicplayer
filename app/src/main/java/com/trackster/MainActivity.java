@@ -150,6 +150,9 @@ public class MainActivity extends UI {
             public void onChanged(@Nullable List<Track> tracks) {
                 mSongAdapter.setSongsList(tracks);
                 mTrackList = tracks;
+                //To fill the Queue when restarting the App
+                if(state == queueState.main)
+                    mQueue = tracks;
             }
         });
     }

@@ -114,7 +114,7 @@ public class Playlist_ui extends UI {
         vSongsRecyclerView.setAdapter(mSongAdapter);
         vSongsRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
         mViewModel = new ViewModelProvider(this).get(roomViewModel.class);
-        mViewModel.getAlltracksfromplaylist("favourites").observe(this, new Observer<List<Track>>() {
+        mViewModel.getAlltracksfromplaylist(mPlaylistName).observe(this, new Observer<List<Track>>() {
             @Override
             public void onChanged(@Nullable List<Track> tracks) {
                 mSongAdapter.setSongsList(tracks);

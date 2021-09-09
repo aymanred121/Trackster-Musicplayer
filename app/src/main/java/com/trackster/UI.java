@@ -126,8 +126,6 @@ public class UI extends AppCompatActivity {
         {
             mAudio.start();
             coverAnimation();
-            vBarSongCover.startAnimation(rotateAnimation);
-            vSongCover.startAnimation(BarrotateAnimation);
 
         }
         else
@@ -302,6 +300,7 @@ public class UI extends AppCompatActivity {
         mediaPlayerRelease();
         mAudio=MediaPlayer.create(this, Uri.parse(mPlayingNow.getLocation()));
         mAudio.start();
+        coverAnimation();
         vPlayButton.setIcon(getResources().getDrawable(R.drawable.playing));
         vFavouritesToggle.setChecked(TracksterRoomDb.getInstance(this).containsDao().isExist(mPlayingNow.getID(),"favourites"));
         vPlayToggle.setChecked(true);
@@ -368,6 +367,9 @@ public class UI extends AppCompatActivity {
         BarrotateAnimation.setInterpolator(new LinearInterpolator());
         BarrotateAnimation.setRepeatCount(Animation.INFINITE);
         BarrotateAnimation.setDuration(30000);
+        vBarSongCover.startAnimation(rotateAnimation);
+        vSongCover.startAnimation(BarrotateAnimation);
+
 
     }
     protected void mediaPlayerRelease(){
@@ -489,9 +491,9 @@ public class UI extends AppCompatActivity {
     protected View.OnLongClickListener lForward = new View.OnLongClickListener() {
         @Override
         public boolean onLongClick(View v) {
-            if (mAudio.getDuration() - mAudio.getCurrentPosition() >= 1000)
-                mAudio.seekTo(mAudio.getCurrentPosition() + 1000);
-            return false;
+            if (mAudio.getDuration() - mAudio.getCurrentPosition() >= 4000)
+                mAudio.seekTo(mAudio.getCurrentPosition() + 4000);
+            return true;
         }
     };
     protected View.OnLongClickListener lBackward = new View.OnLongClickListener() {
@@ -501,10 +503,9 @@ public class UI extends AppCompatActivity {
                 mAudio.seekTo(mAudio.getCurrentPosition() - 4000);
             else
                 mAudio.seekTo(0);
-            return false;
+            return true;
         }
     };
-    // TODO fix bug: crashes when long pressed
     private MotionLayout.TransitionListener lMain = new MotionLayout.TransitionListener() {
         @Override
         public void onTransitionStarted(MotionLayout motionLayout, int startId, int endId) {

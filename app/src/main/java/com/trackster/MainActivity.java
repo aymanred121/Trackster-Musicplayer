@@ -2,7 +2,6 @@ package com.trackster;
 
 import android.Manifest;
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -25,19 +24,13 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.Adapters.SongAdapter;
-import com.bumptech.glide.Glide;
-import com.gauravk.audiovisualizer.visualizer.BarVisualizer;
 import com.google.android.material.button.MaterialButton;
 import com.roomdb.Track;
 import com.roomdb.TracksterRoomDb;
 import com.roomdb.roomViewModel;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-
-import static com.trackster.PlayingState.Shuffle;
 
 
 public class MainActivity extends UI {
@@ -164,6 +157,8 @@ public class MainActivity extends UI {
         if (isExist) {
             mPlayingNow = TracksterRoomDb.getInstance(this).trackDao().getTrackByID(sharedPreferences.getInt(ID, -1));
             mAudio = MediaPlayer.create(this, Uri.parse(mPlayingNow.getLocation()));
+            vSongSeekBar.setMax(mAudio.getDuration());
+            vSongProgressBar.setMax(mAudio.getDuration());
             setupSong();
             vMain.transitionToEnd();
             trackPosition=sharedPreferences.getInt(QUEUEPOS,-1);

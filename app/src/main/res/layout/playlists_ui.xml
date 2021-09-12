@@ -267,7 +267,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content">
 
-                    <hiennguyen.me.circleseekbar.CircleSeekBar
+                    <com.trackster.CircleSeekBar
                         android:id="@+id/Playlists_playing_song_time"
                         android:layout_width="300dp"
                         android:layout_height="300dp"

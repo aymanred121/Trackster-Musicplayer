@@ -86,7 +86,7 @@ public class Playlist_ui extends UI {
         vSongLyrics = findViewById(R.id.Playlist_playing_lyrics);
 
 
-        if (isExist) {
+        if (mPlayingNow!=null) {
             sync();
             rSongTimer.run();
             vMain.setTransition(R.id.open_withbar_transition);
@@ -134,6 +134,7 @@ public class Playlist_ui extends UI {
                 state = queueState.playlist;
                 trackPosition = position;
                 mPlayingNow = mTrackList.get(position);
+                openBar();
                 openSong();
             }
         }

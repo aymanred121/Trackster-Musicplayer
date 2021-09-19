@@ -49,6 +49,7 @@ public class MainActivity extends UI {
     private List<Track> mTrackList;
     public static Handler mHandler = new Handler();
     private static List<Track> searchResult;
+    private Boolean isExist = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,8 @@ public class MainActivity extends UI {
         setPermissionAndDB();
         InitializingViews();
         setupRecyclerView();
+        if (mPlayingNow == null)
+            retrieveLastPlayedSong();
 
         vSearchSongEdit.addTextChangedListener(lSearchBar);
         vOpenPlaylistsButton.setOnClickListener(lOpenPlaylists);
@@ -65,13 +68,12 @@ public class MainActivity extends UI {
         setupListeners();
 
 
+
     }
 
     @Override
     protected void onResume() {
         super.onResume();
-        if (mPlayingNow == null)
-            retrieveLastPlayedSong();
         if (mPlayingNow != null && mAudio != null)
             sync();
 
@@ -157,6 +159,7 @@ public class MainActivity extends UI {
         if (isExist) {
             mPlayingNow = TracksterRoomDb.getInstance(this).trackDao().getTrackByID(sharedPreferences.getInt(ID, -1));
             mAudio = MediaPlayer.create(this, Uri.parse(mPlayingNow.getLocation()));
+            mAudio.setOnCompletionListener(onCompletionListener);
             vSongSeekBar.setMax(mAudio.getDuration());
             vSongProgressBar.setMax(mAudio.getDuration());
             setupSong();
@@ -165,6 +168,7 @@ public class MainActivity extends UI {
             state=queueState.values()[sharedPreferences.getInt(ORIGIN,1)];
             if(state!=queueState.main)
             mQueue=TracksterRoomDb.getInstance(this).containsDao().getListPlaylistTracks(sharedPreferences.getString(PLAYLISTNAME,""));
+
 
 
         } else
@@ -228,6 +232,7 @@ public class MainActivity extends UI {
                     mPlayingNow = mTrackList.get(position);
                 else
                     mPlayingNow = searchResult.get(position);
+                openBar();
                 openSong();
 
             }

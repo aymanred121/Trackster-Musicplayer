@@ -89,7 +89,7 @@ public class Playlists_ui extends UI {
         vSongLyrics = findViewById(R.id.Playlists_playing_lyrics);
 
 
-        if (isExist) {
+        if (mPlayingNow!=null) {
             sync();
             rSongTimer.run();
             vMain.setTransition(R.id.open_withbar_transition);

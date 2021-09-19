@@ -48,6 +48,7 @@ public class MainActivity extends UI {
     private roomViewModel mViewModel;
     private List<Track> mTrackList;
     public static Handler mHandler = new Handler();
+    public static boolean isShown = false;
     private static List<Track> searchResult;
     private Boolean isExist = false;
 
@@ -162,6 +163,7 @@ public class MainActivity extends UI {
             mAudio.setOnCompletionListener(onCompletionListener);
             vSongSeekBar.setMax(mAudio.getDuration());
             vSongProgressBar.setMax(mAudio.getDuration());
+            isShown = true;
             setupSong();
             vMain.transitionToEnd();
             trackPosition=sharedPreferences.getInt(QUEUEPOS,-1);

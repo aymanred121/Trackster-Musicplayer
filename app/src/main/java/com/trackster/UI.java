@@ -83,11 +83,14 @@ public class UI extends AppCompatActivity {
     public static final String QUEUEPOS = "QUEUEPOS";
     public static final String ORIGIN = "ORIGIN";
     public static final String PLAYLISTNAME = "PLAYLISTNAME";
-    public static final String ALBUMART= "/data/user/0/com.trackster/app_imageDir/";
+    public static final String ALBUMART = "/data/user/0/com.trackster/app_imageDir/";
     protected static int trackPosition;
-    protected  enum  queueState{
-        main,favourites,playlist
-    };
+
+    protected enum queueState {
+        main, favourites, playlist
+    }
+
+    ;
     protected static queueState state;
     protected static String mPlaylistName;
 
@@ -102,8 +105,7 @@ public class UI extends AppCompatActivity {
 
 
     // functions
-    protected void setupListeners()
-    {
+    protected void setupListeners() {
         vPlayingNowBackButton.setOnClickListener(lPlayingNowBackButton);
         vPlayingNowBar.setOnClickListener(lPlayingNowBar);
         vPlayButton.setOnClickListener(lPlayButton);
@@ -129,7 +131,7 @@ public class UI extends AppCompatActivity {
     }
 
     protected void close() {
-        if (mPlayingNow!=null)
+        if (mPlayingNow != null)
             vMain.setTransition(R.id.withbar_close_transition);
         else
             vMain.setTransition(R.id.withoutbar_close_transition);
@@ -177,11 +179,11 @@ public class UI extends AppCompatActivity {
 
     protected void openBar() {
         if (!isBarOpened) {
-            if (mPlayingNow!=null)
+            if (MainActivity.isShown)
                 vMain.setTransition(R.id.open_song_transition);
             else
                 vMain.setTransition(R.id.nobar_transition);
-
+            MainActivity.isShown = true;
             vMain.transitionToEnd();
             isBarOpened = true;
         }
@@ -200,31 +202,31 @@ public class UI extends AppCompatActivity {
         if (mPlayingNow.getArtistName().length() > 20)
             vArtistName.setSelected(true);
         updateLyrics();
-        if(TracksterRoomDb.getInstance(getApplicationContext()).containsDao().isExist(mPlayingNow.getID(),"favourites")){
+        if (TracksterRoomDb.getInstance(getApplicationContext()).containsDao().isExist(mPlayingNow.getID(), "favourites")) {
             vFavouritesToggle.setChecked(true);
-        }else
+        } else
             vFavouritesToggle.setChecked(false);
 
-            Glide.with(vSongCover.getContext())
-                    .load(ALBUMART+mPlayingNow.getID()+".jpg")
-                    .placeholder(R.drawable.music_note)
-                    .error(R.drawable.music_note)
-                    .dontAnimate()
-                    .into(vSongCover);
+        Glide.with(vSongCover.getContext())
+                .load(ALBUMART + mPlayingNow.getID() + ".jpg")
+                .placeholder(R.drawable.music_note)
+                .error(R.drawable.music_note)
+                .dontAnimate()
+                .into(vSongCover);
 
-            Glide.with(vBarSongCover.getContext())
-                    .load(ALBUMART+mPlayingNow.getID()+".jpg")
-                    .placeholder(R.drawable.music_note)
-                    .error(R.drawable.music_note)
-                    .dontAnimate()
-                    .into(vBarSongCover);
+        Glide.with(vBarSongCover.getContext())
+                .load(ALBUMART + mPlayingNow.getID() + ".jpg")
+                .placeholder(R.drawable.music_note)
+                .error(R.drawable.music_note)
+                .dontAnimate()
+                .into(vBarSongCover);
 
 
     }
 
     protected void updateLyrics() {
-        if(mPlayingNow.getLyrics().trim().isEmpty())
-            new Trackinfo(this,mPlayingNow);
+        if (mPlayingNow.getLyrics().trim().isEmpty())
+            new Trackinfo(this, mPlayingNow);
         vSongLyrics.setText(mPlayingNow.getLyrics());
     }
 
@@ -232,16 +234,17 @@ public class UI extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(SHAREDPREF, MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(ID, mPlayingNow.getID());
-        editor.putInt(QUEUEPOS,trackPosition);
-        editor.putInt(ORIGIN,state.ordinal());
-        if(state==queueState.main)
-        editor.putString(PLAYLISTNAME,"MAIN");
-        else if(state == queueState.favourites)
-            editor.putString(PLAYLISTNAME,"favourites");
+        editor.putInt(QUEUEPOS, trackPosition);
+        editor.putInt(ORIGIN, state.ordinal());
+        if (state == queueState.main)
+            editor.putString(PLAYLISTNAME, "MAIN");
+        else if (state == queueState.favourites)
+            editor.putString(PLAYLISTNAME, "favourites");
         else
-            editor.putString(PLAYLISTNAME,mPlaylistName);
+            editor.putString(PLAYLISTNAME, mPlaylistName);
         editor.apply();
     }
+
     protected void openAddToPlaylistDialog() {
         AddToPlaylistDialog dialog = new AddToPlaylistDialog(this, R.style.BottomSheetDialog);
         dialog.show();
@@ -255,6 +258,7 @@ public class UI extends AppCompatActivity {
         updateLastPlayedSong();
         playSong();
     }
+
     protected void backwardSong() {
         if (playingState == Shuffle)
             shuffle();
@@ -267,6 +271,7 @@ public class UI extends AppCompatActivity {
             openSong();
         }
     }
+
     protected void forwardSong() {
         if (playingState == Shuffle) {
             shuffle();
@@ -279,6 +284,7 @@ public class UI extends AppCompatActivity {
         }
 
     }
+
     protected void shuffle() {
         Random rand = new Random();
         trackPosition = rand.nextInt(mQueue.size());
@@ -288,33 +294,35 @@ public class UI extends AppCompatActivity {
 
     }
 
-    private void coverAnimation(){
+    private void coverAnimation() {
         rotateAnimation.setInterpolator(new LinearInterpolator());
         rotateAnimation.setRepeatCount(Animation.INFINITE);
         rotateAnimation.setDuration(30000);
         BarRotateAnimation.setInterpolator(new LinearInterpolator());
         BarRotateAnimation.setRepeatCount(Animation.INFINITE);
         BarRotateAnimation.setDuration(30000);
-        if(mAudio.isPlaying()){
+        if (mAudio.isPlaying()) {
             vBarSongCover.startAnimation(rotateAnimation);
             vSongCover.startAnimation(BarRotateAnimation);
         }
 
 
     }
-    protected void mediaPlayerRelease(){
+
+    protected void mediaPlayerRelease() {
         if (mAudio != null)
             mAudio.release();
     }
+
     private void controlSong() {
-        if(!mAudio.isPlaying())
+        if (!mAudio.isPlaying())
             playSong();
         else
             pauseSong();
     }
 
 
-    private void playSong(){
+    private void playSong() {
         vPlayButton.setIcon(getResources().getDrawable(R.drawable.paused));
         Drawable drawable = vPlayButton.getIcon();
         if (drawable instanceof AnimatedVectorDrawableCompat) {
@@ -330,7 +338,8 @@ public class UI extends AppCompatActivity {
         runOnUiThread(rSongTimer);
 
     }
-    private void pauseSong(){
+
+    private void pauseSong() {
         vPlayButton.setIcon(getResources().getDrawable(R.drawable.playing));
         Drawable drawable = vPlayButton.getIcon();
         if (drawable instanceof AnimatedVectorDrawableCompat) {
@@ -378,14 +387,13 @@ public class UI extends AppCompatActivity {
     };
 
 
-
     protected View.OnClickListener lFavouritesToggle = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            if(!vFavouritesToggle.isChecked()){
-                TracksterRoomDb.getInstance(getApplicationContext()).containsDao().delete(new Contains("favourites",mPlayingNow.getID()));
-            }else
-                TracksterRoomDb.getInstance(getApplicationContext()).containsDao().insert(new Contains("favourites",mPlayingNow.getID()));
+            if (!vFavouritesToggle.isChecked()) {
+                TracksterRoomDb.getInstance(getApplicationContext()).containsDao().delete(new Contains("favourites", mPlayingNow.getID()));
+            } else
+                TracksterRoomDb.getInstance(getApplicationContext()).containsDao().insert(new Contains("favourites", mPlayingNow.getID()));
         }
     };
     protected View.OnClickListener lAddToPlaylist = new View.OnClickListener() {
@@ -652,7 +660,7 @@ class CircleSeekBar extends View {
 
     public void setProgressDisplayAndInvalidate(int progressDisplay) {
         setProgressDisplay(progressDisplay);
-        if(mOnSeekBarChangeListener != null) {
+        if (mOnSeekBarChangeListener != null) {
             mOnSeekBarChangeListener.onPointsChanged(this, mProgressDisplay, false);
         }
         invalidate();
@@ -779,7 +787,7 @@ class CircleSeekBar extends View {
     @Override
     protected void onDraw(Canvas canvas) {
 
-        if(mIsShowText) {
+        if (mIsShowText) {
             // draw the text
             String textPoint = String.valueOf(mProgressDisplay);
             mTextPaint.getTextBounds(textPoint, 0, textPoint.length(), mTextRect);
@@ -839,7 +847,7 @@ class CircleSeekBar extends View {
                     getParent().requestDisallowInterceptTouchEvent(true);
                     mIsThumbSelected = true;
                     updateProgressState(x, y);
-                    if(mOnSeekBarChangeListener != null) {
+                    if (mOnSeekBarChangeListener != null) {
                         mOnSeekBarChangeListener.onStartTrackingTouch(this);
                     }
                 }
@@ -860,7 +868,7 @@ class CircleSeekBar extends View {
                 // finished moving (this is the last touch)
                 getParent().requestDisallowInterceptTouchEvent(false);
                 mIsThumbSelected = false;
-                if(mOnSeekBarChangeListener != null)
+                if (mOnSeekBarChangeListener != null)
                     mOnSeekBarChangeListener.onStopTrackingTouch(this);
                 break;
             }

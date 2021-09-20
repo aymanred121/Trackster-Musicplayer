@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.EditText;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.lifecycle.Observer;
@@ -124,6 +125,7 @@ public class MainActivity extends UI {
     }
 
     private void openFavourites() {
+        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         Intent intent = new Intent(this, Favourites_ui.class);
         startActivity(intent);
     }

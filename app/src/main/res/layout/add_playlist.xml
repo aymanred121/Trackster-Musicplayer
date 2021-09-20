@@ -7,9 +7,9 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Enter playlist name:"
-        android:textColor="@android:color/black"
-        android:textSize="16dp"/>
+        android:text="@string/enter_playlist_name"
+        android:textColor="@color/main_text"
+        android:textSize="16sp"/>
     <EditText
         android:id="@+id/added_playlist_name"
         android:layout_width="match_parent"

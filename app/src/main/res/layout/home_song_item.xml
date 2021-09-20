@@ -6,23 +6,11 @@
     android:background="?android:attr/selectableItemBackground"
     android:padding="8dp">
 
-    <com.gauravk.audiovisualizer.visualizer.BarVisualizer xmlns:custom="http://schemas.android.com/apk/res-auto"
-        android:id="@+id/visualizer"
-        android:layout_width="50dp"
-        android:layout_height="50dp"
-        android:layout_marginEnd="8dp"
-        android:padding="12dp"
-        app:avColor="@android:color/black"
-        android:visibility="gone"
-        app:avDensity="0.8"
-        app:avSpeed="noraml"
-        app:avType="fill" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/home_song_item_song_cover"
         android:layout_width="50dp"
         android:layout_height="50dp"
-        android:layout_toRightOf="@id/visualizer"
         android:src="@drawable/music_note" />
 
     <TextView
@@ -50,7 +38,7 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:text="Artist"
+        android:text="@string/artist_name_placeholder"
         android:textColor="@android:color/darker_gray" />
 
 </RelativeLayout>

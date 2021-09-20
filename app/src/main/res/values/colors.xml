@@ -1,8 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
+    <color name="background">#fff</color>
     <color name="side_text">#707070</color>
     <color name="main_text">#000000</color>
+    <color name="light_text">#fff</color>
+
+    <color name="playBtn">#fff</color>
+    <!-- seekBar -->
+    <color name="seekBar_arc">#aaa</color>
+    <color name="seekBar_color">#000</color>
+    <!-- progressbar -->
+    <color name="progressBar_notPlayed">#3A3A3A</color>
+    <color name="progressBar_Played">#fff</color>
+
 
 
     <color name="playlist_layer_1">#000000</color>
@@ -20,7 +31,7 @@
     <color name="favourites_notPlayed">#31251B</color>
 
 
-    <color name="home_notPlayed">#3A3A3A</color>
+
 
 
 

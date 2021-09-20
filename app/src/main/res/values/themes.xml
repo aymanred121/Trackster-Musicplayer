@@ -8,7 +8,7 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
         <!-- Customize your theme here. -->
-
+        <item name="background">@android:color/white</item>
         <!-- Transparent navigation bat -->
         <item name="android:windowTranslucentStatus">true</item>
         <item name="android:windowTranslucentNavigation">true</item>
@@ -18,8 +18,6 @@
         <item name="bottomSheetStyle">@style/BottomSheet</item>
 
     </style>
-
-
     <style name="BottomSheet" parent="Widget.Design.BottomSheet.Modal">
         <item name="background">@drawable/bottom_sheet_dialog</item>
     </style>

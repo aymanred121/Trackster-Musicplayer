@@ -1,3 +1,14 @@
 <resources>
     <string name="app_name">Trackster</string>
+    <string name="playlists">Playlists</string>
+    <string name="favourites">Favourites</string>
+    <string name="songs">Songs</string>
+    <string name="song_name_placeholder">Song Name PlaceHolder</string>
+    <string name="artist_name_placeholder">Artist name PlaceHolder</string>
+    <string name="lyrics">lyrics</string>
+    <string name="playlist">Playlist</string>
+    <string name="enter_playlist_name">Enter playlist name:</string>
+    <string name="add_to_playlist">Add to playlist</string>
+    <string name="_0_songs">0 Songs</string>
+    <string name="_01_00">01:00</string>
 </resources>

@@ -6,22 +6,27 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     app:layoutDescription="@xml/activity_main_scene"
+    android:background="@color/background"
     tools:context=".MainActivity">
 
     <EditText
         android:id="@+id/HomePage_search_song"
         android:layout_width="0dp"
-        android:layout_height="100dp"
+        android:layout_height="84dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="16dp"
         android:background="@drawable/searchbar"
         android:drawableStart="@drawable/ic_search"
         android:drawablePadding="8dp"
+        android:inputType="text"
         android:padding="8dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
-        android:textColor="@android:color/white"
-        android:textCursorDrawable="@android:color/white"
-        android:textSize="24dp"
         android:singleLine="true"
+        android:textSize="24sp"
+        android:textColor="@color/light_text"
+        android:textCursorDrawable="@color/light_text"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -42,19 +47,20 @@
             android:id="@+id/HomePage_toPlaylists"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:backgroundTint="@color/playlists_layer_2"
             android:layout_marginEnd="8dp"
+            android:backgroundTint="@color/playlists_layer_2"
             android:insetLeft="0dp"
             android:insetTop="0dp"
             android:insetRight="0dp"
             android:insetBottom="0dp"
             android:padding="24dp"
-            android:text="Playlists"
+            android:text="@string/playlists"
             android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="20dp"
+            android:textColor="@color/light_text"
+            android:textSize="20sp"
             app:cornerRadius="10dp"
             app:icon="@drawable/playlist"
+            app:iconTint="@color/light_text"
             app:iconGravity="textStart"
             app:iconPadding="8dp"
             app:iconSize="16dp" />
@@ -69,12 +75,13 @@
             android:insetRight="0dp"
             android:insetBottom="0dp"
             android:padding="24dp"
-            android:text="Favourites"
+            android:text="@string/favourites"
             android:textAllCaps="false"
-            android:textColor="@android:color/white"
-            android:textSize="20dp"
+            android:textColor="@color/light_text"
+            android:textSize="20sp"
             app:cornerRadius="10dp"
             app:icon="@drawable/ic_baseline_favorite_24"
+            app:iconTint="@color/light_text"
             app:iconGravity="textStart"
             app:iconPadding="8dp"
             app:iconSize="16dp" />
@@ -85,10 +92,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:inputType="text"
-        android:text="Songs"
-        android:textColor="@android:color/black"
-        android:textSize="32dp"
+        android:text="@string/songs"
+        android:textColor="@color/main_text"
+        android:textSize="32sp"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/HomePage_container" />
@@ -139,8 +145,8 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:text="MonthsMonthsMonthsMonths"
-        android:textColor="@android:color/white"
+        android:text="@string/song_name_placeholder"
+        android:textColor="@color/light_text"
         android:textSize="16sp"
         android:textStyle="bold"
         android:translationY="120dp"
@@ -159,9 +165,9 @@
         android:marqueeRepeatLimit="marquee_forever"
         android:scrollHorizontally="true"
         android:singleLine="true"
-        android:text="Calven Harres"
-        android:textColor="@android:color/white"
-        android:textSize="16dp"
+        android:text="@string/artist_name_placeholder"
+        android:textColor="@color/light_text"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:translationY="120dp"
         app:layout_constraintEnd_toStartOf="@+id/HomePage_song_time"
@@ -176,7 +182,7 @@
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:indeterminateOnly="false"
-        android:progressDrawable="@drawable/circle"
+        android:progressDrawable="@drawable/circle_progressbar"
         android:translationY="120dp"
         app:layout_constraintEnd_toEndOf="@id/HomePage_playing_now_bar"
         app:layout_constraintTop_toTopOf="@id/HomePage_playing_now_bar"
@@ -209,6 +215,7 @@
         app:backgroundTint="#333"
         app:cornerRadius="64dp"
         app:icon="@drawable/ic_back"
+        app:iconTint="@color/light_text"
         app:iconGravity="textStart"
         app:iconPadding="0dp"
         app:iconSize="16dp"
@@ -221,12 +228,12 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:background="@drawable/bg"
+        android:backgroundTint="@color/background"
         android:elevation="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/HomePage_playing_now_bar"
-        tools:backgroundTint="@android:color/white">
+        app:layout_constraintTop_toBottomOf="@id/HomePage_playing_now_bar">
 
 
         <com.google.android.material.button.MaterialButton
@@ -291,17 +298,17 @@
                         android:layout_width="300dp"
                         android:layout_height="300dp"
                         android:padding="32dp"
-                        app:csb_arcColor="@android:color/darker_gray"
+                        app:csb_arcColor="@color/seekBar_arc"
                         app:csb_arcWidth="6dp"
                         app:csb_max="100"
                         app:csb_min="0"
                         app:csb_progress="0"
-                        app:csb_progressColor="@android:color/black"
+                        app:csb_progressColor="@color/seekBar_color"
                         app:csb_progressWidth="10dp"
                         app:csb_step="1"
                         app:csb_textSize="36sp"
-                        app:csb_thumbSize="20dp"
                         app:csb_thumbDrawable="@drawable/thumb"
+                        app:csb_thumbSize="20dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toEndOf="@id/HomePage_playing_show_cover"
                         app:layout_constraintStart_toStartOf="parent"
@@ -329,8 +336,9 @@
                     android:id="@+id/HomePage_playing_lyrics"
                     android:layout_width="300dp"
                     android:layout_height="match_parent"
-                    android:text="dasdaksldnaslkdnaslkdslkdbaslkdasldkasnldknalsdknasldnasndalksdnaslkdnalsdnlaskdnaslkdnaslkdnasldnasldnaslldasndlkasndlandlsandlasndla"
-                    android:textColor="@android:color/black" />
+                    android:text="@string/lyrics"
+                    android:scrollbars="vertical"
+                    android:textColor="@color/main_text" />
 
             </LinearLayout>
         </HorizontalScrollView>
@@ -346,9 +354,9 @@
             android:marqueeRepeatLimit="marquee_forever"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:text="test fot the sake of testing"
-            android:textColor="@android:color/black"
-            android:textSize="32dp"
+            android:text="@string/song_name_placeholder"
+            android:textColor="@color/main_text"
+            android:textSize="32sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -365,8 +373,8 @@
             android:marqueeRepeatLimit="marquee_forever"
             android:scrollHorizontally="true"
             android:singleLine="true"
-            android:text="Calvin Hams"
-            android:textSize="16dp"
+            android:text="@string/artist_name_placeholder"
+            android:textSize="16sp"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -381,9 +389,10 @@
             android:insetTop="0dp"
             android:insetRight="0dp"
             android:insetBottom="0dp"
-            app:backgroundTint="@android:color/black"
+            app:backgroundTint="@color/main_text"
             app:cornerRadius="64dp"
             app:icon="@drawable/paused"
+            app:iconTint="@color/playBtn"
             app:iconGravity="textStart"
             app:iconPadding="0dp"
             app:iconSize="12dp"
@@ -401,7 +410,8 @@
             android:rotation="180"
             android:src="@drawable/fast_forward"
             app:layout_constraintEnd_toStartOf="@id/HomePage_playing_play_pause_btn"
-            app:layout_constraintTop_toBottomOf="@id/HomePage_playing_artist_name" />
+            app:layout_constraintTop_toBottomOf="@id/HomePage_playing_artist_name"
+            app:tint="@color/main_text" />
 
         <ImageView
             android:id="@+id/HomePage_playing_forward_btn"
@@ -411,8 +421,10 @@
             android:layout_marginTop="32dp"
             android:padding="12dp"
             android:src="@drawable/fast_forward"
+            android:backgroundTint="@color/main_text"
             app:layout_constraintStart_toEndOf="@id/HomePage_playing_play_pause_btn"
-            app:layout_constraintTop_toBottomOf="@id/HomePage_playing_artist_name" />
+            app:layout_constraintTop_toBottomOf="@id/HomePage_playing_artist_name"
+            app:tint="@color/main_text" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -431,13 +443,16 @@
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
-                android:src="@drawable/ic_repeat" />
+                android:backgroundTint="@color/main_text"
+                android:src="@drawable/ic_repeat"
+                app:tint="@color/main_text" />
 
             <ToggleButton
                 android:id="@+id/HomePage_playing_add_to_favourite"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
                 android:layout_marginEnd="16dp"
+                android:backgroundTint="@color/main_text"
                 android:background="@drawable/favourite_toggle"
                 android:textOff=""
                 android:textOn="" />
@@ -446,7 +461,9 @@
                 android:id="@+id/HomePage_playing_add_to_playlist"
                 android:layout_width="32dp"
                 android:layout_height="32dp"
-                android:src="@drawable/add_to_playlist" />
+                android:backgroundTint="@color/main_text"
+                android:src="@drawable/add_to_playlist"
+                app:tint="@color/main_text" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

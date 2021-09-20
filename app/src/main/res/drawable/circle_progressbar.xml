@@ -5,7 +5,7 @@
             android:shape="ring"
             android:thicknessRatio="32"
             android:useLevel="false">
-            <solid android:color="@color/home_notPlayed" />
+            <solid android:color="@color/progressBar_notPlayed" />
         </shape>
     </item>
 
@@ -17,7 +17,7 @@
                 android:shape="ring"
                 android:thicknessRatio="32"
                 android:useLevel="true">
-                <solid android:color="@android:color/white" />
+                <solid android:color="@color/progressBar_Played" />
             </shape>
         </rotate>
     </item>

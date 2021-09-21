@@ -1,55 +1,59 @@
 package com.Dialogs;
 
-import android.content.DialogInterface;
-import android.os.Bundle;
+import android.app.Dialog;
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatDialogFragment;
 
 import com.roomdb.Playlist;
 import com.roomdb.TracksterRoomDb;
 import com.trackster.R;
 
-import io.reactivex.annotations.Nullable;
+public class AddPlaylistDialog extends Dialog {
 
-public class AddPlaylistDialog extends AppCompatDialogFragment {
-
-    private EditText mPlaylistName;
-
-    @NonNull
-    @Override
-    public android.app.Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        LayoutInflater inflater = getActivity().getLayoutInflater();
-        View view = inflater.inflate(R.layout.add_playlist, null);
-        mPlaylistName=view.findViewById(R.id.added_playlist_name);
-
-        builder.setView(view)
-                .setTitle("Playlist name")
-                .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        if(!TracksterRoomDb.getInstance(getContext()).playlistDao().isPlaylistExist(mPlaylistName.getText().toString()))
-                            TracksterRoomDb.getInstance(getContext()).playlistDao().insert(new Playlist(mPlaylistName.getText().toString()));
-                        else
-                            Toast.makeText(getContext(), "This playlist already exist", Toast.LENGTH_SHORT).show();
-                    }
-                })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-
-                    }
-                });
-
-        mPlaylistName = view.findViewById(R.id.added_playlist_name);
+    private EditText vPlaylistName;
+    private Button vOkButton, vCancelButton;
 
 
-        return builder.create();
+    public AddPlaylistDialog(@NonNull Context context) {
+        super(context);
+        View view = LayoutInflater.from(context).
+                inflate(R.layout.add_playlist,
+                        (RelativeLayout) findViewById(R.id.playlist_name_container));
+
+        vPlaylistName = view.findViewById(R.id.added_playlist_name);
+        vOkButton = view.findViewById(R.id.AddPlaylist);
+        vCancelButton = view.findViewById(R.id.cancelAddingPlaylist);
+
+        vOkButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!TracksterRoomDb.getInstance(getContext()).playlistDao().isPlaylistExist(vPlaylistName.getText().toString()) && !vPlaylistName.getText().toString().trim().isEmpty())
+                    TracksterRoomDb.getInstance(getContext()).playlistDao().insert(new Playlist(vPlaylistName.getText().toString()));
+                else if (vPlaylistName.getText().toString().trim().isEmpty() || vPlaylistName.getText().toString().length() == 0)
+                        Toast.makeText(getContext(), "Please Enter a Name", Toast.LENGTH_SHORT).show();
+                    else
+                        Toast.makeText(getContext(), "This playlist already exist", Toast.LENGTH_SHORT).show();
+
+                    dismiss();
+                }
+        });
+        vCancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dismiss();
+            }
+        });
+
+        setContentView(view);
+
     }
+
+
 }

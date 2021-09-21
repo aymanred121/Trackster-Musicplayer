@@ -13,6 +13,7 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ToggleButton;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -41,6 +42,7 @@ public class MainActivity extends UI {
     private MaterialButton vOpenPlaylistsButton;
     private EditText vSearchSongEdit;
     private RecyclerView vSongsRecyclerView;
+    private ToggleButton vDarkModeToggle;
 
 
     // Variables
@@ -63,6 +65,7 @@ public class MainActivity extends UI {
         if (mPlayingNow == null)
             retrieveLastPlayedSong();
 
+        vDarkModeToggle.setOnClickListener(lDarkMode);
         vSearchSongEdit.addTextChangedListener(lSearchBar);
         vOpenPlaylistsButton.setOnClickListener(lOpenPlaylists);
         vOpenFavouritesButton.setOnClickListener(lOpenFavourites);
@@ -96,6 +99,8 @@ public class MainActivity extends UI {
         vOpenPlaylistsButton = findViewById(R.id.HomePage_toPlaylists);
         vSearchSongEdit = findViewById(R.id.HomePage_search_song);
         vSongsRecyclerView = findViewById(R.id.HomePage_recyclerView);
+        vDarkModeToggle = findViewById(R.id.HomePage_darkMode);
+
         // for playing bar
         vMain = findViewById(R.id.HomePage);
         vPlayingNowBar = findViewById(R.id.HomePage_playing_now_bar);
@@ -125,7 +130,6 @@ public class MainActivity extends UI {
     }
 
     private void openFavourites() {
-        AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
         Intent intent = new Intent(this, Favourites_ui.class);
         startActivity(intent);
     }
@@ -212,6 +216,17 @@ public class MainActivity extends UI {
 
 
     // listeners
+    private View.OnClickListener lDarkMode = new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            if(vDarkModeToggle.isChecked())
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+            else
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+
+
+        }
+    };
     private View.OnClickListener lOpenFavourites = new View.OnClickListener() {
         @Override
         public void onClick(View v) {

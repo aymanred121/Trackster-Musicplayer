@@ -6,7 +6,7 @@
     <color name="side_text">#707070</color>
     <color name="main_text">#fff</color>
     <color name="light_text">#fff</color>
-
+    <color name="playlist_name">#3A3A3A</color>
     <color name="playBtn">#000</color>
     <!-- seekBar -->
     <color name="seekBar_arc">#000</color>

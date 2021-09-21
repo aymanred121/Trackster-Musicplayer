@@ -1,15 +1,15 @@
 package com.trackster;
 
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+
 import androidx.annotation.Nullable;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
 
 import com.Adapters.PlaylistAdapter;
 import com.Dialogs.AddPlaylistDialog;
@@ -128,8 +128,8 @@ public class Playlists_ui extends UI {
     }
 
     public void openAddPlaylistDialog() {
-        AddPlaylistDialog dialog = new AddPlaylistDialog();
-        dialog.show(getSupportFragmentManager(), "");
+        AddPlaylistDialog dialog = new AddPlaylistDialog(this);
+        dialog.show();
     }
 
     @Override

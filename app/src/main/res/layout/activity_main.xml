@@ -9,11 +9,28 @@
     android:background="@color/background"
     tools:context=".MainActivity">
 
+
+    <ToggleButton
+        android:id="@+id/HomePage_darkMode"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="8dp"
+        android:background="@drawable/darkmode_toggle"
+        android:backgroundTint="@color/main_text"
+        android:textOff=""
+        android:textOn=""
+        android:checked="false"
+        app:layout_constraintEnd_toStartOf="@+id/HomePage_search_song"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <EditText
         android:id="@+id/HomePage_search_song"
         android:layout_width="0dp"
         android:layout_height="84dp"
-        android:layout_marginStart="16dp"
+        android:layout_marginStart="8dp"
         android:layout_marginTop="32dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/searchbar"
@@ -24,11 +41,11 @@
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
         android:singleLine="true"
-        android:textSize="24sp"
         android:textColor="@color/light_text"
         android:textCursorDrawable="@color/light_text"
+        android:textSize="24sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/HomePage_darkMode"
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
@@ -119,6 +136,7 @@
         android:layout_marginStart="75dp"
         android:background="@drawable/playing_now_bar"
         android:translationY="120dp"
+        android:elevation="2dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -131,6 +149,7 @@
         android:layout_marginTop="32dp"
         android:src="@drawable/music_note"
         android:translationY="120dp"
+        android:elevation="2dp"
         app:layout_constraintStart_toStartOf="@id/HomePage_playing_now_bar"
         app:layout_constraintTop_toTopOf="@id/HomePage_playing_now_bar" />
 
@@ -150,6 +169,7 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:translationY="120dp"
+        android:elevation="2dp"
         app:layout_constraintEnd_toStartOf="@+id/HomePage_song_time"
         app:layout_constraintStart_toEndOf="@+id/HomePage_song_cover"
         app:layout_constraintTop_toTopOf="@id/HomePage_playing_now_bar" />
@@ -170,6 +190,7 @@
         android:textSize="16sp"
         android:textStyle="bold"
         android:translationY="120dp"
+        android:elevation="2dp"
         app:layout_constraintEnd_toStartOf="@+id/HomePage_song_time"
         app:layout_constraintStart_toEndOf="@+id/HomePage_song_cover"
         app:layout_constraintTop_toBottomOf="@+id/HomePage_song_name" />
@@ -184,6 +205,7 @@
         android:indeterminateOnly="false"
         android:progressDrawable="@drawable/circle_progressbar"
         android:translationY="120dp"
+        android:elevation="2dp"
         app:layout_constraintEnd_toEndOf="@id/HomePage_playing_now_bar"
         app:layout_constraintTop_toTopOf="@id/HomePage_playing_now_bar"
         tools:progress="50" />
@@ -196,10 +218,12 @@
         android:textOff=""
         android:textOn=""
         android:translationY="120dp"
+        android:elevation="2dp"
         app:layout_constraintBottom_toBottomOf="@+id/HomePage_song_time"
         app:layout_constraintEnd_toEndOf="@+id/HomePage_song_time"
         app:layout_constraintStart_toStartOf="@+id/HomePage_song_time"
         app:layout_constraintTop_toTopOf="@+id/HomePage_song_time" />
+
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/HomePage_playing_back_btn"

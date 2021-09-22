@@ -48,7 +48,7 @@ public class AddToPlaylistDialog extends BottomSheetDialog {
         mPlaylistsRecyclerView = bottomSheetView.findViewById(R.id.playlists_layout_recyclerview);
         mPlaylistsRecyclerView.setHasFixedSize(true);
         mPlaylistLayoutManager = new LinearLayoutManager(context, RecyclerView.VERTICAL, false);
-        mPlaylistAdapter = new PlaylistAdapter();
+        mPlaylistAdapter = new PlaylistAdapter(false);
         mPlaylistsRecyclerView.setLayoutManager(mPlaylistLayoutManager);
         mPlaylistsRecyclerView.setAdapter(mPlaylistAdapter);
         viewModel = new ViewModelProvider((ViewModelStoreOwner) context).get(roomViewModel.class);
@@ -68,6 +68,11 @@ public class AddToPlaylistDialog extends BottomSheetDialog {
                 else
                     Toast.makeText(context, "Already in this playlist", Toast.LENGTH_SHORT).show();
                 dismiss();
+            }
+
+            @Override
+            public void onMenuClick(int position, View view) {
+
             }
         });
 

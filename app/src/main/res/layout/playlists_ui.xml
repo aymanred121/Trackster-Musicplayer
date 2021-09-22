@@ -108,6 +108,8 @@
         android:layout_marginTop="32dp"
         android:translationY="120dp"
         android:src="@drawable/music_note"
+        android:transformPivotX="32dp"
+        android:transformPivotY="32dp"
         app:layout_constraintStart_toStartOf="@id/Playlists_playing_now_bar"
         app:layout_constraintTop_toTopOf="@id/Playlists_playing_now_bar" />
 

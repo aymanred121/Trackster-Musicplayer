@@ -150,6 +150,8 @@
         android:src="@drawable/music_note"
         android:translationY="120dp"
         android:elevation="2dp"
+        android:transformPivotX="32dp"
+        android:transformPivotY="32dp"
         app:layout_constraintStart_toStartOf="@id/HomePage_playing_now_bar"
         app:layout_constraintTop_toTopOf="@id/HomePage_playing_now_bar" />
 

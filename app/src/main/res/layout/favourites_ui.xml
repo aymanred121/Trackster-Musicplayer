@@ -105,6 +105,8 @@
         android:layout_marginTop="32dp"
         android:src="@drawable/music_note"
         android:translationY="120dp"
+        android:transformPivotX="32dp"
+        android:transformPivotY="32dp"
         app:layout_constraintStart_toStartOf="@id/Favourites_playing_now_bar"
         app:layout_constraintTop_toTopOf="@id/Favourites_playing_now_bar" />
 

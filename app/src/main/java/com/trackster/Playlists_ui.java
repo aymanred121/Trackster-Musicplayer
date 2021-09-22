@@ -2,9 +2,12 @@ package com.trackster;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.PopupMenu;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -13,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Adapters.PlaylistAdapter;
 import com.Dialogs.AddPlaylistDialog;
+import com.Dialogs.RenamePlaylistDialog;
 import com.google.android.material.button.MaterialButton;
 import com.roomdb.Playlist;
 import com.roomdb.roomViewModel;
@@ -56,6 +60,13 @@ public class Playlists_ui extends UI {
             goBack();
         } else
             close();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sync();
+        updatePlayList();
     }
 
     // Functions
@@ -104,7 +115,7 @@ public class Playlists_ui extends UI {
     private void setupRecyclerView() {
         vPlaylistsRecyclerView.setHasFixedSize(true);
         mPlaylistsLayoutManager = new LinearLayoutManager(this, RecyclerView.VERTICAL, false);
-        mPlaylistAdapter = new PlaylistAdapter();
+        mPlaylistAdapter = new PlaylistAdapter(true);
         vPlaylistsRecyclerView.setLayoutManager(mPlaylistsLayoutManager);
         vPlaylistsRecyclerView.setAdapter(mPlaylistAdapter);
         vPlaylistsRecyclerView.addItemDecoration(new DividerItemDecoration(this, DividerItemDecoration.VERTICAL));
@@ -127,16 +138,42 @@ public class Playlists_ui extends UI {
         startActivity(intent);
     }
 
-    public void openAddPlaylistDialog() {
+    private void openAddPlaylistDialog() {
         AddPlaylistDialog dialog = new AddPlaylistDialog(this);
         dialog.show();
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        updatePlayList();
+    private void openRenamePlaylistDialog()
+    {
+        RenamePlaylistDialog dialog = new RenamePlaylistDialog(this);
+        dialog.show();
     }
+
+    private void showPopupMenu(int position,View v) {
+        PopupMenu popupMenu = new PopupMenu(v.getContext(), v);
+        popupMenu.inflate(R.menu.playlist_item_menu);
+        popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem item) {
+  
+                switch (item.getItemId()) {
+                    case R.id.action_popup_rename:
+                        openRenamePlaylistDialog();
+                        return true;
+                    case R.id.action_popup_delete:
+                        Toast.makeText(Playlists_ui.this, mPlaylistsList.get(position).getName() + " Delete", Toast.LENGTH_SHORT).show();
+                        // TODO delete playlist
+                        return true;
+                    default:
+                        return false;
+                }
+            }
+        });
+        popupMenu.show();
+    }
+
+
+
 
     // Listeners
     private View.OnClickListener lBackButton = new View.OnClickListener() {
@@ -151,6 +188,11 @@ public class Playlists_ui extends UI {
             mPlaylistName = mPlaylistsList.get(position).getName();
             openPlaylist();
 
+        }
+
+        @Override
+        public void onMenuClick(int position, View view) {
+            showPopupMenu(position,view);
         }
     };
     private View.OnClickListener lAddPlaylistButton = new View.OnClickListener() {

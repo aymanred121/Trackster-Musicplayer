@@ -9,9 +9,11 @@
         android:id="@+id/playlist_item_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:textDirection="ltr"
         android:gravity="bottom"
         android:text="@string/playlist"
         android:textAllCaps="false"
+        android:layout_toStartOf="@id/playlist_item_menu"
         android:textColor="@color/main_text"
         android:textSize="24sp" />
 
@@ -23,6 +25,16 @@
         android:gravity="bottom"
         android:text="@string/_0_songs"
         android:textAllCaps="false"
+        android:layout_toStartOf="@id/playlist_item_menu"
         android:textColor="@color/main_text"
         android:textSize="16sp" />
+
+    <ImageButton
+        android:id="@+id/playlist_item_menu"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        style="?android:attr/borderlessButtonStyle"
+        android:layout_alignParentEnd="true"
+        android:src="@drawable/ic_baseline_more_vert_24"
+        />
 </RelativeLayout>

@@ -66,8 +66,12 @@ public class Playlists_ui extends UI {
     @Override
     protected void onResume() {
         super.onResume();
-        sync();
-        updatePlayList();
+        if(mAudio!=null)
+        {
+            sync();
+            updatePlayList();
+        }
+
     }
 
     // Functions

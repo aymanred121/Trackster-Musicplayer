@@ -64,9 +64,15 @@ public class AddToPlaylistDialog extends BottomSheetDialog {
             @Override
             public void onPlaylistClick(int position) {
                 if(!TracksterRoomDb.getInstance(context).containsDao().isExist(mPlayingNow.getID(),playlistsList.get(position).getName()))
-                    TracksterRoomDb.getInstance(context).containsDao().insert(new Contains(playlistsList.get(position).getName(),mPlayingNow.getID()));
+                {
+                    int lastIndex = TracksterRoomDb.getInstance(context).containsDao().getLastIndex(playlistsList.get(position).getName());
+                    TracksterRoomDb.getInstance(context).containsDao().insert(new Contains(playlistsList.get(position).getName(),mPlayingNow.getID(),lastIndex++));
+
+                }
+
+
                 else
-                    Toast.makeText(context, "Already in this playlist", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "Already in this playlist", Toast.LENGTH_SHORT).show();
                 dismiss();
             }
 

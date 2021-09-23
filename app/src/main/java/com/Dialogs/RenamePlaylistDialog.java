@@ -20,7 +20,8 @@ public class RenamePlaylistDialog extends Dialog {
     private Button vOkButton, vCancelButton;
 
 
-    public RenamePlaylistDialog(@NonNull Context context) {
+
+    public RenamePlaylistDialog(@NonNull Context context,String mCurrentPlaylistName) {
         super(context);
         View view = LayoutInflater.from(context).
                 inflate(R.layout.add_playlist,
@@ -34,8 +35,11 @@ public class RenamePlaylistDialog extends Dialog {
             @Override
             public void onClick(View v) {
                 if (!TracksterRoomDb.getInstance(getContext()).playlistDao().isPlaylistExist(vPlaylistName.getText().toString()) && !vPlaylistName.getText().toString().trim().isEmpty())
-                    // TODO Rename playlist query
+                {
+                    TracksterRoomDb.getInstance(getContext()).playlistDao().rename(mCurrentPlaylistName,vPlaylistName.getText().toString());
                     Toast.makeText(getContext(), "Playlist Renamed", Toast.LENGTH_SHORT).show();
+
+                }
                 else if (vPlaylistName.getText().toString().trim().isEmpty() || vPlaylistName.getText().toString().length() == 0)
                     Toast.makeText(getContext(), "Please Enter a Name", Toast.LENGTH_SHORT).show();
                 else

@@ -2,6 +2,7 @@ package com.trackster;
 
 import android.os.Bundle;
 import android.view.View;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -14,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Adapters.SongAdapter;
 import com.google.android.material.button.MaterialButton;
+import com.roomdb.Contains;
 import com.roomdb.Track;
+import com.roomdb.TracksterRoomDb;
 import com.roomdb.roomViewModel;
 
 import java.util.Collections;
@@ -55,6 +58,10 @@ public class Favourites_ui extends UI {
             goBack();
         } else
             close();
+        TracksterRoomDb.getInstance(getApplicationContext()).containsDao().deleteAll("favourites");
+        for(int i=0;i<mTrackList.size();i++)
+            TracksterRoomDb.getInstance(getApplicationContext()).containsDao().insert(new Contains("favourites",mTrackList.get(i).getID(),i));
+
     }
 
     // Functions
@@ -146,12 +153,8 @@ public class Favourites_ui extends UI {
         public boolean onMove(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder, @NonNull RecyclerView.ViewHolder target) {
             int fromPosition = viewHolder.getAdapterPosition();
             int toPosition = target.getAdapterPosition();
-
             Collections.swap(mTrackList,fromPosition,toPosition);
             recyclerView.getAdapter().notifyItemMoved(fromPosition,toPosition);
-            // TODO update songs order in the favourites
-
-
             return false;
         }
 
@@ -159,6 +162,9 @@ public class Favourites_ui extends UI {
         public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
 
         }
+
+
+
     };
 
 

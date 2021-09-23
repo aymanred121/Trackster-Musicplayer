@@ -19,6 +19,7 @@ import com.Dialogs.AddPlaylistDialog;
 import com.Dialogs.RenamePlaylistDialog;
 import com.google.android.material.button.MaterialButton;
 import com.roomdb.Playlist;
+import com.roomdb.TracksterRoomDb;
 import com.roomdb.roomViewModel;
 
 import java.util.List;
@@ -143,9 +144,9 @@ public class Playlists_ui extends UI {
         dialog.show();
     }
 
-    private void openRenamePlaylistDialog()
+    private void openRenamePlaylistDialog(String mCurrentPlaylistName)
     {
-        RenamePlaylistDialog dialog = new RenamePlaylistDialog(this);
+        RenamePlaylistDialog dialog = new RenamePlaylistDialog(this,mCurrentPlaylistName);
         dialog.show();
     }
 
@@ -158,11 +159,11 @@ public class Playlists_ui extends UI {
   
                 switch (item.getItemId()) {
                     case R.id.action_popup_rename:
-                        openRenamePlaylistDialog();
+                        openRenamePlaylistDialog(mPlaylistsList.get(position).getName());
                         return true;
                     case R.id.action_popup_delete:
                         Toast.makeText(Playlists_ui.this, mPlaylistsList.get(position).getName() + " Delete", Toast.LENGTH_SHORT).show();
-                        // TODO delete playlist
+                        TracksterRoomDb.getInstance(getApplicationContext()).playlistDao().delete(mPlaylistsList.get(position));
                         return true;
                     default:
                         return false;

@@ -45,7 +45,7 @@ public class roomRepo {
 
 
     public void delete(Contains contains) {
-         deletecontains(containsDao,contains);
+         deleteContains(containsDao,contains);
     }
 
     public void delete(Playlist playlist) {
@@ -230,7 +230,7 @@ private void deletePlaylist(PlaylistDao Dao,Playlist obj){
 //            return null;
 //        }
 //    }
-private void deletecontains(ContainsDao Dao,Contains obj){
+private void deleteContains(ContainsDao Dao, Contains obj){
     new Thread(
             () -> Dao.delete(obj)).start();
 
@@ -248,7 +248,5 @@ private void deletecontains(ContainsDao Dao,Contains obj){
 //            return null;
 //        }
 //    }
-
-
 
 }

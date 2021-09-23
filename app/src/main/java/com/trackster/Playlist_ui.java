@@ -15,7 +15,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.Adapters.SongAdapter;
 import com.google.android.material.button.MaterialButton;
+import com.roomdb.Contains;
 import com.roomdb.Track;
+import com.roomdb.TracksterRoomDb;
 import com.roomdb.roomViewModel;
 
 import java.util.Collections;
@@ -56,6 +58,10 @@ public class Playlist_ui extends UI {
             goBack();
         } else
             close();
+        TracksterRoomDb.getInstance(getApplicationContext()).containsDao().deleteAll(mPlaylistName);
+        for(int i=0;i<mTrackList.size();i++)
+            TracksterRoomDb.getInstance(getApplicationContext()).containsDao().insert(new Contains(mPlaylistName,mTrackList.get(i).getID(),i));
+
     }
 
     // Functions
@@ -154,9 +160,7 @@ public class Playlist_ui extends UI {
 
             Collections.swap(mTrackList,fromPosition,toPosition);
             recyclerView.getAdapter().notifyItemMoved(fromPosition,toPosition);
-            // TODO update songs order in the playlist
-
-
+            
             return false;
         }
 

@@ -143,6 +143,7 @@ public class UI extends AppCompatActivity {
         vMain.setTransition(R.id.back_transition);
         vMain.transitionToEnd();
         isBarOpened = false;
+
     }
 
     protected void ChangeState() {
@@ -393,7 +394,11 @@ public class UI extends AppCompatActivity {
             if (!vFavouritesToggle.isChecked()) {
                 TracksterRoomDb.getInstance(getApplicationContext()).containsDao().delete(new Contains("favourites", mPlayingNow.getID()));
             } else
-                TracksterRoomDb.getInstance(getApplicationContext()).containsDao().insert(new Contains("favourites", mPlayingNow.getID()));
+            {
+                int lastIndex = TracksterRoomDb.getInstance(getApplicationContext()).containsDao().getLastIndex("favourites");
+                TracksterRoomDb.getInstance(getApplicationContext()).containsDao().insert(new Contains("favourites", mPlayingNow.getID(),lastIndex));
+
+            }
         }
     };
     protected View.OnClickListener lAddToPlaylist = new View.OnClickListener() {

@@ -22,4 +22,6 @@ public interface PlaylistDao{
     LiveData<List<Playlist>> getallPlaylists();
     @Query("select Exists(select Name from playlist where Name =:name)")
     Boolean isPlaylistExist(String name);
+    @Query("update Playlist set Name = :newName where Playlist.Name = :currentName")
+    void rename(String currentName,String newName);
 }

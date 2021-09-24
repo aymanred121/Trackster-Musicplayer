@@ -64,6 +64,7 @@ public class MainActivity extends UI {
         setupRecyclerView();
         if (mPlayingNow == null)
             retrieveLastPlayedSong();
+        runOnUiThread(rSongTimer);
 
         vDarkModeToggle.setOnClickListener(lDarkMode);
         vSearchSongEdit.addTextChangedListener(lSearchBar);
